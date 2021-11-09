@@ -1,0 +1,70 @@
+@import 'src/assets/scss/colors.scss';
+
+.side-nav {
+  width: 220px;
+  box-shadow: 0 0 5px $grey;
+  height: 100%;
+  background-color: $white;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 2em 1em;
+  
+  &.close-nav {
+    display: none;
+  }
+
+  svg {
+    margin-right: 1em;
+  }
+
+  div {
+    width: 100%;
+    font-weight: 500;
+  }
+
+  & > .middle {
+    a {
+      display: block;
+      text-decoration: none;
+      width: 100%;
+      color: $darkGrey;
+      padding-top: 1em;
+      padding-bottom: 1em;
+      padding-left: 1em;
+      font-weight: 500;
+
+      &.active, &:hover {
+        color: $lightBlue;
+        background-color: $lightPlatinum;
+        border-radius: 10px;
+      }
+    }
+  }
+
+  .top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 50px;
+    }
+  }
+
+  .bottom {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    cursor: pointer;
+
+    &:hover {
+      color: $lightBlue;
+      background-color: $lightPlatinum;
+      border-radius: 10px;
+    }
+
+  }
+}

@@ -1,0 +1,15 @@
+@import 'src/assets/scss/colors.scss';
+
+.table-view {
+  td {
+    max-height: 10px;
+
+    &.title-cell {
+      cursor: pointer;
+
+      &:hover {
+        color: $lightBlue;
+      }
+    }
+  }
+}
