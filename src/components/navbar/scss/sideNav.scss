@@ -11,9 +11,40 @@
   align-items: flex-start;
   justify-content: space-between;
   padding: 2em 1em;
+  overflow: hidden;
+  opacity: 1;
+  transition: all .2s ease-out;
   
   &.close-nav {
-    display: none;
+    width: 0;
+    padding: 0;
+    opacity: 0;
+    transition: all .2s ease-in;
+  }
+
+  @media only screen and (max-width: 900px) {
+    position: static;
+    width: 0;
+    padding: 0;
+    opacity: 0;
+    transition: all .2s ease-in;
+
+    &.close-nav {
+      position: fixed;
+      width: 220px;
+      box-shadow: 0 0 5px $grey;
+      height: 100%;
+      background-color: $white;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 2em 1em;
+      overflow: hidden;
+      opacity: 1;
+      transition: all .2s ease-out;
+    }
   }
 
   svg {
@@ -25,7 +56,8 @@
     font-weight: 500;
   }
 
-  & > .middle {
+  .middle {
+    margin-top: 2em;
     a {
       display: block;
       text-decoration: none;
@@ -46,6 +78,7 @@
 
   .top {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 

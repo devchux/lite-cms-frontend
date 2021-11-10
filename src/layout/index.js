@@ -20,7 +20,6 @@ const Layout = ({ children }) => {
           <Title
             title={urlToArray[2].toLocaleUpperCase()}
             isAdd={hasAdd}
-            isSettings={urlToArray.includes('settings')}
             buttonClick={() => {
               if (hasAdd) {
                 urlToArray.pop();

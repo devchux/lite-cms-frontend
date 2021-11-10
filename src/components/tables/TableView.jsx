@@ -8,7 +8,6 @@ const TableView = ({
   data,
   hasDelete,
   onDeleteClick,
-  onRowClick,
   columns,
   activeHeader,
 }) => {

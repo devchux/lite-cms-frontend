@@ -4,6 +4,8 @@ import AppRoutes from "./AppRoutes";
 import Auth from "../pages/authentication";
 import AddVolunteer from "../pages/app/volunteers/AddVolunteer";
 import Volunteer from "../pages/app/volunteers";
+import Users from "../pages/app/users";
+import AddUser from "../pages/app/users/AddUser";
 
 export const routes = [
   {
@@ -32,5 +34,13 @@ export const appRoutes = [
   {
     path: "/volunteers/add",
     component: AddVolunteer,
+  },
+  {
+    path: "/users",
+    component: Users,
+  },
+  {
+    path: "/users/add",
+    component: AddUser,
   },
 ];

@@ -1,8 +1,7 @@
-import React from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import CenteredWrapper from "../../../components/wrappers/CenteredWrapper";
 
-const AddVolunteer = () => {
+const AddUser = () => {
   return (
     <CenteredWrapper>
       <FormGroup>
@@ -11,16 +10,19 @@ const AddVolunteer = () => {
       </FormGroup>
       <FormGroup>
         <Label htmlFor="email">Email Address</Label>
-        <Input type="email" name="email" placeholder="Enter Email Address" />
+        <Input type="email" placeholder="Enter Email Address" name="email" />
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="message">Message</Label>
-        <textarea
-          className="form-control"
-          rows="5"
-          name="message"
-          placeholder="Message..."
-        ></textarea>
+        <Label htmlFor="password">Password</Label>
+        <Input type="password" name="password" placeholder="Enter Password" />
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor="password2">Confirm Password</Label>
+        <Input
+          type="password"
+          name="password2"
+          placeholder="Confirm Password"
+        />
       </FormGroup>
       <hr />
       <FormGroup className="d-flex justify-content-end">
@@ -30,4 +32,4 @@ const AddVolunteer = () => {
   );
 };
 
-export default AddVolunteer;
+export default AddUser;

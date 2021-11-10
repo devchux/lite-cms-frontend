@@ -1,8 +1,8 @@
 import {
   faBlog,
-  faCog,
   faHandsHelping,
   faSignOutAlt,
+  faUser,
   faVideo,
   faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
@@ -30,9 +30,9 @@ export const sideNavItems = [
       link: "/dashboard/volunteers",
     },
     {
-      icon: faCog,
-      title: "Settings",
-      link: "/dashboard/settings",
+      icon: faUser,
+      title: "Users",
+      link: "/dashboard/users",
     },
   ],
   [

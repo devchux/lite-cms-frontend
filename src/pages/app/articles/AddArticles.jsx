@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ContentState, convertFromRaw, convertToRaw, EditorState } from "draft-js";
+import {  EditorState } from "draft-js";
 import TextEditor from "../../../components/text-editor/TextEditor";
 import PageWrapper from "../../../components/wrappers/PageWrapper";
 import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";

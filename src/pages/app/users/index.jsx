@@ -1,12 +1,12 @@
 import TableView from "../../../components/tables/TableView";
 import PageWrapper from "../../../components/wrappers/PageWrapper";
 
-const index = () => {
+const Users = () => {
   const apiMockData = [
     {
       name: "Chukwudi Eze",
       email: "Chukwudieze97@gmail.com",
-      message: "Hello World",
+      role: "Administrator",
       createdAt: "11/09/2021",
     },
   ];
@@ -19,6 +19,10 @@ const index = () => {
     {
       Header: "Email Address",
       accessor: "email",
+    },
+    {
+      Header: "Role",
+      accessor: "role",
     },
     {
       Header: "Date Created",
@@ -37,7 +41,7 @@ const index = () => {
         />
       </div>
     </PageWrapper>
-  );
-};
+  )
+}
 
-export default index;
+export default Users

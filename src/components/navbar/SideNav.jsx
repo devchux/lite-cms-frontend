@@ -10,14 +10,14 @@ const SideNav = () => {
     <div className="side-nav">
       <div className="top">
         <img src={logo} alt="logo" />
-      </div>
-      <div className="middle">
-        {sideNavItems[0].map(({ icon, title, link }) => (
-          <NavLink to={link}>
-            <FontAwesomeIcon icon={icon} />
-            <span>{title}</span>
-          </NavLink>
-        ))}
+        <div className="middle">
+          {sideNavItems[0].map(({ icon, title, link }) => (
+            <NavLink to={link}>
+              <FontAwesomeIcon icon={icon} />
+              <span>{title}</span>
+            </NavLink>
+          ))}
+        </div>
       </div>
       <div className="bottom">
         {sideNavItems[1].map(({ icon, title }) => (

@@ -1,13 +1,11 @@
 import { Button } from "reactstrap";
-import { useNavigation } from "../../hooks/useNavigation";
-import { settingsMenuOptions } from "./constants";
 import "./scss/title.scss";
 
-const Title = ({ title, isAdd, buttonClick, isSettings }) => {
+const Title = ({ title, isAdd, buttonClick }) => {
   return (
     <div className="page-title">
       <h5>{title}</h5>
-      {!isSettings ? !isAdd ? (
+      {!isAdd ? (
         <Button color="primary" onClick={buttonClick}>
           + Add New
         </Button>
@@ -15,12 +13,6 @@ const Title = ({ title, isAdd, buttonClick, isSettings }) => {
         <Button className="btn-default" onClick={buttonClick}>
           &larr; Back
         </Button>
-      ) : (
-        <select>
-          {settingsMenuOptions.map(menu => (
-            <option>{menu}</option>
-          ))}
-        </select>
       )}
     </div>
   );
