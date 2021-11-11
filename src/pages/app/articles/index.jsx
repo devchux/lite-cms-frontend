@@ -89,13 +89,7 @@ const Articles = () => {
     },
   ];
   return (
-    <ListTableView
-      data={apiMockData}
-      columns={columns}
-      activeHeader="Title"
-      hasDelete
-      onDeleteClick={() => {}}
-    />
+    <ListTableView data={apiMockData} columns={columns} activeHeader="Title" />
   );
 };
 

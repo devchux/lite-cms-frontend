@@ -2,13 +2,7 @@ import { Button } from "reactstrap";
 import TableView from "../tables/TableView";
 import PageWrapper from "../wrappers/PageWrapper";
 
-const ListTableView = ({
-  data,
-  columns,
-  activeHeader,
-  hasDelete,
-  onDeleteClick,
-}) => {
+const ListTableView = ({ data, columns, activeHeader }) => {
   return (
     <div className="list-table-view">
       <div className="list-table-header d-flex gap-2 my-3">
@@ -23,8 +17,6 @@ const ListTableView = ({
             data={data}
             columns={columns}
             activeHeader={activeHeader}
-            hasDelete={hasDelete}
-            onDeleteClick={onDeleteClick}
           />
         </div>
       </PageWrapper>

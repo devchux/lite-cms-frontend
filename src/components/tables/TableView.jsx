@@ -1,16 +1,10 @@
 import { useState } from "react";
 import { useMemo } from "react";
 import { useTable } from "react-table";
-import { Button, Input, Table } from "reactstrap";
+import { Input, Table } from "reactstrap";
 import "./scss/tableView.scss";
 
-const TableView = ({
-  data,
-  hasDelete,
-  onDeleteClick,
-  columns,
-  activeHeader,
-}) => {
+const TableView = ({ data, columns, activeHeader }) => {
   const dataRows = useMemo(() => data, []);
 
   const dataColumns = useMemo(() => columns, []);
@@ -60,7 +54,6 @@ const TableView = ({
             {headerGroup.headers.map((column) => (
               <th {...column.getHeaderProps()}>{column.render("Header")}</th>
             ))}
-            {hasDelete && <th>Delete</th>}
           </tr>
         ))}
       </thead>
@@ -87,13 +80,6 @@ const TableView = ({
                   {cell.render("Cell")}
                 </td>
               ))}
-              {hasDelete && (
-                <td>
-                  <Button color="danger" onClick={onDeleteClick}>
-                    Delete
-                  </Button>
-                </td>
-              )}
             </tr>
           );
         })}

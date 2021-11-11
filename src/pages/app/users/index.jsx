@@ -32,9 +32,7 @@ const Users = () => {
     <ListTableView
       data={apiMockData}
       columns={columns}
-      hasDelete
       activeHeader="Full Name"
-      onDeleteClick={() => {}}
     />
   );
 };
