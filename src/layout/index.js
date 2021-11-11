@@ -9,8 +9,6 @@ const Layout = ({ children }) => {
   let urlToArray = currentUrl.split("/");
   const hasAdd = urlToArray.includes("add");
 
-  console.log(urlToArray)
-
   return (
     <div className="layout">
       <SideNav />

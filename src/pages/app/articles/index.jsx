@@ -90,7 +90,7 @@ const Articles = () => {
     },
   ];
   return (
-    <PageWrapper>
+    <PageWrapper className="rounded">
       <div className="overflow-auto">
         <TableView
           data={apiMockData}

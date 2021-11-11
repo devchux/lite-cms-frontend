@@ -23,14 +23,13 @@
   }
 
   @media only screen and (max-width: 900px) {
-    position: static;
+    position: fixed;
     width: 0;
     padding: 0;
     opacity: 0;
     transition: all .2s ease-in;
 
     &.close-nav {
-      position: fixed;
       width: 220px;
       box-shadow: 0 0 5px $grey;
       height: 100%;
@@ -84,6 +83,18 @@
 
     img {
       width: 50px;
+    }
+
+    .close-nav-button {
+      display: flex;
+      justify-content: flex-end;
+      span {
+        font-weight: 900;
+        padding: 0.5em;
+      }
+      @media only screen and (min-width: 901px) {
+        display: none;
+      }
     }
   }
 

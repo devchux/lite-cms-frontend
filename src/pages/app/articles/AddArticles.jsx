@@ -21,13 +21,13 @@ const AddArticles = () => {
     }
   }
 
-  console.log(convertFromHTML('<strong>Hello World<strong>'), text.getCurrentContent())
+  // console.log(convertFromHTML('<strong>Hello World<strong>'), text.getCurrentContent())
 
   return (
     <Row>
-      <div dangerouslySetInnerHTML={createMarkup(convertedState)}></div>
-      <Col xs="12" md="8">
-        <PageWrapper>
+      {/* <div dangerouslySetInnerHTML={createMarkup(convertedState)}></div> */}
+      <Col xs="12" md="7" className="mb-3">
+        <PageWrapper className="rounded p-2">
           <TextEditor
             text={text}
             handleChange={(e) => {
@@ -37,8 +37,8 @@ const AddArticles = () => {
           />
         </PageWrapper>
       </Col>
-      <Col xs="12" md="4">
-        <PageWrapper className="pb-1">
+      <Col xs="12" md="5">
+        <PageWrapper className="rounded p-1 px-2">
           <FormGroup>
             <Label htmlFor="title">Post title</Label>
             <Input type="text" placeholder="Enter Post Tiltle" name="title" />
