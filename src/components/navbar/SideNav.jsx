@@ -18,7 +18,7 @@ const SideNav = () => {
         <img src={logo} alt="logo" />
         <div className="middle">
           {sideNavItems[0].map(({ icon, title, link }) => (
-            <NavLink to={link}>
+            <NavLink to={link} key={link}>
               <FontAwesomeIcon icon={icon} />
               <span>{title}</span>
             </NavLink>
@@ -27,7 +27,7 @@ const SideNav = () => {
       </div>
       <div className="bottom">
         {sideNavItems[1].map(({ icon, title }) => (
-          <div>
+          <div key={title}>
             <FontAwesomeIcon icon={icon} />
             <span>{title}</span>
           </div>

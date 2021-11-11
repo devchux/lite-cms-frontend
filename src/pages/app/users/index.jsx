@@ -1,5 +1,4 @@
-import TableView from "../../../components/tables/TableView";
-import PageWrapper from "../../../components/wrappers/PageWrapper";
+import ListTableView from "../../../components/tables/ListTableView";
 
 const Users = () => {
   const apiMockData = [
@@ -30,18 +29,14 @@ const Users = () => {
     },
   ];
   return (
-    <PageWrapper>
-      <div className="overflow-auto">
-        <TableView
-          data={apiMockData}
-          columns={columns}
-          hasDelete
-          activeHeader="Full Name"
-          onDeleteClick={() => {}}
-        />
-      </div>
-    </PageWrapper>
-  )
-}
+    <ListTableView
+      data={apiMockData}
+      columns={columns}
+      hasDelete
+      activeHeader="Full Name"
+      onDeleteClick={() => {}}
+    />
+  );
+};
 
-export default Users
+export default Users;

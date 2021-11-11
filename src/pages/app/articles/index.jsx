@@ -1,6 +1,5 @@
 import React from "react";
-import TableView from "../../../components/tables/TableView";
-import PageWrapper from "../../../components/wrappers/PageWrapper";
+import ListTableView from "../../../components/tables/ListTableView";
 
 const Articles = () => {
   const apiMockData = [
@@ -90,17 +89,13 @@ const Articles = () => {
     },
   ];
   return (
-    <PageWrapper className="rounded">
-      <div className="overflow-auto">
-        <TableView
-          data={apiMockData}
-          columns={columns}
-          activeHeader="Title"
-          hasDelete
-          onDeleteClick={() => {}}
-        />
-      </div>
-    </PageWrapper>
+    <ListTableView
+      data={apiMockData}
+      columns={columns}
+      activeHeader="Title"
+      hasDelete
+      onDeleteClick={() => {}}
+    />
   );
 };
 
