@@ -3,7 +3,7 @@ import "./scss/loader.scss"
 const Loader = () => {
   return (
     <div className="loader-wrapper">
-      <div className="box"></div>
+      <div className="spinner"></div>
     </div>
   )
 }

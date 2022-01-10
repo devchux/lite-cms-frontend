@@ -1,21 +1,24 @@
-import { useState } from "react";
-import { useMemo } from "react";
 import { useTable } from "react-table";
-import { Input, Table } from "reactstrap";
+import { Button, Input, Table } from "reactstrap";
+import { useNavigation } from "../../hooks/useNavigation";
 import "./scss/tableView.scss";
 
-const TableView = ({ data, columns, activeHeader }) => {
-  const dataRows = useMemo(() => data, []);
-
-  const dataColumns = useMemo(() => columns, []);
-
+const TableView = ({
+  data,
+  columns,
+  activeHeader,
+  modalToggle,
+  selectedRows,
+  setSelectedRows,
+  setDeleteId,
+}) => {
   const { getTableBodyProps, getTableProps, headerGroups, rows, prepareRow } =
     useTable({
-      data: dataRows,
-      columns: dataColumns,
+      data,
+      columns,
     });
 
-  const [selectedRows, setSelectedRows] = useState([]);
+  const { currentUrl, goTo } = useNavigation();
 
   const handleRowCheck = (row) => {
     if (selectedRows.includes(row.id)) {
@@ -33,10 +36,21 @@ const TableView = ({ data, columns, activeHeader }) => {
     if (rows.length === selectedRows.length) {
       setSelectedRows([]);
     } else {
-      const getRowIds = rows.map((row) => row.id);
+      const getRowIds = rows.map((row) => row.original.id);
       setSelectedRows([...getRowIds]);
     }
     return;
+  };
+
+  const formatDate = (cell) => {
+    const date = new Date(cell);
+
+    return date.toLocaleString();
+  };
+
+  const onDelete = (id) => {
+    setDeleteId(id);
+    modalToggle();
   };
 
   return (
@@ -47,13 +61,18 @@ const TableView = ({ data, columns, activeHeader }) => {
             <th>
               <Input
                 type="checkbox"
-                checked={rows.length === selectedRows.length}
+                checked={
+                  rows.length === 1 && selectedRows.length === 1
+                    ? rows[0].original.id === selectedRows[0]
+                    : rows.length === selectedRows.length
+                }
                 onChange={() => handleCheckAllRows(rows)}
               />
             </th>
             {headerGroup.headers.map((column) => (
               <th {...column.getHeaderProps()}>{column.render("Header")}</th>
             ))}
+            <th>Delete</th>
           </tr>
         ))}
       </thead>
@@ -65,21 +84,33 @@ const TableView = ({ data, columns, activeHeader }) => {
               <td>
                 <Input
                   type="checkbox"
-                  onChange={() => handleRowCheck(row)}
-                  checked={selectedRows.includes(row.id)}
+                  onChange={() => handleRowCheck(row.original)}
+                  checked={selectedRows.includes(row.original.id)}
                 />
               </td>
               {row.cells.map((cell) => (
                 <td
                   {...cell.getCellProps()}
-                  onClick={() => console.log(cell)}
+                  onClick={() => goTo(`${currentUrl}/add/${row.original.id}`)}
                   className={
                     cell.column.Header === activeHeader ? "title-cell" : ""
                   }
                 >
-                  {cell.render("Cell")}
+                  {["date created", "date updated"].includes(
+                    cell.column.Header.toLowerCase()
+                  )
+                    ? formatDate(cell.value)
+                    : cell.render("Cell")}
                 </td>
               ))}
+              <td>
+                <Button
+                  color="danger"
+                  onClick={() => onDelete(row.original.id)}
+                >
+                  Delete
+                </Button>
+              </td>
             </tr>
           );
         })}

@@ -1,39 +1,19 @@
-import { useState } from "react";
-import {  EditorState } from "draft-js";
 import TextEditor from "../../../components/text-editor/TextEditor";
 import PageWrapper from "../../../components/wrappers/PageWrapper";
 import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
-import { convertFromHTML, convertToHTML } from "draft-convert";
-import DOMPurify from 'dompurify'
+import { useArticles } from "../../../hooks/useArticles";
+import "./scss/addArticles.scss";
 
-const AddArticles = () => {
-  const [text, setText] = useState(EditorState.createEmpty());
-  const [convertedState, setConvertedState] = useState("")
-
-  const convertContentToHTML = () => {
-    let currentContentAsHTML = convertToHTML(text.getCurrentContent())
-    setConvertedState(currentContentAsHTML)
-  }
-
-  const createMarkup = (html) => {
-    return {
-      __html: DOMPurify.sanitize(html)
-    }
-  }
-
-  // console.log(convertFromHTML('<strong>Hello World<strong>'), text.getCurrentContent())
+const AddArticles = ({ isEdit }) => {
+  const { inputs, setCredentials, createPost } = useArticles(isEdit);
 
   return (
-    <Row>
-      {/* <div dangerouslySetInnerHTML={createMarkup(convertedState)}></div> */}
+    <Row className="add-articles">
       <Col xs="12" md="7" className="mb-3">
         <PageWrapper className="rounded p-2">
           <TextEditor
-            text={text}
-            handleChange={(e) => {
-              setText(e);
-              convertContentToHTML()
-            }}
+            text={inputs.body}
+            handleChange={(value) => setCredentials("body", value)}
           />
         </PageWrapper>
       </Col>
@@ -41,20 +21,51 @@ const AddArticles = () => {
         <PageWrapper className="rounded p-1 px-2">
           <FormGroup>
             <Label htmlFor="title">Post title</Label>
-            <Input type="text" placeholder="Enter Post Tiltle" name="title" />
+            <Input
+              type="text"
+              value={inputs.title}
+              placeholder="Enter Post Title"
+              name="title"
+              onChange={({ target: { value } }) =>
+                setCredentials("title", value)
+              }
+            />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="videoUrl">Video Url</Label>
-            <Input type="url" name="videoUrl" placeholder="https://" />
+            <Label htmlFor="slug">Post slug</Label>
+            <Input
+              type="text"
+              value={inputs.slug}
+              placeholder="Enter Post Slug"
+              name="slug"
+              onChange={({ target: { value } }) =>
+                setCredentials("slug", value)
+              }
+            />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="file">Attach files</Label>
-            <input type="file" className="form-control" name="file" />
+            <Button type="button" color="success">
+              upload image
+            </Button>
           </FormGroup>
+          {inputs.imageUrl ? (
+            <div className="image-wrapper">
+              <img src={inputs.imageUrl} alt="" />
+            </div>
+          ) : (
+            ""
+          )}
           <hr />
           <FormGroup>
-            <Button className="btn-default me-2">Save</Button>
-            <Button color="primary">Publish</Button>
+            <Button
+              className="btn-default me-2"
+              onClick={() => createPost(false)}
+            >
+              Save to draft
+            </Button>
+            <Button color="primary" onClick={() => createPost(true)}>
+              Publish
+            </Button>
           </FormGroup>
         </PageWrapper>
       </Col>

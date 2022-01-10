@@ -1,0 +1,13 @@
+const actionTypes = {
+  LOGIN: 'LOGIN',
+  ERROR: 'ERROR',
+  LOADING: 'LOADING',
+  ADD_SINGLE: 'ADD_SINGLE',
+  FETCH_BULK: 'FETCH_BULK',
+  FETCH_SINGLE: 'FETCH_SINGLE',
+  DELETE_SINGLE: 'DELETE_SINGLE',
+  DELETE_BULK: 'DELETE_BULK',
+  UPDATE: 'UPDATE',
+}
+
+export default actionTypes;

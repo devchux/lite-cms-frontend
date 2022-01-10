@@ -22,25 +22,55 @@ export const appRoutes = [
   {
     path: "/posts",
     component: Articles,
+    isEdit: false,
+    isIndex: true,
   },
   {
     path: "/posts/add",
     component: AddArticles,
+    isEdit: false,
+    isIndex: false,
+  },
+  {
+    path: "/posts/add/:id",
+    component: AddArticles,
+    isEdit: true,
+    isIndex: false,
   },
   {
     path: "/volunteers",
     component: Volunteer,
+    isEdit: false,
+    isIndex: true,
   },
   {
     path: "/volunteers/add",
     component: AddVolunteer,
+    isEdit: false,
+    isIndex: false,
+  },
+  {
+    path: "/volunteers/add/:id",
+    component: AddVolunteer,
+    isEdit: true,
+    isIndex: false,
   },
   {
     path: "/users",
     component: Users,
+    isEdit: false,
+    isIndex: true,
   },
   {
     path: "/users/add",
     component: AddUser,
+    isEdit: false,
+    isIndex: false,
+  },
+  {
+    path: "/users/add/:id",
+    component: AddUser,
+    isEdit: true,
+    isIndex: false,
   },
 ];

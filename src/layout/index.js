@@ -1,3 +1,4 @@
+import { Redirect } from "react-router-dom";
 import SideNav from "../components/navbar/SideNav";
 import TopNav from "../components/navbar/TopNav";
 import Title from "../components/titles/Title";
@@ -8,6 +9,8 @@ const Layout = ({ children }) => {
   const { goTo, currentUrl } = useNavigation();
   let urlToArray = currentUrl.split("/");
   const hasAdd = urlToArray.includes("add");
+
+  if (urlToArray.length <= 2) return <Redirect to="/dashboard/posts" />
 
   return (
     <div className="layout">
@@ -21,6 +24,7 @@ const Layout = ({ children }) => {
             buttonClick={() => {
               if (hasAdd) {
                 urlToArray.pop();
+                if (urlToArray.length === 4) urlToArray.pop()
                 return goTo(urlToArray.join("/"));
               }
               return goTo(`${currentUrl}/add`);

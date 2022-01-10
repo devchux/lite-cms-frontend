@@ -27,7 +27,10 @@ const SideNav = () => {
       </div>
       <div className="bottom">
         {sideNavItems[1].map(({ icon, title }) => (
-          <div key={title}>
+          <div
+            key={title}
+            onClick={() => localStorage.removeItem("auth_token")}
+          >
             <FontAwesomeIcon icon={icon} />
             <span>{title}</span>
           </div>

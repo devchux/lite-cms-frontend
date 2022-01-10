@@ -3,14 +3,16 @@ import Layout from "../layout";
 import { appRoutes } from "./constants";
 
 const AppRoutes = ({ match: { url } }) => {
+  const token = localStorage.getItem("auth_token");
+
+  if (!token) return <Redirect to="/signin" />;
   return (
     <Layout>
-      {appRoutes.map(({ path, component: Component }) => (
+      {appRoutes.map(({ path, isEdit, isIndex, component: Component }) => (
         <Route key={path} exact path={`${url}${path}`}>
-          <Component />
+          <Component isEdit={isEdit} isIndex={isIndex} />
         </Route>
       ))}
-      <Route path="/" exact render={() => <Redirect to={`${url}/posts`} />} />
     </Layout>
   );
 };

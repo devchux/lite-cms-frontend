@@ -6,57 +6,23 @@
   align-items: center;
   height: 100%;
 
-  .box {
-    width: 40px;
-    height: 40px;
+  .spinner {
+    width: 80px;
+    height: 80px;
     position: relative;
-
-    &::before {
-      position: absolute;
-      content: "";
-      width: 60px;
-      height: 60px;
-      background-color: $lightBlue;
-      left: 0;
-      top: 0;
-      animation: loader-box 0.8s ease infinite;
-    }
+    animation: loader-box 0.8s linear infinite;
+    border: 8px solid transparent;
+    border-top: 8px solid $lightBlue;
+    border-bottom: 8px solid $lightBlue;
+    border-radius: 50%;
   }
 }
 
 @keyframes loader-box {
   0% {
-    top: 0;
-    left: 0;
-    right: auto;
-    bottom: auto;
-  }
-  25% {
-    left: auto;
-    right: 0;
-    top: 0;
-    bottom: auto;
-    background-color: $orange;
-  }
-  50% {
-    bottom: 0;
-    top: auto;
-    right: 0;
-    left: auto;
-    background-color: $white;
-  }
-  75% {
-    left: 0;
-    right: auto;
-    top: auto;
-    bottom: 0;
-    background-color: $orange;
+    transform: rotate(0deg);
   }
   100% {
-    top: 0;
-    left: 0;
-    right: auto;
-    bottom: auto;
-    background-color: $grey;
+    transform: rotate(360deg);
   }
 }

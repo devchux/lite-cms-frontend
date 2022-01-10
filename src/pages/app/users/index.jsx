@@ -1,39 +1,31 @@
 import ListTableView from "../../../components/tables/ListTableView";
+import { useUsers } from "../../../hooks/useUsers";
 
-const Users = () => {
-  const apiMockData = [
-    {
-      name: "Chukwudi Eze",
-      email: "Chukwudieze97@gmail.com",
-      role: "Administrator",
-      createdAt: "11/09/2021",
-    },
-  ];
+const Users = ({ isIndex }) => {
+  const { users, columns, modalBody, removeUser, setPage, page, loading } = useUsers(isIndex);
 
-  const columns = [
-    {
-      Header: "Full Name",
-      accessor: "name",
-    },
-    {
-      Header: "Email Address",
-      accessor: "email",
-    },
-    {
-      Header: "Role",
-      accessor: "role",
-    },
-    {
-      Header: "Date Created",
-      accessor: "createdAt",
-    },
-  ];
   return (
-    <ListTableView
-      data={apiMockData}
-      columns={columns}
-      activeHeader="Full Name"
-    />
+    <>
+      {users.data.length > 0 ? (
+        <ListTableView
+          data={users}
+          columns={columns}
+          modalBody={modalBody}
+          activeHeader="Full Name"
+          modalSubmit={removeUser}
+          setPage={setPage}
+          page={page}
+        />
+      ) : loading ? (
+        <h5>
+          <center>Loading..</center>
+        </h5>
+      )  : (
+        <h5>
+          <center>No user yet</center>
+        </h5>
+      )}
+    </>
   );
 };
 

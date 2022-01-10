@@ -1,6 +1,11 @@
 import {
   faBlog,
+  faBook,
+  faClipboard,
   faHandsHelping,
+  faMailBulk,
+  faPhotoVideo,
+  faProjectDiagram,
   faSignOutAlt,
   faUser,
   faVideo,
@@ -25,9 +30,34 @@ export const sideNavItems = [
       link: "/dashboard/videos",
     },
     {
+      icon: faPhotoVideo,
+      title: "Photos",
+      link: "/dashboard/photos",
+    },
+    {
+      icon: faBook,
+      title: "Books",
+      link: "/dashboard/books",
+    },
+    {
+      icon: faProjectDiagram,
+      title: "Events",
+      link: "/dashboard/events",
+    },
+    {
       icon: faHandsHelping,
       title: "Volunteers",
       link: "/dashboard/volunteers",
+    },
+    {
+      icon: faClipboard,
+      title: "Classes",
+      link: "/dashboard/class",
+    },
+    {
+      icon: faMailBulk,
+      title: "Contacts",
+      link: "/dashboard/contacts",
     },
     {
       icon: faUser,
