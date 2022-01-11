@@ -3,13 +3,13 @@ import ListTableView from "../../../components/tables/ListTableView";
 import { useArticles } from "../../../hooks/useArticles";
 
 const Articles = ({ isEdit, isIndex }) => {
-  const { columns, setPage, page, posts, modalBody, removeUser, loading } = useArticles(isEdit, isIndex);
+  const { columns, setPage, page, articles, modalBody, removeUser, loading } = useArticles(isEdit, isIndex);
 
   return (
     <>
-      {posts.data.length > 0 ? (
+      {articles.data.length > 0 ? (
         <ListTableView
-          data={posts}
+          data={articles}
           columns={columns}
           modalBody={modalBody}
           activeHeader="Title"

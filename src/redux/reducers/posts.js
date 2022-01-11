@@ -14,13 +14,13 @@ const {
 const initialState = {
   status: "",
   message: "",
-  posts: {
+  articles: {
     currentPage: 0,
     data: [],
     total: 0,
     totalPages: 0,
   },
-  post: {},
+  article: {},
   loading: false,
   deleted: false,
 };
@@ -47,7 +47,7 @@ export const postsReducer = (state = initialState, action) => {
         message: action.payload.message,
         loading: false,
         deleted: false,
-        posts: {
+        articles: {
           ...state.articles,
           data: [{ ...action.payload.article }, ...state.articles.data],
         },
@@ -65,7 +65,7 @@ export const postsReducer = (state = initialState, action) => {
         status: action.payload.status,
         message: action.payload.message,
         loading: false,
-        post: action.payload.article,
+        article: action.payload.article,
         deleted: false,
       };
     case DELETE_SINGLE:
@@ -75,14 +75,14 @@ export const postsReducer = (state = initialState, action) => {
         message: action.payload.message,
         loading: false,
         deleted: true,
-        posts: {
+        articles: {
           ...state.articles,
           total: state.articles.total - 1,
           data: state.articles.data.filter(
             (post) => action.payload.id !== post.id
           ),
         },
-        post: action.payload.id === state.article.id ? {} : state.article,
+        article: action.payload.id === state.article.id ? {} : state.article,
       };
     case DELETE_BULK:
       return {
@@ -91,14 +91,14 @@ export const postsReducer = (state = initialState, action) => {
         message: action.payload.message,
         loading: false,
         deleted: true,
-        posts: {
+        articles: {
           ...state.articles,
           total: state.articles.total - action.payload.ids.length,
           data: state.articles.data.filter(
             ({ id }) => !action.payload.ids.includes(id)
           ),
         },
-        post: action.payload.ids.includes(state.article.id) ? {} : state.article,
+        article: action.payload.ids.includes(state.article.id) ? {} : state.article,
       };
     case UPDATE:
       const data = state.articles.data.map((item) => {
@@ -109,11 +109,11 @@ export const postsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        posts: {
+        articles: {
           ...state.articles,
           data,
         },
-        post: action.payload.article,
+        article: action.payload.article,
       };
     default:
       return initialState;

@@ -26,16 +26,16 @@ export const useArticles = (isEdit, isIndex) => {
   };
   const columns = [
     {
-      Header: "S/N",
-      accessor: "id",
-    },
-    {
       Header: "Title",
       accessor: "title",
     },
     {
+      Header: "Status",
+      accessor: "published",
+    },
+    {
       Header: "Author",
-      accessor: "author",
+      accessor: "Member.User.name",
     },
     {
       Header: "Date Created",
@@ -46,28 +46,15 @@ export const useArticles = (isEdit, isIndex) => {
       accessor: "updatedAt",
     },
   ];
-  let editorState = EditorState.createEmpty();
+  
   const { paramId } = useNavigation();
-  const { posts, deleted, loading } = useSelector((state) => state.posts);
+  const { articles, deleted, loading } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
-
-  if (isEdit) {
-    const { contentBlocks, entityMap } = htmlToDraft("<p> I am home</p>");
-    const contentState = ContentState.createFromBlockArray(
-      contentBlocks,
-      entityMap
-    );
-    editorState = EditorState.createWithContent(contentState);
-  }
-  const [text, setText] = useState(editorState);
+    
   const [inputs, setInputs] = useState({
     ...initialInputs,
-    body: editorState,
+    body: EditorState.createEmpty(),
   });
-
-  const handleEditorChange = (e) => {
-    setText(e);
-  };
 
   const setCredentials = (input, value) => {
     let newInputs = { ...inputs, [input]: value };
@@ -88,19 +75,28 @@ export const useArticles = (isEdit, isIndex) => {
     deletePost,
     deletePosts,
     getAllPosts,
-    posts,
+    articles,
     deleted,
     isIndex
   );
 
   useEffect(() => {
     if (isEdit) {
-      dispatch(getSinglePost(paramId)).then((data) => setInputs(data));
+      dispatch(getSinglePost(paramId)).then((data) => {
+        const { contentBlocks, entityMap } = htmlToDraft(data.body);
+        const contentState = ContentState.createFromBlockArray(
+          contentBlocks,
+          entityMap
+        );
+        const editorState = EditorState.createWithContent(contentState);
+        setInputs({ ...data, body: editorState })
+      });
     }
   }, [dispatch, isEdit, paramId]);
 
   const createPost = (publish) => {
-    const textToHtml = draftToHtml(convertToRaw(text.getCurrentContent()));
+    console.log(publish)
+    const textToHtml = draftToHtml(convertToRaw(inputs.body.getCurrentContent()));
     const validInputs = {
       ...inputs,
       body: textToHtml,
@@ -115,12 +111,10 @@ export const useArticles = (isEdit, isIndex) => {
   };
 
   return {
-    text,
     inputs,
-    handleEditorChange,
     setCredentials,
     columns,
-    posts,
+    articles,
     setPage,
     modalBody,
     removeUser: remove,

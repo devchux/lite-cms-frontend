@@ -71,6 +71,7 @@ export const registerPost = (inputs) => async (dispatch) => {
     dispatch(addPost(data));
     notify("success", data.message);
   } catch (error) {
+    if (error.message) console.log(error.message)
     dispatch(failure(error.response.data));
     notify("error", error.response.data.message);
   }
@@ -114,7 +115,8 @@ export const getSinglePost = (id) => async (dispatch) => {
     );
     dispatch(fetchPost(data));
     notify("success", data.message);
-    return Promise.resolve(data.user)
+    console.log(data)
+    return Promise.resolve(data.article)
   } catch (error) {
     dispatch(failure(error.response.data));
     notify("error", error.response.data.message);

@@ -52,6 +52,11 @@ const TableView = ({
     setDeleteId(id);
     modalToggle();
   };
+  const formatStatus = (status) => {
+    console.log(status)
+    if (status) return "Published"
+    return "Not Published"
+  }
 
   return (
     <Table {...getTableProps()} className="table-view">
@@ -100,6 +105,8 @@ const TableView = ({
                     cell.column.Header.toLowerCase()
                   )
                     ? formatDate(cell.value)
+                    : cell.column.Header.toLowerCase() === "status"
+                    ? formatStatus(cell.value)
                     : cell.render("Cell")}
                 </td>
               ))}
