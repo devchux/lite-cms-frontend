@@ -83,19 +83,20 @@ export const useArticles = (isEdit, isIndex) => {
   useEffect(() => {
     if (isEdit) {
       dispatch(getSinglePost(paramId)).then((data) => {
-        const { contentBlocks, entityMap } = htmlToDraft(data.body);
-        const contentState = ContentState.createFromBlockArray(
-          contentBlocks,
-          entityMap
-        );
-        const editorState = EditorState.createWithContent(contentState);
-        setInputs({ ...data, body: editorState })
-      });
+        if (data) {
+          const { contentBlocks, entityMap } = htmlToDraft(data.body);
+          const contentState = ContentState.createFromBlockArray(
+            contentBlocks,
+            entityMap
+          );
+          const editorState = EditorState.createWithContent(contentState);
+          setInputs({ ...data, body: editorState })
+        }
+      })
     }
   }, [dispatch, isEdit, paramId]);
 
   const createPost = (publish) => {
-    console.log(publish)
     const textToHtml = draftToHtml(convertToRaw(inputs.body.getCurrentContent()));
     const validInputs = {
       ...inputs,

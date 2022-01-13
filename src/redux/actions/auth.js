@@ -9,7 +9,7 @@ export const uploadUserCredentials = (payload) => ({
   payload,
 });
 
-export const loginUserFailure = (payload) => ({
+export const failure = (payload) => ({
   type: ERROR,
   payload,
 });
@@ -29,7 +29,11 @@ export const loginUser = (inputs) => async (dispatch) => {
     dispatch(uploadUserCredentials(data));
     localStorage.setItem("auth_token", data.member.token);
   } catch (error) {
-    dispatch(loginUserFailure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };

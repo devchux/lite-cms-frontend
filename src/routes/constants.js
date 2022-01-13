@@ -6,6 +6,8 @@ import AddVolunteer from "../pages/app/volunteers/AddVolunteer";
 import Volunteer from "../pages/app/volunteers";
 import Users from "../pages/app/users";
 import AddUser from "../pages/app/users/AddUser";
+import Photo from "../pages/app/photos/Photo";
+import AddPhoto from "../pages/app/photos/AddPhoto";
 
 export const routes = [
   {
@@ -71,6 +73,18 @@ export const appRoutes = [
     path: "/users/add/:id",
     component: AddUser,
     isEdit: true,
+    isIndex: false,
+  },
+  {
+    path: "/photos",
+    component: Photo,
+    isEdit: false,
+    isIndex: false,
+  },
+  {
+    path: "/photos/add",
+    component: AddPhoto,
+    isEdit: false,
     isIndex: false,
   },
 ];

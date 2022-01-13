@@ -50,7 +50,7 @@ export const deleteBulkPosts = (payload) => ({
 export const updateSinglePost = (payload) => ({
   type: UPDATE,
   payload,
-})
+});
 
 export const registerPost = (inputs) => async (dispatch) => {
   const { notify } = useNotification();
@@ -71,9 +71,13 @@ export const registerPost = (inputs) => async (dispatch) => {
     dispatch(addPost(data));
     notify("success", data.message);
   } catch (error) {
-    if (error.message) console.log(error.message)
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.message) console.log(error.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };
 
@@ -105,21 +109,21 @@ export const getSinglePost = (id) => async (dispatch) => {
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
-    const { data } = await axios.get(
-      `http://localhost:8000/api/posts/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const { data } = await axios.get(`http://localhost:8000/api/posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch(fetchPost(data));
     notify("success", data.message);
-    console.log(data)
-    return Promise.resolve(data.article)
+    return Promise.resolve(data.article);
   } catch (error) {
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };
 
@@ -139,8 +143,12 @@ export const deletePost = (id) => async (dispatch) => {
     dispatch(deleteSinglePost({ ...data, id }));
     notify("success", data.message);
   } catch (error) {
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };
 
@@ -158,8 +166,12 @@ export const deletePosts = (ids) => async (dispatch) => {
     dispatch(deleteBulkPosts({ ...data, ids }));
     notify("success", data.message);
   } catch (error) {
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };
 
@@ -169,7 +181,8 @@ export const updatePost = (id, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/posts/${id}`, { ...inputs },
+      `http://localhost:8000/api/posts/${id}`,
+      { ...inputs },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -179,7 +192,11 @@ export const updatePost = (id, inputs) => async (dispatch) => {
     dispatch(updateSinglePost(data));
     notify("success", data.message);
   } catch (error) {
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };

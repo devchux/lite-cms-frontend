@@ -50,7 +50,7 @@ export const deleteBulkUsers = (payload) => ({
 export const updateSingleUser = (payload) => ({
   type: UPDATE,
   payload,
-})
+});
 
 export const registerUser = (inputs) => async (dispatch) => {
   const { notify } = useNotification();
@@ -72,8 +72,12 @@ export const registerUser = (inputs) => async (dispatch) => {
     dispatch(addUser(data));
     notify("success", data.message);
   } catch (error) {
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };
 
@@ -115,10 +119,14 @@ export const getSingleUser = (id) => async (dispatch) => {
     );
     dispatch(fetchUser(data));
     notify("success", data.message);
-    return Promise.resolve(data.user)
+    return Promise.resolve(data.user);
   } catch (error) {
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };
 
@@ -138,8 +146,12 @@ export const deleteUser = (id) => async (dispatch) => {
     dispatch(deleteSingleUser({ ...data, id }));
     notify("success", data.message);
   } catch (error) {
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };
 
@@ -157,8 +169,12 @@ export const deleteUsers = (ids) => async (dispatch) => {
     dispatch(deleteBulkUsers({ ...data, ids }));
     notify("success", data.message);
   } catch (error) {
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };
 
@@ -168,7 +184,8 @@ export const updateUser = (id, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/members/${id}`, { ...inputs },
+      `http://localhost:8000/api/members/${id}`,
+      { ...inputs },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -178,7 +195,11 @@ export const updateUser = (id, inputs) => async (dispatch) => {
     dispatch(updateSingleUser(data));
     notify("success", data.message);
   } catch (error) {
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      notify("error", error.message);
+    }
   }
 };
