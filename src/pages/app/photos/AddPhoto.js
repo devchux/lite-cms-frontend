@@ -30,7 +30,7 @@ const AddPhoto = ({ isIndex }) => {
         <br />
         <FormGroup className="d-flex justify-content-end">
           <Button color="primary" disabled={loading} onClick={handleUpload}>
-            {loading ? <BeatLoader loading={loading} /> :"Upload"}
+            {loading ? <BeatLoader color="#fff" loading={loading} /> :"Upload"}
           </Button>
         </FormGroup>
         {image.preview ? (

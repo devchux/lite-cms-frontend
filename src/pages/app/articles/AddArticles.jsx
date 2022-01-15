@@ -80,7 +80,7 @@ const AddArticles = ({ isEdit }) => {
               color="primary"
               onClick={() => createPost(true)}
             >
-              {loading ? <BeatLoader loading={loading} /> : "Publish"}
+              {loading ? <BeatLoader color="#fff" loading={loading} /> : "Publish"}
             </Button>
           </FormGroup>
           <PromptModal

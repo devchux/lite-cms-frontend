@@ -76,7 +76,7 @@ const AddUser = ({ isEdit }) => {
       <hr />
       <FormGroup className="d-flex justify-content-end">
         <Button color="primary" loading={loading} onClick={submit}>
-        {loading ? <BeatLoader loading={loading} /> : "Save"}
+        {loading ? <BeatLoader color="#fff" loading={loading} /> : "Save"}
         </Button>
       </FormGroup>
     </CenteredWrapper>

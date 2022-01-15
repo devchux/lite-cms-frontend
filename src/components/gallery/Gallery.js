@@ -17,34 +17,43 @@ const Gallery = ({ onSelect, isIndex, isModal, col }) => {
     <PageWrapper className="p-3 gallery">
       <Row>
         {photos.data.length > 0 ? (
-          photos.data.map((photo) => (
-            <Col sm={col} className="my-3" key={photo.id}>
-              <Card onClick={!isModal ? () => {} : () => onSelect(photo.photoUrl)}>
-                <CardTitle>
-                  {!isModal ? (
-                    <span className="delete-icon">
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        onClick={() => {
-                          setId(photo.id);
-                          toggle();
-                        }}
-                      />
-                    </span>
-                  ) : (
-                    <CardBody></CardBody>
-                  )}
-                </CardTitle>
-                <CardImg
-                  width="100%"
-                  height="100px"
-                  src={photo.photoUrl}
-                  alt=""
-                />
-                <CardBody></CardBody>
-              </Card>
-            </Col>
-          ))
+          <>
+            {photos.data.map((photo) => (
+              <Col sm={col} className="my-3" key={photo.id}>
+                <Card
+                  onClick={!isModal ? () => {} : () => onSelect(photo.photoUrl)}
+                >
+                  <CardImg
+                    width="100%"
+                    height="100px"
+                    src={photo.photoUrl}
+                    alt=""
+                  />
+                  <CardBody>
+                    {!isModal && (
+                      <span className="delete-icon">
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          onClick={() => {
+                            setId(photo.id);
+                            toggle();
+                          }}
+                        />
+                      </span>
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            ))}
+            <Pagination
+              data={photos.data}
+              dataLimit={photos.total}
+              pageLimit={photos.totalPages}
+              current={photos.currentPage}
+              setPage={setPage}
+              page={page}
+            />
+          </>
         ) : loading ? (
           <center>
             <BeatLoader loading={loading} />
@@ -55,14 +64,6 @@ const Gallery = ({ onSelect, isIndex, isModal, col }) => {
           </h5>
         )}
       </Row>
-      <Pagination
-        data={photos.data}
-        dataLimit={photos.total}
-        pageLimit={photos.totalPages}
-        current={photos.currentPage}
-        setPage={setPage}
-        page={page}
-      />
       {isIndex && (
         <PromptModal
           isOpen={openModal}
@@ -79,11 +80,11 @@ const Gallery = ({ onSelect, isIndex, isModal, col }) => {
   );
 };
 
-Gallery.defaultProps ={
+Gallery.defaultProps = {
   index: true,
   isModal: false,
   onSelect: () => {},
-  col: 2
-}
+  col: 2,
+};
 
 export default Gallery;

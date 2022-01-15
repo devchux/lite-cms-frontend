@@ -20,8 +20,7 @@ export const useArticles = (isEdit, isIndex) => {
   let initialInputs = {
     title: "",
     body: {},
-    imageUrl:
-      "https://res.cloudinary.com/dcrshimso/image/upload/v1639000203/sample.jpg",
+    imageUrl: "",
     slug: "",
     published: true,
   };
