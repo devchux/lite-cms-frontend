@@ -3,6 +3,7 @@ import PageWrapper from "../../../components/wrappers/PageWrapper";
 import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import { useArticles } from "../../../hooks/useArticles";
 import "./scss/addArticles.scss";
+import { BeatLoader } from "react-spinners";
 
 const AddArticles = ({ isEdit }) => {
   const { inputs, setCredentials, createPost, loading} = useArticles(isEdit);
@@ -61,10 +62,10 @@ const AddArticles = ({ isEdit }) => {
               className="btn-default me-2"
               onClick={() => createPost(false)}
             >
-              Save to draft
+              {loading ? <BeatLoader loading={loading} /> : "Save to draft"}
             </Button>
             <Button disabled={loading} color="primary" onClick={() => createPost(true)}>
-              Publish
+              {loading ? <BeatLoader loading={loading} /> : "Publish"}
             </Button>
           </FormGroup>
         </PageWrapper>

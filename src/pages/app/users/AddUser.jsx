@@ -1,9 +1,10 @@
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import CenteredWrapper from "../../../components/wrappers/CenteredWrapper";
 import { useAuth } from "../../../hooks/useAuth";
+import { BeatLoader } from "react-spinners";
 
 const AddUser = ({ isEdit }) => {
-  const { inputs, setCredentials, showPassword, toggleShowPassword, submit } =
+  const { inputs, setCredentials, showPassword, toggleShowPassword, submit, loading } =
     useAuth(false, isEdit);
   return (
     <CenteredWrapper>
@@ -74,8 +75,8 @@ const AddUser = ({ isEdit }) => {
       </FormGroup>
       <hr />
       <FormGroup className="d-flex justify-content-end">
-        <Button color="primary" onClick={submit}>
-          Save
+        <Button color="primary" loading={loading} onClick={submit}>
+        {loading ? <BeatLoader loading={loading} /> : "Save"}
         </Button>
       </FormGroup>
     </CenteredWrapper>

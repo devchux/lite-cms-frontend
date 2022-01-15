@@ -1,5 +1,6 @@
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BeatLoader } from "react-spinners";
 import { Button, FormGroup, Input, Progress } from "reactstrap";
 import CenteredWrapper from "../../../components/wrappers/CenteredWrapper";
 import { usePhotos } from "../../../hooks/usePhotos";
@@ -29,7 +30,7 @@ const AddPhoto = ({ isIndex }) => {
         <br />
         <FormGroup className="d-flex justify-content-end">
           <Button color="primary" disabled={loading} onClick={handleUpload}>
-            Upload
+            {loading ? <BeatLoader loading={loading} /> :"Upload"}
           </Button>
         </FormGroup>
         {image.preview ? (

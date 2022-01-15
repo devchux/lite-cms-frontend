@@ -1,8 +1,7 @@
-import { useEffect } from "react";
-import { Redirect } from "react-router-dom";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import PageWrapper from "../../components/wrappers/PageWrapper";
 import { useAuth } from "../../hooks/useAuth";
+import { BeatLoader } from "react-spinners";
 
 const Signin = () => {
   const {
@@ -50,7 +49,7 @@ const Signin = () => {
       </FormGroup>
       <FormGroup>
         <Button color="primary" block onClick={submit} disabled={loading}>
-          {loading ? "Loading" : "Sign In"}
+        {loading ? <BeatLoader loading={loading} /> : "Sign in"}
         </Button>
       </FormGroup>
     </PageWrapper>
