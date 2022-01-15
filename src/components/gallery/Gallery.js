@@ -9,7 +9,7 @@ import { useModal } from "../../hooks/useModal";
 import { useState } from "react";
 import { BeatLoader } from "react-spinners";
 
-const Gallery = ({ onSelect, isIndex }) => {
+const Gallery = ({ onSelect, isIndex, isModal, col }) => {
   const { photos, loading, setPage, page, remove } = usePhotos(isIndex);
   const { toggle, openModal } = useModal();
   const [id, setId] = useState("");
@@ -18,10 +18,10 @@ const Gallery = ({ onSelect, isIndex }) => {
       <Row>
         {photos.data.length > 0 ? (
           photos.data.map((photo) => (
-            <Col sm={2} className="my-3">
-              <Card>
+            <Col sm={col} className="my-3" key={photo.id}>
+              <Card onClick={!isModal ? () => {} : () => onSelect(photo.photoUrl)}>
                 <CardTitle>
-                  {isIndex ? (
+                  {!isModal ? (
                     <span className="delete-icon">
                       <FontAwesomeIcon
                         icon={faTrash}
@@ -36,7 +36,6 @@ const Gallery = ({ onSelect, isIndex }) => {
                   )}
                 </CardTitle>
                 <CardImg
-                  key={photo.id}
                   width="100%"
                   height="100px"
                   src={photo.photoUrl}
@@ -79,5 +78,12 @@ const Gallery = ({ onSelect, isIndex }) => {
     </PageWrapper>
   );
 };
+
+Gallery.defaultProps ={
+  index: true,
+  isModal: false,
+  onSelect: () => {},
+  col: 2
+}
 
 export default Gallery;

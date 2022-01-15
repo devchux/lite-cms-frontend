@@ -4,9 +4,19 @@ import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import { useArticles } from "../../../hooks/useArticles";
 import "./scss/addArticles.scss";
 import { BeatLoader } from "react-spinners";
+import PromptModal from "../../../components/modal/Modal";
+import Gallery from "../../../components/gallery/Gallery";
 
 const AddArticles = ({ isEdit }) => {
-  const { inputs, setCredentials, createPost, loading} = useArticles(isEdit);
+  const {
+    inputs,
+    setCredentials,
+    createPost,
+    loading,
+    toggle,
+    openModal,
+    selectPhoto,
+  } = useArticles(isEdit);
 
   return (
     <Row className="add-articles">
@@ -45,7 +55,7 @@ const AddArticles = ({ isEdit }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Button type="button" color="success">
+            <Button type="button" onClick={toggle} color="success">
               upload image
             </Button>
           </FormGroup>
@@ -58,16 +68,28 @@ const AddArticles = ({ isEdit }) => {
           )}
           <hr />
           <FormGroup>
-            <Button disabled={loading}
+            <Button
+              disabled={loading}
               className="btn-default me-2"
               onClick={() => createPost(false)}
             >
               {loading ? <BeatLoader loading={loading} /> : "Save to draft"}
             </Button>
-            <Button disabled={loading} color="primary" onClick={() => createPost(true)}>
+            <Button
+              disabled={loading}
+              color="primary"
+              onClick={() => createPost(true)}
+            >
               {loading ? <BeatLoader loading={loading} /> : "Publish"}
             </Button>
           </FormGroup>
+          <PromptModal
+            isOpen={openModal}
+            toggle={toggle}
+            onCancel={toggle}
+            body={<Gallery isIndex isModal col={6} onSelect={selectPhoto} />}
+            noSubmit
+          />
         </PageWrapper>
       </Col>
     </Row>

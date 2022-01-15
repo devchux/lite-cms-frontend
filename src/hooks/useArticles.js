@@ -14,6 +14,7 @@ import {
   updatePost,
 } from "../redux/actions/posts";
 import { useIndex } from "./useIndex";
+import { useModal } from "./useModal"
 
 export const useArticles = (isEdit, isIndex) => {
   let initialInputs = {
@@ -50,6 +51,7 @@ export const useArticles = (isEdit, isIndex) => {
   const { paramId } = useNavigation();
   const { articles, deleted, loading } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
+  const { toggle, openModal } = useModal();
     
   const [inputs, setInputs] = useState({
     ...initialInputs,
@@ -111,6 +113,10 @@ export const useArticles = (isEdit, isIndex) => {
     dispatch(registerPost(validInputs));
   };
 
+  const selectPhoto = (url) => {
+    setCredentials('imageUrl', url)
+  }
+
   return {
     inputs,
     setCredentials,
@@ -121,5 +127,8 @@ export const useArticles = (isEdit, isIndex) => {
     page,
     loading,
     createPost,
+    toggle,
+    openModal,
+    selectPhoto
   };
 };
