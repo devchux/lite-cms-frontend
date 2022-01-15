@@ -1,9 +1,9 @@
 import Gallery from "../../../components/gallery/Gallery"
 
-const Photo = () => {
+const Photo = ({ isIndex }) => {
   return (
     <div>
-      <Gallery />
+      <Gallery isIndex={isIndex} />
     </div>
   )
 }

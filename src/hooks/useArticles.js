@@ -70,7 +70,7 @@ export const useArticles = (isEdit, isIndex) => {
     }
     setInputs({ ...inputs, ...newInputs });
   };
-  const { remove, page, setPage, modalBody } = useIndex(
+  const { remove, page, setPage } = useIndex(
     dispatch,
     deletePost,
     deletePosts,
@@ -117,7 +117,6 @@ export const useArticles = (isEdit, isIndex) => {
     columns,
     articles,
     setPage,
-    modalBody,
     removeUser: remove,
     page,
     loading,

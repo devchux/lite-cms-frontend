@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 export const useIndex = (dispatch, deleteSingle, deleteBulk, getAll, data, deleted, isIndex) => {
   const [page, setPage] = useState(1);
   const [size] = useState(10);
-  const [modalBody, setModalBody] = useState("Are you want to delete user?");
 
   const remove = (ids, isBulk) => {
     if (isBulk) {
@@ -28,7 +27,5 @@ export const useIndex = (dispatch, deleteSingle, deleteBulk, getAll, data, delet
     size,
     page,
     setPage,
-    modalBody,
-    setModalBody,
   }
 }

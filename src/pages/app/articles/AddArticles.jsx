@@ -5,7 +5,7 @@ import { useArticles } from "../../../hooks/useArticles";
 import "./scss/addArticles.scss";
 
 const AddArticles = ({ isEdit }) => {
-  const { inputs, setCredentials, createPost } = useArticles(isEdit);
+  const { inputs, setCredentials, createPost, loading} = useArticles(isEdit);
 
   return (
     <Row className="add-articles">
@@ -57,13 +57,13 @@ const AddArticles = ({ isEdit }) => {
           )}
           <hr />
           <FormGroup>
-            <Button
+            <Button disabled={loading}
               className="btn-default me-2"
               onClick={() => createPost(false)}
             >
               Save to draft
             </Button>
-            <Button color="primary" onClick={() => createPost(true)}>
+            <Button disabled={loading} color="primary" onClick={() => createPost(true)}>
               Publish
             </Button>
           </FormGroup>

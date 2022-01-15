@@ -1,8 +1,10 @@
 import ListTableView from "../../../components/tables/ListTableView";
 import { useUsers } from "../../../hooks/useUsers";
+import { BeatLoader } from "react-spinners";
 
 const Users = ({ isIndex }) => {
-  const { users, columns, modalBody, removeUser, setPage, page, loading } = useUsers(isIndex);
+  const { users, columns, removeUser, setPage, page, loading } =
+    useUsers(isIndex);
 
   return (
     <>
@@ -10,17 +12,17 @@ const Users = ({ isIndex }) => {
         <ListTableView
           data={users}
           columns={columns}
-          modalBody={modalBody}
+          modalBody="Are you sure you want to delete user(s)?"
           activeHeader="Full Name"
           modalSubmit={removeUser}
           setPage={setPage}
           page={page}
         />
       ) : loading ? (
-        <h5>
-          <center>Loading..</center>
-        </h5>
-      )  : (
+        <center>
+          <BeatLoader loading={loading} />
+        </center>
+      ) : (
         <h5>
           <center>No user yet</center>
         </h5>

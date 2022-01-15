@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "reactstrap";
+import { useModal } from "../../hooks/useModal";
 import PromptModal from "../modal/Modal";
 import Pagination from "../pagination";
 import TableView from "../tables/TableView";
@@ -14,8 +15,7 @@ const ListTableView = ({
   setPage,
   page,
 }) => {
-  const [openModal, setOpenModal] = useState(false);
-  const toggle = () => setOpenModal(!openModal);
+  const { openModal, toggle } = useModal()
   const [selectedRows, setSelectedRows] = useState([]);
   const [deleteId, setDeleteId] = useState("");
   const [isBulk, setIsBulk] = useState(false);

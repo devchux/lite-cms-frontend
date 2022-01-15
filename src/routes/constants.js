@@ -79,7 +79,7 @@ export const appRoutes = [
     path: "/photos",
     component: Photo,
     isEdit: false,
-    isIndex: false,
+    isIndex: true,
   },
   {
     path: "/photos/add",

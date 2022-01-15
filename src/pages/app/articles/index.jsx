@@ -1,9 +1,13 @@
 import React from "react";
+import { BeatLoader } from "react-spinners";
 import ListTableView from "../../../components/tables/ListTableView";
 import { useArticles } from "../../../hooks/useArticles";
 
 const Articles = ({ isEdit, isIndex }) => {
-  const { columns, setPage, page, articles, modalBody, removeUser, loading } = useArticles(isEdit, isIndex);
+  const { columns, setPage, page, articles, removeUser, loading } = useArticles(
+    isEdit,
+    isIndex
+  );
 
   return (
     <>
@@ -11,17 +15,17 @@ const Articles = ({ isEdit, isIndex }) => {
         <ListTableView
           data={articles}
           columns={columns}
-          modalBody={modalBody}
+          modalBody="Are you sure you want to delete post(s)?"
           activeHeader="Title"
           modalSubmit={removeUser}
           setPage={setPage}
           page={page}
         />
       ) : loading ? (
-        <h5>
-          <center>Loading..</center>
-        </h5>
-      )  : (
+        <center>
+          <BeatLoader loading={loading} />
+        </center>
+      ) : (
         <h5>
           <center>No post yet</center>
         </h5>
