@@ -8,6 +8,8 @@ import Users from "../pages/app/users";
 import AddUser from "../pages/app/users/AddUser";
 import Photo from "../pages/app/photos/Photo";
 import AddPhoto from "../pages/app/photos/AddPhoto";
+import Books from "../pages/app/books";
+import AddBook from "../pages/app/books/AddBook";
 
 export const routes = [
   {
@@ -87,4 +89,22 @@ export const appRoutes = [
     isEdit: false,
     isIndex: false,
   },
+  {
+    path: "/books",
+    component: Books,
+    isEdit: false,
+    isIndex: true,
+  },
+  {
+    path: "/books/add",
+    component: AddBook,
+    isEdit: false,
+    isIndex: false,
+  },
+  {
+    path: "/books/add/:id",
+    component: AddBook,
+    isEdit: true,
+    isIndex: false,
+  }
 ];
