@@ -61,7 +61,8 @@ export const useEvents = (isEdit, isIndex) => {
     getAllEvents,
     events,
     deleted,
-    isIndex
+    isIndex,
+    loading
   );
 
   const { inputs, setCredentials, isInvalid, setInputs } = useForm(
@@ -70,6 +71,7 @@ export const useEvents = (isEdit, isIndex) => {
   );
 
   const submit = () => {
+    if (loading) return
     if (isInvalid) return notify("error", "Enter all fields");
     if (isEdit) {
       dispatch(updateEvent(paramId, inputs));

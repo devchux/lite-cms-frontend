@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNotification } from "../../hooks/useNotification";
 import actionTypes from "./types";
 
-const { LOGIN, ERROR, LOADING } = actionTypes;
+const { LOGIN, LOGIN_ERROR, LOGIN_LOADING } = actionTypes;
 
 export const uploadUserCredentials = (payload) => ({
   type: LOGIN,
@@ -10,12 +10,12 @@ export const uploadUserCredentials = (payload) => ({
 });
 
 export const failure = (payload) => ({
-  type: ERROR,
+  type: LOGIN_ERROR,
   payload,
 });
 
 export const loginLoading = () => ({
-  type: LOADING,
+  type: LOGIN_LOADING,
 });
 
 export const loginUser = (inputs) => async (dispatch) => {

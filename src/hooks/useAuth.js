@@ -16,6 +16,7 @@ export const useAuth = (isLogin, isEdit = false) => {
   const { goTo, paramId } = useNavigation();
 
   const member = useSelector((state) => state.member);
+  const { loading } = useSelector((state) => state.users);
   const initialState = {
     email: "",
     name: "",
@@ -54,14 +55,16 @@ export const useAuth = (isLogin, isEdit = false) => {
   }, [dispatch, isEdit, paramId, setInputs]);
 
   const submit = () => {
+    if (loading) return
     if (inValidLoginCred) return notify("error", "Invalid Credentials");
-    if (isLogin)
+    if (isLogin) {
+      if (loading) return
       return dispatch(loginUser({ email, password })).then(() =>
         goTo("/dashboard/posts")
       );
+    }
     if (password !== confirmPassword)
       return notify("error", "Passwords do not match");
-      console.log(paramId)
     if (isEdit) return dispatch(updateUser(paramId, inputs));
     return dispatch(registerUser(inputs));
   };

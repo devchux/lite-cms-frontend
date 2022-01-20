@@ -1,14 +1,14 @@
 import actionTypes from "../actions/types";
 
 const {
-  ERROR,
-  LOADING,
-  ADD_SINGLE,
-  FETCH_BULK,
-  FETCH_SINGLE,
-  DELETE_SINGLE,
-  DELETE_BULK,
-  UPDATE,
+  BOOK_ADD_SINGLE,
+  BOOK_ERROR,
+  BOOK_LOADING,
+  BOOK_FETCH_BULK,
+  BOOK_FETCH_SINGLE,
+  BOOK_DELETE_SINGLE,
+  BOOK_DELETE_BULK,
+  BOOK_UPDATE,
 } = actionTypes;
 
 const initialState = {
@@ -27,20 +27,20 @@ const initialState = {
 
 export const booksReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING:
+    case BOOK_LOADING:
       return {
         ...state,
         loading: true,
         deleted: false,
       };
-    case ERROR:
+    case BOOK_ERROR:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case ADD_SINGLE:
+    case BOOK_ADD_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -52,14 +52,14 @@ export const booksReducer = (state = initialState, action) => {
           data: [{ ...action.payload.book }, ...state.books.data],
         },
       };
-    case FETCH_BULK:
+    case BOOK_FETCH_BULK:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case FETCH_SINGLE:
+    case BOOK_FETCH_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -68,7 +68,7 @@ export const booksReducer = (state = initialState, action) => {
         book: action.payload.book,
         deleted: false,
       };
-    case DELETE_SINGLE:
+    case BOOK_DELETE_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -84,7 +84,7 @@ export const booksReducer = (state = initialState, action) => {
         },
         book: action.payload.id === state.book.id ? {} : state.book,
       };
-    case DELETE_BULK:
+    case BOOK_DELETE_BULK:
       return {
         ...state,
         status: action.payload.status,
@@ -100,7 +100,7 @@ export const booksReducer = (state = initialState, action) => {
         },
         book: action.payload.ids.includes(state.book.id) ? {} : state.book,
       };
-    case UPDATE:
+    case BOOK_UPDATE:
       const data = state.books.data.map((item) => {
         if (item.id === action.payload.book.id)
           return { ...action.payload.book };

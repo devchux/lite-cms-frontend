@@ -1,6 +1,6 @@
 import actionTypes from "../actions/types";
 
-const { LOGIN, ERROR, LOADING } = actionTypes;
+const { LOGIN, LOGIN_ERROR, LOGIN_LOADING } = actionTypes;
 
 const initialState = {
   member: {},
@@ -11,7 +11,7 @@ const initialState = {
 };
 export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING:
+    case LOGIN_LOADING:
       return {
         ...state,
         member: {},
@@ -28,7 +28,7 @@ export const loginReducer = (state = initialState, action) => {
         isLoggedIn: true,
       };
 
-    case ERROR:
+    case LOGIN_ERROR:
       return {
         ...state,
         loading: false,

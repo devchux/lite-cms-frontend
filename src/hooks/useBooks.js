@@ -56,7 +56,8 @@ export const useBooks = (isEdit, isIndex) => {
     getAllBooks,
     books,
     deleted,
-    isIndex
+    isIndex,
+    loading
   );
 
   const { inputs, setCredentials, isInvalid, setInputs } = useForm(
@@ -65,6 +66,7 @@ export const useBooks = (isEdit, isIndex) => {
   );
 
   const submit = () => {
+    if (loading) return
     if (isInvalid) return notify("error", "Enter all fields");
     if (isEdit) {
       dispatch(updateBook(paramId, inputs));

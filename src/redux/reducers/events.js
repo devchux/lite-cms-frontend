@@ -1,14 +1,14 @@
 import actionTypes from "../actions/types";
 
 const {
-  ERROR,
-  LOADING,
-  ADD_SINGLE,
-  FETCH_BULK,
-  FETCH_SINGLE,
-  DELETE_SINGLE,
-  DELETE_BULK,
-  UPDATE,
+  EVENT_ERROR,
+  EVENT_LOADING,
+  EVENT_ADD_SINGLE,
+  EVENT_FETCH_BULK,
+  EVENT_FETCH_SINGLE,
+  EVENT_DELETE_SINGLE,
+  EVENT_DELETE_BULK,
+  EVENT_UPDATE,
 } = actionTypes;
 
 const initialState = {
@@ -27,20 +27,20 @@ const initialState = {
 
 export const eventsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING:
+    case EVENT_LOADING:
       return {
         ...state,
         loading: true,
         deleted: false,
       };
-    case ERROR:
+    case EVENT_ERROR:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case ADD_SINGLE:
+    case EVENT_ADD_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -52,14 +52,14 @@ export const eventsReducer = (state = initialState, action) => {
           data: [{ ...action.payload.event }, ...state.events.data],
         },
       };
-    case FETCH_BULK:
+    case EVENT_FETCH_BULK:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case FETCH_SINGLE:
+    case EVENT_FETCH_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -68,7 +68,7 @@ export const eventsReducer = (state = initialState, action) => {
         event: action.payload.event,
         deleted: false,
       };
-    case DELETE_SINGLE:
+    case EVENT_DELETE_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -84,7 +84,7 @@ export const eventsReducer = (state = initialState, action) => {
         },
         event: action.payload.id === state.event.id ? {} : state.event,
       };
-    case DELETE_BULK:
+    case EVENT_DELETE_BULK:
       return {
         ...state,
         status: action.payload.status,
@@ -100,7 +100,7 @@ export const eventsReducer = (state = initialState, action) => {
         },
         event: action.payload.ids.includes(state.event.id) ? {} : state.event,
       };
-    case UPDATE:
+    case EVENT_UPDATE:
       const data = state.events.data.map((item) => {
         if (item.id === action.payload.event.id)
           return { ...action.payload.event };

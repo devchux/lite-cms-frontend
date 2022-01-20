@@ -1,11 +1,11 @@
 import actionTypes from "../actions/types";
 
 const {
-  ERROR,
-  LOADING,
-  ADD_SINGLE,
-  FETCH_BULK,
-  DELETE_SINGLE,
+  PHOTO_ERROR,
+  PHOTO_LOADING,
+  PHOTO_ADD_SINGLE,
+  PHOTO_FETCH_BULK,
+  PHOTO_DELETE_SINGLE,
 } = actionTypes;
 
 const initialState = {
@@ -23,20 +23,20 @@ const initialState = {
 
 export const photosReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING:
+    case PHOTO_LOADING:
       return {
         ...state,
         loading: true,
         deleted: false,
       };
-    case ERROR:
+    case PHOTO_ERROR:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case ADD_SINGLE:
+    case PHOTO_ADD_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -48,14 +48,14 @@ export const photosReducer = (state = initialState, action) => {
           data: [{ ...action.payload.photo }, ...state.photos.data],
         },
       };
-    case FETCH_BULK:
+    case PHOTO_FETCH_BULK:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case DELETE_SINGLE:
+    case PHOTO_DELETE_SINGLE:
       return {
         ...state,
         status: action.payload.status,

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 
-export const useIndex = (dispatch, deleteSingle, deleteBulk, getAll, data, deleted, isIndex) => {
+export const useIndex = (dispatch, deleteSingle, deleteBulk, getAll, data, deleted, isIndex, loading) => {
   const [page, setPage] = useState(1);
   const [size] = useState(10);
 
   const remove = (ids, isBulk) => {
+    if (loading) return
     if (isBulk) {
       return dispatch(deleteBulk(ids));
     } else {

@@ -1,14 +1,14 @@
 import actionTypes from "../actions/types";
 
 const {
-  ERROR,
-  LOADING,
-  ADD_SINGLE,
-  FETCH_BULK,
-  FETCH_SINGLE,
-  DELETE_SINGLE,
-  DELETE_BULK,
-  UPDATE,
+  POST_ERROR,
+  POST_LOADING,
+  POST_ADD_SINGLE,
+  POST_FETCH_BULK,
+  POST_FETCH_SINGLE,
+  POST_DELETE_SINGLE,
+  POST_DELETE_BULK,
+  POST_UPDATE,
 } = actionTypes;
 
 const initialState = {
@@ -27,20 +27,20 @@ const initialState = {
 
 export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING:
+    case POST_LOADING:
       return {
         ...state,
         loading: true,
         deleted: false,
       };
-    case ERROR:
+    case POST_ERROR:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case ADD_SINGLE:
+    case POST_ADD_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -52,14 +52,14 @@ export const postsReducer = (state = initialState, action) => {
           data: [{ ...action.payload.article }, ...state.articles.data],
         },
       };
-    case FETCH_BULK:
+    case POST_FETCH_BULK:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case FETCH_SINGLE:
+    case POST_FETCH_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -68,7 +68,7 @@ export const postsReducer = (state = initialState, action) => {
         article: action.payload.article,
         deleted: false,
       };
-    case DELETE_SINGLE:
+    case POST_DELETE_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -84,7 +84,7 @@ export const postsReducer = (state = initialState, action) => {
         },
         article: action.payload.id === state.article.id ? {} : state.article,
       };
-    case DELETE_BULK:
+    case POST_DELETE_BULK:
       return {
         ...state,
         status: action.payload.status,
@@ -100,7 +100,7 @@ export const postsReducer = (state = initialState, action) => {
         },
         article: action.payload.ids.includes(state.article.id) ? {} : state.article,
       };
-    case UPDATE:
+    case POST_UPDATE:
       const data = state.articles.data.map((item) => {
         if (item.id === action.payload.article.id)
           return { ...action.payload.article };

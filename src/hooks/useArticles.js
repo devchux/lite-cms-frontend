@@ -78,7 +78,8 @@ export const useArticles = (isEdit, isIndex) => {
     getAllPosts,
     articles,
     deleted,
-    isIndex
+    isIndex,
+    loading
   );
 
   useEffect(() => {
@@ -98,6 +99,7 @@ export const useArticles = (isEdit, isIndex) => {
   }, [dispatch, isEdit, paramId]);
 
   const createPost = (publish) => {
+    if (loading) return
     const textToHtml = draftToHtml(convertToRaw(inputs.body.getCurrentContent()));
     const validInputs = {
       ...inputs,

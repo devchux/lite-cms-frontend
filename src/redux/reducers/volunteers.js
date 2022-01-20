@@ -1,14 +1,14 @@
 import actionTypes from "../actions/types";
 
 const {
-  ERROR,
-  LOADING,
-  ADD_SINGLE,
-  FETCH_BULK,
-  FETCH_SINGLE,
-  DELETE_SINGLE,
-  DELETE_BULK,
-  UPDATE,
+  VOLUNTEER_ERROR,
+  VOLUNTEER_LOADING,
+  VOLUNTEER_ADD_SINGLE,
+  VOLUNTEER_FETCH_BULK,
+  VOLUNTEER_FETCH_SINGLE,
+  VOLUNTEER_DELETE_SINGLE,
+  VOLUNTEER_DELETE_BULK,
+  VOLUNTEER_UPDATE,
 } = actionTypes;
 
 const initialState = {
@@ -27,20 +27,20 @@ const initialState = {
 
 export const volunteersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING:
+    case VOLUNTEER_LOADING:
       return {
         ...state,
         loading: true,
         deleted: false,
       };
-    case ERROR:
+    case VOLUNTEER_ERROR:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case ADD_SINGLE:
+    case VOLUNTEER_ADD_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -52,14 +52,14 @@ export const volunteersReducer = (state = initialState, action) => {
           data: [{ ...action.payload.volunteer }, ...state.volunteers.data],
         },
       };
-    case FETCH_BULK:
+    case VOLUNTEER_FETCH_BULK:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case FETCH_SINGLE:
+    case VOLUNTEER_FETCH_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -68,7 +68,7 @@ export const volunteersReducer = (state = initialState, action) => {
         volunteer: action.payload.volunteer,
         deleted: false,
       };
-    case DELETE_SINGLE:
+    case VOLUNTEER_DELETE_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -84,7 +84,7 @@ export const volunteersReducer = (state = initialState, action) => {
         },
         volunteer: action.payload.id === state.volunteer.id ? {} : state.volunteer,
       };
-    case DELETE_BULK:
+    case VOLUNTEER_DELETE_BULK:
       return {
         ...state,
         status: action.payload.status,
@@ -100,7 +100,7 @@ export const volunteersReducer = (state = initialState, action) => {
         },
         volunteer: action.payload.ids.includes(state.volunteer.id) ? {} : state.volunteer,
       };
-    case UPDATE:
+    case VOLUNTEER_UPDATE:
       const data = state.volunteers.data.map((item) => {
         if (item.id === action.payload.volunteer.id)
           return { ...action.payload.volunteer };

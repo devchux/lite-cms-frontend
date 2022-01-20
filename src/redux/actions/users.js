@@ -3,52 +3,52 @@ import { useNotification } from "../../hooks/useNotification";
 import actionTypes from "./types";
 
 const {
-  ADD_SINGLE,
-  ERROR,
-  LOADING,
-  FETCH_BULK,
-  FETCH_SINGLE,
-  DELETE_SINGLE,
-  DELETE_BULK,
-  UPDATE,
+  USER_ADD_SINGLE,
+  USER_ERROR,
+  USER_LOADING,
+  USER_FETCH_BULK,
+  USER_FETCH_SINGLE,
+  USER_DELETE_SINGLE,
+  USER_DELETE_BULK,
+  USER_UPDATE,
 } = actionTypes;
 
 export const addUser = (payload) => ({
-  type: ADD_SINGLE,
+  type: USER_ADD_SINGLE,
   payload,
 });
 
 export const failure = (payload) => ({
-  type: ERROR,
+  type: USER_ERROR,
   payload,
 });
 
 export const loading = () => ({
-  type: LOADING,
+  type: USER_LOADING,
 });
 
 export const fetchUsers = (payload) => ({
-  type: FETCH_BULK,
+  type: USER_FETCH_BULK,
   payload,
 });
 
 export const fetchUser = (payload) => ({
-  type: FETCH_SINGLE,
+  type: USER_FETCH_SINGLE,
   payload,
 });
 
 export const deleteSingleUser = (payload) => ({
-  type: DELETE_SINGLE,
+  type: USER_DELETE_SINGLE,
   payload,
 });
 
 export const deleteBulkUsers = (payload) => ({
-  type: DELETE_BULK,
+  type: USER_DELETE_BULK,
   payload,
 });
 
 export const updateSingleUser = (payload) => ({
-  type: UPDATE,
+  type: USER_UPDATE,
   payload,
 });
 

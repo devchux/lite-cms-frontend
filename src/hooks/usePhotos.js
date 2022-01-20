@@ -34,6 +34,7 @@ export const usePhotos = (isIndex) => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
+    if (loading) return
     const formData = new FormData();
     formData.append("photo", image.raw);
     dispatch(uploadPhoto(formData)).then((percentCompleted) =>
@@ -41,7 +42,8 @@ export const usePhotos = (isIndex) => {
     );
   };
 
-  const { remove, size, page, setPage, } = useIndex(
+  const { remove, size, page, setPage } = useIndex(
+    loading,
     dispatch,
     deletePhoto,
     () => {},

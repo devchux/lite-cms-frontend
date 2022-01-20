@@ -3,52 +3,52 @@ import { useNotification } from "../../hooks/useNotification";
 import actionTypes from "./types";
 
 const {
-  ADD_SINGLE,
-  ERROR,
-  LOADING,
-  FETCH_BULK,
-  FETCH_SINGLE,
-  DELETE_SINGLE,
-  DELETE_BULK,
-  UPDATE,
+  BOOK_ADD_SINGLE,
+  BOOK_ERROR,
+  BOOK_LOADING,
+  BOOK_FETCH_BULK,
+  BOOK_FETCH_SINGLE,
+  BOOK_DELETE_SINGLE,
+  BOOK_DELETE_BULK,
+  BOOK_UPDATE,
 } = actionTypes;
 
 export const fetchAllBooks = (payload) => ({
-  type: FETCH_BULK,
+  type: BOOK_FETCH_BULK,
   payload
 })
 
 export const fetchSingleBook = (payload) => ({
-  type: FETCH_SINGLE,
+  type: BOOK_FETCH_SINGLE,
   payload
 })
 
 export const addBook = (payload) => ({
-  type: ADD_SINGLE,
+  type: BOOK_ADD_SINGLE,
   payload,
 });
 
 export const failure = (payload) => ({
-  type: ERROR,
+  type: BOOK_ERROR,
   payload,
 });
 
 export const loading = () => ({
-  type: LOADING,
+  type: BOOK_LOADING,
 });
 
 export const deleteSingleBook = (payload) => ({
-  type: DELETE_SINGLE,
+  type: BOOK_DELETE_SINGLE,
   payload,
 });
 
 export const deleteBulkBooks = (payload) => ({
-  type: DELETE_BULK,
+  type: BOOK_DELETE_BULK,
   payload,
 });
 
 export const updateSingleBook = (payload) => ({
-  type: UPDATE,
+  type: BOOK_UPDATE,
   payload,
 });
 

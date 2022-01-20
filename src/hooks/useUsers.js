@@ -39,6 +39,7 @@ export const useUsers = (isIndex) => {
     users,
     deleted,
     isIndex,
+    loading
   );
 
   return {

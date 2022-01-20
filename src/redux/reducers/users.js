@@ -1,14 +1,14 @@
 import actionTypes from "../actions/types";
 
 const {
-  ERROR,
-  LOADING,
-  ADD_SINGLE,
-  FETCH_BULK,
-  FETCH_SINGLE,
-  DELETE_SINGLE,
-  DELETE_BULK,
-  UPDATE,
+  USER_ERROR,
+  USER_LOADING,
+  USER_ADD_SINGLE,
+  USER_FETCH_BULK,
+  USER_FETCH_SINGLE,
+  USER_DELETE_SINGLE,
+  USER_DELETE_BULK,
+  USER_UPDATE,
 } = actionTypes;
 
 const initialState = {
@@ -35,20 +35,20 @@ const initialState = {
 
 export const usersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING:
+    case USER_LOADING:
       return {
         ...state,
         loading: true,
         deleted: false,
       };
-    case ERROR:
+    case USER_ERROR:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case ADD_SINGLE:
+    case USER_ADD_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -60,14 +60,14 @@ export const usersReducer = (state = initialState, action) => {
           data: [{ ...action.payload.user }, ...state.users.data],
         },
       };
-    case FETCH_BULK:
+    case USER_FETCH_BULK:
       return {
         ...state,
         ...action.payload,
         loading: false,
         deleted: false,
       };
-    case FETCH_SINGLE:
+    case USER_FETCH_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -76,7 +76,7 @@ export const usersReducer = (state = initialState, action) => {
         user: action.payload.user,
         deleted: false,
       };
-    case DELETE_SINGLE:
+    case USER_DELETE_SINGLE:
       return {
         ...state,
         status: action.payload.status,
@@ -100,7 +100,7 @@ export const usersReducer = (state = initialState, action) => {
           },
         } : state.user,
       };
-    case DELETE_BULK:
+    case USER_DELETE_BULK:
       return {
         ...state,
         status: action.payload.status,
@@ -126,7 +126,7 @@ export const usersReducer = (state = initialState, action) => {
             }
           : state.user,
       };
-    case UPDATE:
+    case USER_UPDATE:
       const data = state.users.data.map((item) => {
         if (item.id === action.payload.user.id)
           return { ...action.payload.user };

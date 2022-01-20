@@ -55,7 +55,8 @@ export const useVolunteers = (isEdit, isIndex) => {
     getAllVolunteers,
     volunteers,
     deleted,
-    isIndex
+    isIndex,
+    loading
   );
 
   const { inputs, setCredentials, isInvalid, setInputs } = useForm(
@@ -64,6 +65,7 @@ export const useVolunteers = (isEdit, isIndex) => {
   );
 
   const submit = () => {
+    if (loading) return
     if (isInvalid) return notify("error", "Enter all fields");
     if (isEdit) {
       dispatch(updateVolunteer(paramId, inputs));
