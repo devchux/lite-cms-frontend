@@ -17,6 +17,7 @@ const Users = ({ isIndex }) => {
           modalSubmit={removeUser}
           setPage={setPage}
           page={page}
+          loading={loading}
         />
       ) : loading ? (
         <center>

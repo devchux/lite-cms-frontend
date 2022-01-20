@@ -56,8 +56,10 @@ export const uploadPhoto = (inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
+    return Promise.reject(null)
   }
 };
 
@@ -77,7 +79,6 @@ export const getAllPhotos =
         }
       );
       dispatch(fetchAllPhotos(data));
-      notify("success", data.message);
     } catch (error) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
@@ -104,6 +105,7 @@ export const deletePhoto = (id) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
   }

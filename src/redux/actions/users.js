@@ -76,6 +76,7 @@ export const registerUser = (inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
   }
@@ -97,7 +98,6 @@ export const getAllUsers =
         }
       );
       dispatch(fetchUsers(data));
-      notify("success", data.message);
     } catch (error) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
@@ -118,15 +118,17 @@ export const getSingleUser = (id) => async (dispatch) => {
       }
     );
     dispatch(fetchUser(data));
-    notify("success", data.message);
     return Promise.resolve(data.user);
   } catch (error) {
     if (error.response) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
+      console.error(error)
       notify("error", error.message);
     }
+    return Promise.reject(null)
   }
 };
 
@@ -150,6 +152,7 @@ export const deleteUser = (id) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
   }
@@ -173,6 +176,7 @@ export const deleteUsers = (ids) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
   }
@@ -199,6 +203,7 @@ export const updateUser = (id, inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
   }

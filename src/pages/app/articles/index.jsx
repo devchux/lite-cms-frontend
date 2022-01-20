@@ -20,6 +20,7 @@ const Articles = ({ isEdit, isIndex }) => {
           modalSubmit={removeUser}
           setPage={setPage}
           page={page}
+          loading={loading}
         />
       ) : loading ? (
         <center>

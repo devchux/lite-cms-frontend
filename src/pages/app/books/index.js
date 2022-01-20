@@ -4,7 +4,7 @@ import ListTableView from "../../../components/tables/ListTableView";
 import { useBooks } from "../../../hooks/useBooks";
 
 const Books = ({ isEdit, isIndex }) => {
-  const { columns, setPage, page, books, removeUser, loading } = useBooks(
+  const { columns, setPage, page, books, removeBook, loading } = useBooks(
     isEdit,
     isIndex
   );
@@ -15,9 +15,9 @@ const Books = ({ isEdit, isIndex }) => {
         <ListTableView
           data={books}
           columns={columns}
-          modalBody="Are you sure you want to delete post(s)?"
+          modalBody="Are you sure you want to delete book(s)?"
           activeHeader="Title"
-          modalSubmit={removeUser}
+          modalSubmit={removeBook}
           setPage={setPage}
           page={page}
         />

@@ -14,6 +14,7 @@ const ListTableView = ({
   modalSubmit,
   setPage,
   page,
+  loading,
 }) => {
   const { openModal, toggle } = useModal()
   const [selectedRows, setSelectedRows] = useState([]);
@@ -46,6 +47,7 @@ const ListTableView = ({
       <PageWrapper className="rounded">
         <div className="overflow-auto">
           <TableView
+            loading={loading}
             modalToggle={toggle}
             data={data.data}
             columns={columns}

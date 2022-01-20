@@ -10,6 +10,8 @@ import Photo from "../pages/app/photos/Photo";
 import AddPhoto from "../pages/app/photos/AddPhoto";
 import Books from "../pages/app/books";
 import AddBook from "../pages/app/books/AddBook";
+import Events from "../pages/app/events";
+import AddEvent from "../pages/app/events/AddEvent";
 
 export const routes = [
   {
@@ -106,5 +108,41 @@ export const appRoutes = [
     component: AddBook,
     isEdit: true,
     isIndex: false,
-  }
+  },
+  {
+    path: "/events",
+    component: Events,
+    isEdit: false,
+    isIndex: true,
+  },
+  {
+    path: "/events/add",
+    component: AddEvent,
+    isEdit: false,
+    isIndex: false,
+  },
+  {
+    path: "/events/add/:id",
+    component: AddEvent,
+    isEdit: true,
+    isIndex: false,
+  },
+  // {
+  //   path: "/volunteers",
+  //   component: Volunteer,
+  //   isEdit: false,
+  //   isIndex: true,
+  // },
+  // {
+  //   path: "/volunteers/add",
+  //   component: AddVolunteer,
+  //   isEdit: false,
+  //   isIndex: false,
+  // },
+  // {
+  //   path: "/volunteers/add/:id",
+  //   component: AddVolunteer,
+  //   isEdit: true,
+  //   isIndex: false,
+  // }
 ];

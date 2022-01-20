@@ -13,7 +13,17 @@ const {
   UPDATE,
 } = actionTypes;
 
-export const addPost = (payload) => ({
+export const fetchAllVolunteers = (payload) => ({
+  type: FETCH_BULK,
+  payload
+})
+
+export const fetchSingleVolunteer = (payload) => ({
+  type: FETCH_SINGLE,
+  payload
+})
+
+export const addVolunteer = (payload) => ({
   type: ADD_SINGLE,
   payload,
 });
@@ -27,38 +37,28 @@ export const loading = () => ({
   type: LOADING,
 });
 
-export const fetchPosts = (payload) => ({
-  type: FETCH_BULK,
-  payload,
-});
-
-export const fetchPost = (payload) => ({
-  type: FETCH_SINGLE,
-  payload,
-});
-
-export const deleteSinglePost = (payload) => ({
+export const deleteSingleVolunteer = (payload) => ({
   type: DELETE_SINGLE,
   payload,
 });
 
-export const deleteBulkPosts = (payload) => ({
+export const deleteBulkVolunteers = (payload) => ({
   type: DELETE_BULK,
   payload,
 });
 
-export const updateSinglePost = (payload) => ({
+export const updateSingleVolunteer = (payload) => ({
   type: UPDATE,
   payload,
 });
 
-export const registerPost = (inputs) => async (dispatch) => {
+export const registerVolunteer = (inputs) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "http://localhost:8000/api/posts",
+      "http://localhost:8000/api/volunteers",
       {
         ...inputs,
       },
@@ -68,10 +68,9 @@ export const registerPost = (inputs) => async (dispatch) => {
         },
       }
     );
-    dispatch(addPost(data));
+    dispatch(addVolunteer(data));
     notify("success", data.message);
   } catch (error) {
-    if (error.message) console.error(error.message);
     if (error.response) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
@@ -82,7 +81,7 @@ export const registerPost = (inputs) => async (dispatch) => {
   }
 };
 
-export const getAllPosts =
+export const getAllVolunteers =
   ({ page, size }) =>
   async (dispatch) => {
     const { notify } = useNotification();
@@ -90,32 +89,35 @@ export const getAllPosts =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/posts?page=${page}&size=${size}`,
+        `http://localhost:8000/api/volunteers?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      dispatch(fetchPosts(data));
+      dispatch(fetchAllVolunteers(data));
     } catch (error) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     }
   };
 
-export const getSinglePost = (id) => async (dispatch) => {
+export const getSingleVolunteer = (id) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
-    const { data } = await axios.get(`http://localhost:8000/api/posts/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(fetchPost(data));
-    return Promise.resolve(data.article);
+    const { data } = await axios.get(
+      `http://localhost:8000/api/volunteers/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    dispatch(fetchSingleVolunteer(data));
+    return Promise.resolve(data.volunteer);
   } catch (error) {
     if (error.response) {
       dispatch(failure(error.response.data));
@@ -128,20 +130,20 @@ export const getSinglePost = (id) => async (dispatch) => {
   }
 };
 
-export const deletePost = (id) => async (dispatch) => {
+export const deleteVolunteer = (id) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
     const { data } = await axios.delete(
-      `http://localhost:8000/api/posts/${id}`,
+      `http://localhost:8000/api/volunteers/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    dispatch(deleteSinglePost({ ...data, id }));
+    dispatch(deleteSingleVolunteer({ ...data, id }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -154,18 +156,18 @@ export const deletePost = (id) => async (dispatch) => {
   }
 };
 
-export const deletePosts = (ids) => async (dispatch) => {
+export const deleteVolunteers = (ids) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
-    const { data } = await axios.delete("http://localhost:8000/api/posts", {
+    const { data } = await axios.delete("http://localhost:8000/api/volunteers", {
       data: { ids },
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(deleteBulkPosts({ ...data, ids }));
+    dispatch(deleteBulkVolunteers({ ...data, ids }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -178,13 +180,13 @@ export const deletePosts = (ids) => async (dispatch) => {
   }
 };
 
-export const updatePost = (id, inputs) => async (dispatch) => {
+export const updateVolunteer = (id, inputs) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/posts/${id}`,
+      `http://localhost:8000/api/volunteers/${id}`,
       { ...inputs },
       {
         headers: {
@@ -192,7 +194,7 @@ export const updatePost = (id, inputs) => async (dispatch) => {
         },
       }
     );
-    dispatch(updateSinglePost(data));
+    dispatch(updateSingleVolunteer(data));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {

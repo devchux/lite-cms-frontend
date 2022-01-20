@@ -1,25 +1,26 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  deleteBook,
-  deleteBooks,
-  getAllBooks,
-  getSingleBook,
-  registerBook,
-  updateBook,
-} from "../redux/actions/books";
+  deleteEvent,
+  deleteEvents,
+  getAllEvents,
+  getSingleEvent,
+  registerEvent,
+  updateEvent,
+} from "../redux/actions/events";
 import { useForm } from "./useForm";
 import { useIndex } from "./useIndex";
 import { useModal } from "./useModal";
 import { useNavigation } from "./useNavigation";
 import { useNotification } from "./useNotification";
 
-export const useBooks = (isEdit, isIndex) => {
+export const useEvents = (isEdit, isIndex) => {
   const initialState = {
     title: "",
     imageUrl: "",
-    author: "",
-    price: 0.0,
+    date: "",
+    time: "",
+    venue: "",
     description: "",
   };
   const columns = [
@@ -28,12 +29,16 @@ export const useBooks = (isEdit, isIndex) => {
       accessor: "title",
     },
     {
-      Header: "Author",
-      accessor: "author",
+      Header: "Event Date",
+      accessor: "date",
     },
     {
-      Header: "Price",
-      accessor: "price",
+      Header: "Event Time",
+      accessor: "time",
+    },
+    {
+      Header: "Event Venue",
+      accessor: "venue",
     },
     {
       Header: "Date Created",
@@ -45,16 +50,16 @@ export const useBooks = (isEdit, isIndex) => {
     },
   ];
   const dispatch = useDispatch();
-  const { books, deleted, loading } = useSelector((state) => state.books);
+  const { events, deleted, loading } = useSelector((state) => state.events);
   const { notify } = useNotification();
   const { toggle, openModal } = useModal();
   const { paramId } = useNavigation();
   const { remove, page, setPage, modalBody } = useIndex(
     dispatch,
-    deleteBook,
-    deleteBooks,
-    getAllBooks,
-    books,
+    deleteEvent,
+    deleteEvents,
+    getAllEvents,
+    events,
     deleted,
     isIndex
   );
@@ -67,10 +72,10 @@ export const useBooks = (isEdit, isIndex) => {
   const submit = () => {
     if (isInvalid) return notify("error", "Enter all fields");
     if (isEdit) {
-      dispatch(updateBook(paramId, inputs));
+      dispatch(updateEvent(paramId, inputs));
       return;
     }
-    dispatch(registerBook(inputs));
+    dispatch(registerEvent(inputs));
   };
 
   const selectPhoto = (url) => {
@@ -79,15 +84,15 @@ export const useBooks = (isEdit, isIndex) => {
 
   useEffect(() => {
     if (isEdit) {
-      dispatch(getSingleBook(paramId)).then((data) => setInputs(data));
+      dispatch(getSingleEvent(paramId)).then((data) => setInputs(data));
     }
   }, [dispatch, isEdit, paramId, setInputs]);
 
   return {
-    books,
+    events,
     columns,
     modalBody,
-    removeBook: remove,
+    removeEvent: remove,
     setPage,
     page,
     loading,

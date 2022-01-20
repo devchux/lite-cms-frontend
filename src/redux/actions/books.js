@@ -75,6 +75,7 @@ export const registerBook = (inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
   }
@@ -96,7 +97,6 @@ export const getAllBooks =
         }
       );
       dispatch(fetchAllBooks(data));
-      notify("success", data.message);
     } catch (error) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
@@ -117,15 +117,16 @@ export const getSingleBook = (id) => async (dispatch) => {
       }
     );
     dispatch(fetchSingleBook(data));
-    notify("success", data.message);
     return Promise.resolve(data.book);
   } catch (error) {
     if (error.response) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
+    return Promise.reject(null)
   }
 };
 
@@ -149,6 +150,7 @@ export const deleteBook = (id) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
   }
@@ -172,6 +174,7 @@ export const deleteBooks = (ids) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
   }
@@ -198,6 +201,7 @@ export const updateBook = (id, inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
+      console.error(error)
       notify("error", error.message);
     }
   }

@@ -4,20 +4,28 @@ import { useAuth } from "../../../hooks/useAuth";
 import { BeatLoader } from "react-spinners";
 
 const AddUser = ({ isEdit }) => {
-  const { inputs, setCredentials, showPassword, toggleShowPassword, submit, loading } =
-    useAuth(false, isEdit);
+  const {
+    inputs,
+    setCredentials,
+    showPassword,
+    toggleShowPassword,
+    submit,
+    loading,
+  } = useAuth(false, isEdit);
   return (
     <CenteredWrapper>
-      <FormGroup>
-        <Label htmlFor="name">Full Name</Label>
-        <Input
-          type="text"
-          name="name"
-          placeholder="Enter Full Name"
-          value={inputs.name}
-          onChange={({ target: { value } }) => setCredentials("name", value)}
-        />
-      </FormGroup>
+      {isEdit && (
+        <FormGroup>
+          <Label htmlFor="name">Full Name</Label>
+          <Input
+            type="text"
+            name="name"
+            placeholder="Enter Full Name"
+            value={inputs.name}
+            onChange={({ target: { value } }) => setCredentials("name", value)}
+          />
+        </FormGroup>
+      )}
       <FormGroup>
         <Label htmlFor="email">Email Address</Label>
         <Input
@@ -28,18 +36,21 @@ const AddUser = ({ isEdit }) => {
           onChange={({ target: { value } }) => setCredentials("email", value)}
         />
       </FormGroup>
-      <FormGroup>
-        <Label htmlFor="phoneNumber">Phone Number</Label>
-        <Input
-          type="tel"
-          placeholder="Enter Phone Number"
-          name="phoneNumber"
-          value={inputs.phoneNumber}
-          onChange={({ target: { value } }) =>
-            setCredentials("phoneNumber", value)
-          }
-        />
-      </FormGroup>
+
+      {isEdit && (
+        <FormGroup>
+          <Label htmlFor="phoneNumber">Phone Number</Label>
+          <Input
+            type="tel"
+            placeholder="Enter Phone Number"
+            name="phoneNumber"
+            value={inputs.phoneNumber}
+            onChange={({ target: { value } }) =>
+              setCredentials("phoneNumber", value)
+            }
+          />
+        </FormGroup>
+      )}
       <FormGroup>
         <Label htmlFor="password">Password</Label>
         <Input
@@ -76,7 +87,7 @@ const AddUser = ({ isEdit }) => {
       <hr />
       <FormGroup className="d-flex justify-content-end">
         <Button color="primary" loading={loading} onClick={submit}>
-        {loading ? <BeatLoader color="#fff" loading={loading} /> : "Save"}
+          {loading ? <BeatLoader color="#fff" loading={loading} /> : "Save"}
         </Button>
       </FormGroup>
     </CenteredWrapper>

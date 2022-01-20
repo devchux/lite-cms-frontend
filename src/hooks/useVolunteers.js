@@ -1,39 +1,38 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  deleteBook,
-  deleteBooks,
-  getAllBooks,
-  getSingleBook,
-  registerBook,
-  updateBook,
-} from "../redux/actions/books";
+  deleteVolunteer,
+  deleteVolunteers,
+  getAllVolunteers,
+  getSingleVolunteer,
+  registerVolunteer,
+  updateVolunteer,
+} from "../redux/actions/volunteers";
 import { useForm } from "./useForm";
 import { useIndex } from "./useIndex";
 import { useModal } from "./useModal";
 import { useNavigation } from "./useNavigation";
 import { useNotification } from "./useNotification";
 
-export const useBooks = (isEdit, isIndex) => {
+export const useVolunteers = (isEdit, isIndex) => {
   const initialState = {
-    title: "",
-    imageUrl: "",
-    author: "",
-    price: 0.0,
-    description: "",
+    name: "",
+    email: "",
+    phoneNumber: "",
+    message: "",
   };
   const columns = [
     {
-      Header: "Title",
-      accessor: "title",
+      Header: "Full Name",
+      accessor: "User.name",
     },
     {
-      Header: "Author",
-      accessor: "author",
+      Header: "Email",
+      accessor: "User.email",
     },
     {
-      Header: "Price",
-      accessor: "price",
+      Header: "Phone Number",
+      accessor: "User.phoneNumber",
     },
     {
       Header: "Date Created",
@@ -45,56 +44,59 @@ export const useBooks = (isEdit, isIndex) => {
     },
   ];
   const dispatch = useDispatch();
-  const { books, deleted, loading } = useSelector((state) => state.books);
+  const { volunteers, deleted, loading } = useSelector((state) => state.volunteers);
   const { notify } = useNotification();
   const { toggle, openModal } = useModal();
   const { paramId } = useNavigation();
   const { remove, page, setPage, modalBody } = useIndex(
     dispatch,
-    deleteBook,
-    deleteBooks,
-    getAllBooks,
-    books,
+    deleteVolunteer,
+    deleteVolunteers,
+    getAllVolunteers,
+    volunteers,
     deleted,
     isIndex
   );
 
   const { inputs, setCredentials, isInvalid, setInputs } = useForm(
     initialState,
-    Object.keys(initialState)
+    ["name", "phoneNumber", "message"]
   );
 
   const submit = () => {
     if (isInvalid) return notify("error", "Enter all fields");
     if (isEdit) {
-      dispatch(updateBook(paramId, inputs));
+      dispatch(updateVolunteer(paramId, inputs));
       return;
     }
-    dispatch(registerBook(inputs));
-  };
-
-  const selectPhoto = (url) => {
-    setCredentials("imageUrl", url);
+    dispatch(registerVolunteer(inputs));
   };
 
   useEffect(() => {
     if (isEdit) {
-      dispatch(getSingleBook(paramId)).then((data) => setInputs(data));
+      dispatch(getSingleVolunteer(paramId)).then((data) => {
+        const format = {
+          name: data.User.name,
+          email: data.User.email,
+          phoneNumber: data.User.phoneNumber,
+          message: data.message
+        }
+        setInputs(format)
+      });
     }
   }, [dispatch, isEdit, paramId, setInputs]);
 
   return {
-    books,
+    volunteers,
     columns,
     modalBody,
-    removeBook: remove,
+    removeVolunteer: remove,
     setPage,
     page,
     loading,
     inputs,
     setCredentials,
     submit,
-    selectPhoto,
     toggle,
     openModal,
   };

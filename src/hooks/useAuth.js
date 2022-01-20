@@ -26,7 +26,7 @@ export const useAuth = (isLogin, isEdit = false) => {
 
   const requiredFields = isLogin
     ? ["email", "password"]
-    : Object.keys(initialState);
+    : ["email", "password", "confirmPassword"];
 
   const {
     inputs,
@@ -61,6 +61,7 @@ export const useAuth = (isLogin, isEdit = false) => {
       );
     if (password !== confirmPassword)
       return notify("error", "Passwords do not match");
+      console.log(paramId)
     if (isEdit) return dispatch(updateUser(paramId, inputs));
     return dispatch(registerUser(inputs));
   };

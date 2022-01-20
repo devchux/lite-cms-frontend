@@ -11,6 +11,7 @@ const TableView = ({
   selectedRows,
   setSelectedRows,
   setDeleteId,
+  loading
 }) => {
   const { getTableBodyProps, getTableProps, headerGroups, rows, prepareRow } =
     useTable({
@@ -113,7 +114,8 @@ const TableView = ({
               <td>
                 <Button
                   color="danger"
-                  onClick={() => onDelete(row.original.id)}
+                  disabled={loading}
+                  onClick={() => !loading && onDelete(row.original.id)}
                 >
                   Delete
                 </Button>
