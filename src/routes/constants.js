@@ -12,6 +12,8 @@ import Books from "../pages/app/books";
 import AddBook from "../pages/app/books/AddBook";
 import Events from "../pages/app/events";
 import AddEvent from "../pages/app/events/AddEvent";
+import Contacts from "../pages/app/contacts";
+import AddContact from "../pages/app/contacts/AddContact";
 
 export const routes = [
   {
@@ -127,22 +129,16 @@ export const appRoutes = [
     isEdit: true,
     isIndex: false,
   },
-  // {
-  //   path: "/volunteers",
-  //   component: Volunteer,
-  //   isEdit: false,
-  //   isIndex: true,
-  // },
-  // {
-  //   path: "/volunteers/add",
-  //   component: AddVolunteer,
-  //   isEdit: false,
-  //   isIndex: false,
-  // },
-  // {
-  //   path: "/volunteers/add/:id",
-  //   component: AddVolunteer,
-  //   isEdit: true,
-  //   isIndex: false,
-  // }
+  {
+    path: "/contacts",
+    component: Contacts,
+    isEdit: false,
+    isIndex: true,
+  },
+  {
+    path: "/contacts/add/:id",
+    component: AddContact,
+    isEdit: true,
+    isIndex: false,
+  }
 ];

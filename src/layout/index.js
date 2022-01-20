@@ -21,6 +21,7 @@ const Layout = ({ children }) => {
           <Title
             title={urlToArray[2].toLocaleUpperCase()}
             isAdd={hasAdd}
+            noAddButton={currentUrl === '/dashboard/contacts'}
             buttonClick={() => {
               if (hasAdd) {
                 urlToArray.pop();

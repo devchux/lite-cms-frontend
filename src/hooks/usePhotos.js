@@ -43,14 +43,14 @@ export const usePhotos = (isIndex) => {
   };
 
   const { remove, size, page, setPage } = useIndex(
-    loading,
     dispatch,
     deletePhoto,
     () => {},
     getAllPhotos,
     photos,
     deleted,
-    isIndex
+    isIndex,
+    loading,
   );
   return {
     image,

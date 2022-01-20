@@ -1,11 +1,12 @@
 import { Button } from "reactstrap";
 import "./scss/title.scss";
 
-const Title = ({ title, isAdd, buttonClick }) => {
+const Title = ({ title, isAdd, buttonClick, noAddButton }) => {
   return (
     <div className="page-title">
       <h5>{title}</h5>
-      {!isAdd ? (
+      {
+        !noAddButton ? !isAdd ? (
         <Button color="primary" onClick={buttonClick}>
           + Add New
         </Button>
@@ -13,7 +14,7 @@ const Title = ({ title, isAdd, buttonClick }) => {
         <Button className="btn-default" onClick={buttonClick}>
           &larr; Back
         </Button>
-      )}
+      ) : ""}
     </div>
   );
 };
@@ -21,6 +22,7 @@ const Title = ({ title, isAdd, buttonClick }) => {
 Title.defaultProps = {
   title: "",
   isAdd: false,
+  noAddButton: false,
   buttonClick: () => {},
 }
 
