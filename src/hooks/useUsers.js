@@ -5,12 +5,12 @@ import { useIndex } from "./useIndex";
 export const useUsers = (isIndex) => {
   const columns = [
     {
-      Header: "Full Name",
-      accessor: "User.name",
-    },
-    {
       Header: "Email Address",
       accessor: "User.email",
+    },
+    {
+      Header: "Full Name",
+      accessor: "name",
     },
     {
       Header: "Phone Number",

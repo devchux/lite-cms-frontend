@@ -40,7 +40,7 @@ const ListTableView = ({
         <select>
           <option>Delete</option>
         </select>
-        <Button color="primary" onClick={bulkApply}>
+        <Button color="primary" disabled={selectedRows.length === 0} onClick={bulkApply}>
           Apply
         </Button>
       </div>

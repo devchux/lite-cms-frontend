@@ -24,7 +24,7 @@ export const useVolunteers = (isEdit, isIndex) => {
   const columns = [
     {
       Header: "Full Name",
-      accessor: "User.name",
+      accessor: "name",
     },
     {
       Header: "Email",
