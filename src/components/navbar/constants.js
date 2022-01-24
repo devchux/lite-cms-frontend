@@ -1,13 +1,13 @@
 import {
   faBlog,
   faBook,
-  faClipboard,
+  faCalendarAlt,
   faHandsHelping,
+  faImages,
   faMailBulk,
-  faPhotoVideo,
-  faProjectDiagram,
   faSignOutAlt,
   faUser,
+  faUserGraduate,
   faVideo,
   faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
@@ -30,7 +30,7 @@ export const sideNavItems = [
       link: "/dashboard/videos",
     },
     {
-      icon: faPhotoVideo,
+      icon: faImages,
       title: "Photos",
       link: "/dashboard/photos",
     },
@@ -40,7 +40,7 @@ export const sideNavItems = [
       link: "/dashboard/books",
     },
     {
-      icon: faProjectDiagram,
+      icon: faCalendarAlt,
       title: "Events",
       link: "/dashboard/events",
     },
@@ -50,9 +50,9 @@ export const sideNavItems = [
       link: "/dashboard/volunteers",
     },
     {
-      icon: faClipboard,
+      icon: faUserGraduate,
       title: "Classes",
-      link: "/dashboard/class",
+      link: "/dashboard/classes",
     },
     {
       icon: faMailBulk,

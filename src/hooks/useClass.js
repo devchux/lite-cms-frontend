@@ -1,31 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  deleteContact,
-  deleteContacts,
-  getAllContacts,
-  getSingleContact,
-  registerContact,
-  updateContact,
-} from "../redux/actions/contacts";
+  deleteClass,
+  deleteClasses,
+  getAllClasses,
+  getClassesByTitle,
+  getSingleClass,
+  registerClass,
+  updateClass,
+} from "../redux/actions/class";
 import { useForm } from "./useForm";
 import { useIndex } from "./useIndex";
 import { useModal } from "./useModal";
 import { useNavigation } from "./useNavigation";
 import { useNotification } from "./useNotification";
 
-export const useContacts = (isEdit, isIndex) => {
+export const useClasses = (isEdit, isIndex) => {
   const initialState = {
     name: "",
     email: "",
-    subject: "",
-    message: "",
+    phoneNumber: "",
+    classTitle: "",
   };
   const columns = [
-    {
-      Header: "Subject",
-      accessor: "subject",
-    },
     {
       Header: "Full Name",
       accessor: "name",
@@ -33,6 +30,14 @@ export const useContacts = (isEdit, isIndex) => {
     {
       Header: "Email",
       accessor: "email",
+    },
+    {
+      Header: "Phone Number",
+      accessor: "phoneNumber",
+    },
+    {
+      Header: "Class",
+      accessor: "classTitle",
     },
     {
       Header: "Date Created",
@@ -44,19 +49,20 @@ export const useContacts = (isEdit, isIndex) => {
     },
   ];
   const dispatch = useDispatch();
-  const { contacts, deleted, loading } = useSelector((state) => state.contacts);
+  const [fetchState, setFetchState] = useState("");
+  const { classes, deleted, loading } = useSelector((state) => state.classes);
   const { notify } = useNotification();
   const { toggle, openModal } = useModal();
   const { paramId } = useNavigation();
-  const { remove, page, setPage, modalBody } = useIndex(
+  const { remove, page, setPage, modalBody, size } = useIndex(
     dispatch,
-    deleteContact,
-    deleteContacts,
-    getAllContacts,
-    contacts,
+    deleteClass,
+    deleteClasses,
+    getAllClasses,
+    classes,
     deleted,
     isIndex,
-    loading
+    loading,
   );
 
   const { inputs, setCredentials, isInvalid, setInputs } = useForm(
@@ -65,28 +71,40 @@ export const useContacts = (isEdit, isIndex) => {
   );
 
   const submit = () => {
-    if (loading) return
+    if (loading) return;
     if (isInvalid) return notify("error", "Enter all fields");
     if (isEdit) {
-      dispatch(updateContact(paramId, inputs));
+      dispatch(updateClass(paramId, inputs));
       return;
     }
-    dispatch(registerContact(inputs));
+    dispatch(registerClass(inputs));
+  };
+
+  const fetchByTitle = (title) => {
+    if (loading) return
+    if (title === fetchState) {
+      dispatch(getAllClasses({ page: 0, size }));
+      setPage(1);
+      setFetchState('');
+      return;
+    }
+    dispatch(getClassesByTitle({ page: page - 1, size }, title));
+    setFetchState(title);
   };
 
   useEffect(() => {
     if (isEdit) {
-      dispatch(getSingleContact(paramId)).then((data) => {
-        data && setInputs(data)
+      dispatch(getSingleClass(paramId)).then((data) => {
+        data && setInputs(data);
       });
     }
   }, [dispatch, isEdit, paramId, setInputs]);
 
   return {
-    contacts,
+    classes,
     columns,
     modalBody,
-    removeContact: remove,
+    removeClass: remove,
     setPage,
     page,
     loading,
@@ -95,5 +113,7 @@ export const useContacts = (isEdit, isIndex) => {
     submit,
     toggle,
     openModal,
+    fetchByTitle,
+    fetchState,
   };
 };

@@ -11,7 +11,8 @@ const TableView = ({
   selectedRows,
   setSelectedRows,
   setDeleteId,
-  loading
+  loading,
+  noEdit,
 }) => {
   const { getTableBodyProps, getTableProps, headerGroups, rows, prepareRow } =
     useTable({
@@ -54,10 +55,10 @@ const TableView = ({
     modalToggle();
   };
   const formatStatus = (status) => {
-    console.log(status)
-    if (status) return "Published"
-    return "Not Published"
-  }
+    console.log(status);
+    if (status) return "Published";
+    return "Not Published";
+  };
 
   return (
     <Table {...getTableProps()} className="table-view">
@@ -97,7 +98,11 @@ const TableView = ({
               {row.cells.map((cell) => (
                 <td
                   {...cell.getCellProps()}
-                  onClick={() => goTo(`${currentUrl}/add/${row.original.id}`)}
+                  onClick={
+                    noEdit
+                      ? () => {}
+                      : () => goTo(`${currentUrl}/add/${row.original.id}`)
+                  }
                   className={
                     cell.column.Header === activeHeader ? "title-cell" : ""
                   }
@@ -108,7 +113,9 @@ const TableView = ({
                     ? formatDate(cell.value)
                     : cell.column.Header.toLowerCase() === "status"
                     ? formatStatus(cell.value)
-                    : cell.render("Cell")}
+                    : cell.value
+                    ? cell.render("Cell")
+                    : "Not available"}
                 </td>
               ))}
               <td>

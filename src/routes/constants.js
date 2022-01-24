@@ -14,6 +14,8 @@ import Events from "../pages/app/events";
 import AddEvent from "../pages/app/events/AddEvent";
 import Contacts from "../pages/app/contacts";
 import AddContact from "../pages/app/contacts/AddContact";
+import Classes from "../pages/app/classes";
+import AddClass from "../pages/app/classes/AddClass";
 
 export const routes = [
   {
@@ -140,5 +142,23 @@ export const appRoutes = [
     component: AddContact,
     isEdit: true,
     isIndex: false,
-  }
+  },
+  {
+    path: "/classes",
+    component: Classes,
+    isEdit: false,
+    isIndex: true,
+  },
+  {
+    path: "/classes/add",
+    component: AddClass,
+    isEdit: false,
+    isIndex: false,
+  },
+  {
+    path: "/classes/add/:id",
+    component: AddClass,
+    isEdit: true,
+    isIndex: false,
+  },
 ];

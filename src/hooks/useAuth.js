@@ -55,10 +55,10 @@ export const useAuth = (isLogin, isEdit = false) => {
   }, [dispatch, isEdit, paramId, setInputs]);
 
   const submit = () => {
-    if (loading) return
+    if (loading || member.loading) return
     if (inValidLoginCred) return notify("error", "Invalid Credentials");
     if (isLogin) {
-      if (loading) return
+      if (loading || member.loading) return
       return dispatch(loginUser({ email, password })).then(() =>
         goTo("/dashboard/posts")
       );
@@ -78,7 +78,7 @@ export const useAuth = (isLogin, isEdit = false) => {
     toggleShowPassword,
     goTo,
     inValid: inValidLoginCred,
-    loading: member.loading,
+    loading: member.loading || loading,
     isLoggedIn: member.isLoggedIn,
     member,
     inputs,

@@ -15,13 +15,13 @@ const {
 
 export const fetchAllClasses = (payload) => ({
   type: CLASS_FETCH_BULK,
-  payload
-})
+  payload,
+});
 
 export const fetchSingleClass = (payload) => ({
   type: CLASS_FETCH_SINGLE,
-  payload
-})
+  payload,
+});
 
 export const addClass = (payload) => ({
   type: CLASS_ADD_SINGLE,
@@ -75,11 +75,39 @@ export const registerClass = (inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
     }
   }
 };
+
+export const getClassesByTitle =
+  ({ page, size }, title) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.get(
+        `http://localhost:8000/api/classes/title/${title}?page=${page}&size=${size}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(fetchAllClasses(data));
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+      }
+      return Promise.reject(null);
+    }
+  };
 
 export const getAllClasses =
   ({ page, size }) =>
@@ -123,10 +151,10 @@ export const getSingleClass = (id) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
     }
-    return Promise.reject(null)
+    return Promise.reject(null);
   }
 };
 
@@ -150,7 +178,7 @@ export const deleteClass = (id) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
     }
   }
@@ -174,7 +202,7 @@ export const deleteClasses = (ids) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
     }
   }
@@ -201,7 +229,7 @@ export const updateClass = (id, inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
     }
   }

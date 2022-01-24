@@ -35,7 +35,7 @@ export const useArticles = (isEdit, isIndex) => {
     },
     {
       Header: "Author",
-      accessor: "Member.User.name",
+      accessor: "Member.name",
     },
     {
       Header: "Date Created",

@@ -19,6 +19,10 @@ body {
   overflow: hidden;
 }
 
+.row {
+  width: 100%
+}
+
 select {
   padding: 0.5em;
 }
@@ -53,5 +57,28 @@ select {
     border: 2px solid $darkGrey;
     cursor: pointer;
     border-radius: 1em;
+  }
+}
+
+.subject-title-wrapper {
+  overflow-x: auto;
+  text-align: center;
+  padding: 1em;
+  @media screen and (max-width: 980px) {
+    .row {
+      width: 768px;
+    }
+  }
+}
+
+.card-subject {
+  cursor: pointer;
+  padding: 1.5em 0;
+  background-color: $white;
+  border-radius: 10px;
+  box-shadow: 0 0 2px $grey;
+  &.active, &:hover {
+    background-color: $lightBlue;
+    color: $white;
   }
 }

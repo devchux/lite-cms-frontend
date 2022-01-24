@@ -7,6 +7,7 @@ import { booksReducer } from "./books";
 import { eventsReducer } from "./events";
 import { volunteersReducer } from "./volunteers";
 import { contactsReducer } from "./contacts";
+import { classesReducer } from "./class";
 
 const reducers = combineReducers({
   member: loginReducer,
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   events: eventsReducer,
   volunteers: volunteersReducer,
   contacts: contactsReducer,
+  classes: classesReducer,
 })
 
 export default reducers

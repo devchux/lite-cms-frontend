@@ -5,9 +5,14 @@ import logo from "../../assets/images/logo.png";
 import "./scss/sideNav.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTopNav } from "../../hooks/useTopNav";
+import { useNavigation } from "../../hooks/useNavigation";
+import PromptModal from "../modal/Modal";
+import { useModal } from "../../hooks/useModal";
 
 const SideNav = () => {
   const { toggleSideNav } = useTopNav();
+  const { goTo } = useNavigation();
+  const { openModal, toggle } = useModal();
 
   return (
     <div className="side-nav">
@@ -27,15 +32,23 @@ const SideNav = () => {
       </div>
       <div className="bottom">
         {sideNavItems[1].map(({ icon, title }) => (
-          <div
-            key={title}
-            onClick={() => localStorage.removeItem("auth_token")}
-          >
+          <div key={title} onClick={toggle}>
             <FontAwesomeIcon icon={icon} />
             <span>{title}</span>
           </div>
         ))}
       </div>
+      <PromptModal
+        isOpen={openModal}
+        toggle={toggle}
+        onCancel={toggle}
+        body="Are you sure you want to log out?"
+        onSubmit={() => {
+          localStorage.removeItem("auth_token");
+          toggle();
+          goTo("/signin");
+        }}
+      />
     </div>
   );
 };
