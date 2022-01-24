@@ -24,7 +24,7 @@ const Events = ({ isEdit, isIndex }) => {
         />
       ) : loading ? (
         <center>
-          <BeatLoader loading={loading} />
+          <BeatLoader color="#fff" loading={loading} />
         </center>
       ) : (
         <h5>

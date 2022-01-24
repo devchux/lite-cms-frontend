@@ -73,7 +73,7 @@ const AddArticles = ({ isEdit }) => {
               className="btn-default me-2"
               onClick={() => createPost(false)}
             >
-              {loading ? <BeatLoader loading={loading} /> : "Save to draft"}
+              {loading ? <BeatLoader color="#fff" loading={loading} /> : "Save to draft"}
             </Button>
             <Button
               disabled={loading}

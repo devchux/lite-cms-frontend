@@ -13,7 +13,7 @@ const Users = ({ isIndex }) => {
           data={users}
           columns={columns}
           modalBody="Are you sure you want to delete user(s)?"
-          activeHeader="Full Name"
+          activeHeader="Email Address"
           modalSubmit={removeUser}
           setPage={setPage}
           page={page}
@@ -21,7 +21,7 @@ const Users = ({ isIndex }) => {
         />
       ) : loading ? (
         <center>
-          <BeatLoader loading={loading} />
+          <BeatLoader color="#fff" loading={loading} />
         </center>
       ) : (
         <h5>

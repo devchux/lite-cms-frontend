@@ -43,6 +43,16 @@ select {
       }
     }
   }
+  .copy-icon {
+    cursor: pointer;
+    padding: 0.1em;
+    border-radius: 50%;
+    &:hover {
+      svg {
+        color: $lightBlue;
+      }
+    }
+  }
   .card {
     cursor: pointer;
     &:hover {
@@ -96,6 +106,14 @@ select {
 
 .rdw-editor-toolbar {
   background: transparent;
+  color: $lightPlatinum;
+}
+
+.rdw-image-imagewrapper {
+  img {
+    width: 100% !important;
+    height: 300px !important;
+  }
 }
 
 @media (min-width: 576px) {
@@ -119,7 +137,8 @@ select {
 
 input.form-control,
 input.form-control:focus,
-textarea.form-control, textarea.form-control:focus {
+textarea.form-control,
+textarea.form-control:focus {
   background: $lightDark;
   color: $white;
 }

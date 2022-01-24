@@ -30,9 +30,9 @@ const SideNav = () => {
           ))}
         </div>
       </div>
-      <div className="bottom">
+      <div className="bottom" onClick={toggle}>
         {sideNavItems[1].map(({ icon, title }) => (
-          <div key={title} onClick={toggle}>
+          <div key={title}>
             <FontAwesomeIcon icon={icon} />
             <span>{title}</span>
           </div>

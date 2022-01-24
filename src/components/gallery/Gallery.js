@@ -1,4 +1,4 @@
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCopy, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, CardBody, CardImg, Col, Row } from "reactstrap";
 import PageWrapper from "../wrappers/PageWrapper";
@@ -8,37 +8,49 @@ import Pagination from "../pagination";
 import { useModal } from "../../hooks/useModal";
 import { useState } from "react";
 import { BeatLoader } from "react-spinners";
+import ReactTooltip from "react-tooltip";
 
 const Gallery = ({ onSelect, isIndex, isModal, col }) => {
   const { photos, loading, setPage, page, remove } = usePhotos(isIndex);
   const { toggle, openModal } = useModal();
   const [id, setId] = useState("");
+
   return photos.data.length > 0 ? (
     <PageWrapper className="p-3 gallery">
       <Row>
         {photos.data.map((photo) => (
           <Col sm={col} className="my-3" key={photo.id}>
-            <Card
-              onClick={!isModal ? () => {} : () => onSelect(photo.photoUrl)}
-            >
+            <Card>
               <CardImg
+                onClick={!isModal ? () => {} : () => onSelect(photo.photoUrl)}
                 width="100%"
                 height="100px"
                 src={photo.photoUrl}
                 alt=""
               />
               <CardBody>
-                {!isModal && (
-                  <span className="delete-icon">
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      onClick={() => {
-                        setId(photo.id);
-                        toggle();
-                      }}
-                    />
+                <div className="d-flex justify-content-between">
+                  {!isModal && (
+                    <span className="delete-icon">
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        onClick={() => {
+                          setId(photo.id);
+                          toggle();
+                        }}
+                      />
+                    </span>
+                  )}
+                  <span
+                    onClick={() => {
+                      navigator.clipboard.writeText(photo.photoUrl);
+                    }}
+                    className="copy-icon"
+                  >
+                    <FontAwesomeIcon data-tip="click to copy" icon={faCopy} />
                   </span>
-                )}
+                  <ReactTooltip />
+                </div>
               </CardBody>
             </Card>
           </Col>
@@ -67,7 +79,7 @@ const Gallery = ({ onSelect, isIndex, isModal, col }) => {
     </PageWrapper>
   ) : loading ? (
     <center>
-      <BeatLoader loading={loading} />
+      <BeatLoader color="#fff" loading={loading} />
     </center>
   ) : (
     <h5>
