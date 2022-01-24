@@ -87,7 +87,7 @@ const AddBook = ({ isEdit, isIndex }) => {
           isOpen={openModal}
           toggle={toggle}
           onCancel={toggle}
-          body={<Gallery isIndex isModal col={6} onSelect={selectPhoto} />}
+          body={<Gallery isIndex isModal col={4} onSelect={selectPhoto} />}
           noSubmit
         />
       </Col>

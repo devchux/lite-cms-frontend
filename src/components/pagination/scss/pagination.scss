@@ -1,3 +1,5 @@
+@import '../../../assets/scss/colors.scss';
+
 .pagination {
   display: flex;
   align-items: center;
@@ -5,7 +7,7 @@
 }
 
 .paginationItem {
-  background: #fff;
+  background: $lightDark;
   border: 2px solid #666;
   padding: 10px 15px;
   border-radius: 50%;
@@ -25,7 +27,7 @@
 
 .prev,
 .next {
-  background: #fff;
+  background: $lightDark;
   border: none;
   padding: 10px;
   color: blue;
@@ -36,7 +38,7 @@
 
 .paginationItem.active {
   border: 1px solid #888;
-  color: #888;
+  color: $lightWhite;
   pointer-events: none;
 }
 
@@ -44,5 +46,5 @@
 .next.disabled {
   pointer-events: none;
   box-shadow: none;
-  color: #999;
+  color: $lightWhite;
 }

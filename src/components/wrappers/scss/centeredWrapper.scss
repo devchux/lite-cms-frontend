@@ -3,8 +3,8 @@
 .centered-wrapper {
   width: 500px;
   margin: auto;
-  background-color: $white;
-  box-shadow: 0 0 3px $grey;
+  background-color: $lightDark;
+  box-shadow: 0 0 2px $lightWhite;
   padding: 1em;
 
   @media only screen and (max-width: 600px) {

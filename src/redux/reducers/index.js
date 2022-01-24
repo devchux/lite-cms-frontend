@@ -8,6 +8,7 @@ import { eventsReducer } from "./events";
 import { volunteersReducer } from "./volunteers";
 import { contactsReducer } from "./contacts";
 import { classesReducer } from "./class";
+import { videosReducer } from "./videos";
 
 const reducers = combineReducers({
   member: loginReducer,
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   volunteers: volunteersReducer,
   contacts: contactsReducer,
   classes: classesReducer,
+  videos: videosReducer,
 })
 
 export default reducers

@@ -2,6 +2,7 @@
 
 .table-view {
   &.table {
+    color: $white;
     @media only screen and (max-width: 800px) {
       width: 1000px;
     }
