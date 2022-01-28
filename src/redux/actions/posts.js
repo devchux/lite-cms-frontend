@@ -128,7 +128,7 @@ export const getSinglePost = (id) => async (dispatch) => {
   }
 };
 
-export const deletePost = (id) => async (dispatch) => {
+export const deletePost = (id, {page, size}) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -141,7 +141,7 @@ export const deletePost = (id) => async (dispatch) => {
         },
       }
     );
-    dispatch(deleteSinglePost({ ...data, id }));
+    dispatch(getAllPosts({page, size}));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -154,7 +154,7 @@ export const deletePost = (id) => async (dispatch) => {
   }
 };
 
-export const deletePosts = (ids) => async (dispatch) => {
+export const deletePosts = (ids, {page, size}) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -165,8 +165,9 @@ export const deletePosts = (ids) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(deleteBulkPosts({ ...data, ids }));
+    dispatch(getAllPosts({page, size}));
     notify("success", data.message);
+    return Promise.resolve(null)
   } catch (error) {
     if (error.response) {
       dispatch(failure(error.response.data));
@@ -175,6 +176,7 @@ export const deletePosts = (ids) => async (dispatch) => {
       console.error(error)
       notify("error", error.message);
     }
+    return Promise.reject(null)
   }
 };
 

@@ -15,13 +15,13 @@ const {
 
 export const fetchAllBooks = (payload) => ({
   type: BOOK_FETCH_BULK,
-  payload
-})
+  payload,
+});
 
 export const fetchSingleBook = (payload) => ({
   type: BOOK_FETCH_SINGLE,
-  payload
-})
+  payload,
+});
 
 export const addBook = (payload) => ({
   type: BOOK_ADD_SINGLE,
@@ -75,7 +75,7 @@ export const registerBook = (inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
     }
   }
@@ -97,9 +97,16 @@ export const getAllBooks =
         }
       );
       dispatch(fetchAllBooks(data));
+      return Promise.resolve(null);
     } catch (error) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+      }
+      return Promise.reject(null);
     }
   };
 
@@ -108,14 +115,11 @@ export const getSingleBook = (id) => async (dispatch) => {
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
-    const { data } = await axios.get(
-      `http://localhost:8000/api/books/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const { data } = await axios.get(`http://localhost:8000/api/books/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch(fetchSingleBook(data));
     return Promise.resolve(data.book);
   } catch (error) {
@@ -123,62 +127,66 @@ export const getSingleBook = (id) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
     }
-    return Promise.reject(null)
+    return Promise.reject(null);
   }
 };
 
-export const deleteBook = (id) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/books/${id}`,
-      {
+export const deleteBook =
+  (id, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete(
+        `http://localhost:8000/api/books/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(getAllBooks({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+      }
+    }
+  };
+
+export const deleteBooks =
+  (ids, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete("http://localhost:8000/api/books", {
+        data: { ids },
         headers: {
           Authorization: `Bearer ${token}`,
         },
+      });
+      dispatch(getAllBooks({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
       }
-    );
-    dispatch(deleteSingleBook({ ...data, id }));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error)
-      notify("error", error.message);
     }
-  }
-};
-
-export const deleteBooks = (ids) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete("http://localhost:8000/api/books", {
-      data: { ids },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(deleteBulkBooks({ ...data, ids }));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error)
-      notify("error", error.message);
-    }
-  }
-};
+  };
 
 export const updateBook = (id, inputs) => async (dispatch) => {
   const { notify } = useNotification();
@@ -201,7 +209,7 @@ export const updateBook = (id, inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
     }
   }

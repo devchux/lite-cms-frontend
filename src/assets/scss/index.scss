@@ -116,6 +116,10 @@ select {
   }
 }
 
+a.rdw-dropdown-selectedtext {
+  text-decoration: none;
+}
+
 @media (min-width: 576px) {
   .modal-dialog {
     max-width: 642px;

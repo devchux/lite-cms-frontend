@@ -97,9 +97,11 @@ export const getAllContacts =
         }
       );
       dispatch(fetchAllContacts(data));
+      return Promise.resolve(null)
     } catch (error) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
+      return Promise.reject(null)
     }
   };
 
@@ -130,7 +132,7 @@ export const getSingleContact = (id) => async (dispatch) => {
   }
 };
 
-export const deleteContact = (id) => async (dispatch) => {
+export const deleteContact = (id, { page, size }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -143,7 +145,7 @@ export const deleteContact = (id) => async (dispatch) => {
         },
       }
     );
-    dispatch(deleteSingleContact({ ...data, id }));
+    dispatch(getAllContacts({ page, size }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -156,7 +158,7 @@ export const deleteContact = (id) => async (dispatch) => {
   }
 };
 
-export const deleteContacts = (ids) => async (dispatch) => {
+export const deleteContacts = (ids, { page, size }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -167,7 +169,7 @@ export const deleteContacts = (ids) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(deleteBulkContacts({ ...data, ids }));
+    dispatch(getAllContacts({ page, size }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {

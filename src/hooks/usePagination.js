@@ -23,7 +23,7 @@ export const usePagination = ({ data, pageLimit, dataLimit, setPage, page, curre
   };
 
   const getPaginationGroup = () => {
-    let start = Math.floor((page - 1) / pageLimit) * pageLimit;
+    let start = Math.floor((current + 1 - 1) / pageLimit) * pageLimit;
     return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
   };
 
@@ -34,6 +34,6 @@ export const usePagination = ({ data, pageLimit, dataLimit, setPage, page, curre
     getPaginatedData,
     getPaginationGroup,
     pages,
-    currentPage: page,
+    currentPage: current + 1,
   };
 };

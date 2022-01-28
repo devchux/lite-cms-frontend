@@ -1,7 +1,11 @@
 import { useTable } from "react-table";
 import { Button, Input, Table } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigation } from "../../hooks/useNavigation";
 import "./scss/tableView.scss";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import slug from "slug";
 
 const TableView = ({
   data,
@@ -13,6 +17,10 @@ const TableView = ({
   setDeleteId,
   loading,
   noEdit,
+  isSubject,
+  subject,
+  setEditInput,
+  setIsEditSubject,
 }) => {
   const { getTableBodyProps, getTableProps, headerGroups, rows, prepareRow } =
     useTable({
@@ -52,12 +60,17 @@ const TableView = ({
 
   const onDelete = (id) => {
     setDeleteId(id);
+    if (isSubject) setIsEditSubject(false);
     modalToggle();
   };
   const formatStatus = (status) => {
-    console.log(status);
     if (status) return "Published";
     return "Not Published";
+  };
+  const onEdit = (id, title) => {
+    setEditInput({ id, title });
+    setIsEditSubject(true);
+    modalToggle();
   };
 
   return (
@@ -65,20 +78,28 @@ const TableView = ({
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
-            <th>
-              <Input
-                type="checkbox"
-                checked={
-                  rows.length === 1 && selectedRows.length === 1
-                    ? rows[0].original.id === selectedRows[0]
-                    : rows.length === selectedRows.length
-                }
-                onChange={() => handleCheckAllRows(rows)}
-              />
-            </th>
+            {!isSubject && (
+              <th>
+                <Input
+                  type="checkbox"
+                  checked={
+                    rows.length === 1 && selectedRows.length === 1
+                      ? rows[0].original.id === selectedRows[0]
+                      : rows.length === selectedRows.length
+                  }
+                  onChange={() => handleCheckAllRows(rows)}
+                />
+              </th>
+            )}
             {headerGroup.headers.map((column) => (
               <th {...column.getHeaderProps()}>{column.render("Header")}</th>
             ))}
+            {isSubject && (
+              <>
+                <th>Edit</th>
+                <th>Link</th>
+              </>
+            )}
             <th>Delete</th>
           </tr>
         ))}
@@ -88,13 +109,15 @@ const TableView = ({
           prepareRow(row);
           return (
             <tr {...row.getRowProps()} className="table-data-row">
-              <td>
-                <Input
-                  type="checkbox"
-                  onChange={() => handleRowCheck(row.original)}
-                  checked={selectedRows.includes(row.original.id)}
-                />
-              </td>
+              {!isSubject && (
+                <td>
+                  <Input
+                    type="checkbox"
+                    onChange={() => handleRowCheck(row.original)}
+                    checked={selectedRows.includes(row.original.id)}
+                  />
+                </td>
+              )}
               {row.cells.map((cell) => (
                 <td
                   {...cell.getCellProps()}
@@ -118,6 +141,27 @@ const TableView = ({
                     : "Not available"}
                 </td>
               ))}
+              {isSubject && (
+                <>
+                  <td>
+                    <FontAwesomeIcon
+                      className="edit-icon"
+                      onClick={() =>
+                        onEdit(row.original.id, row.original.title)
+                      }
+                      icon={faPencilAlt}
+                    />
+                  </td>
+                  <td>
+                    <Link
+                      to={`/dashboard/${subject}/${slug(row.original.title)}`}
+                      className="text-decoration-none"
+                    >
+                      {subject}
+                    </Link>
+                  </td>
+                </>
+              )}
               <td>
                 <Button
                   color="danger"

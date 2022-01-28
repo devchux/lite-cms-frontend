@@ -85,13 +85,15 @@ export const getAllPhotos =
         }
       );
       dispatch(fetchAllPhotos(data));
+      return Promise.resolve(null)
     } catch (error) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
+      return Promise.reject(null)
     }
   };
 
-export const deletePhoto = (id) => async (dispatch) => {
+export const deletePhoto = (id, { page, size }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -104,7 +106,7 @@ export const deletePhoto = (id) => async (dispatch) => {
         },
       }
     );
-    dispatch(deleteSinglePhoto({ ...data, id }));
+    dispatch(getAllPhotos({ page, size }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {

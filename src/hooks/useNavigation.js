@@ -6,9 +6,11 @@ export const useNavigation = () => {
   const { id: paramId } = useParams()
 
   const goTo = (url) => history.push(url);
+  const refresh = () => goTo(currentUrl)
   return {
     goTo,
     currentUrl,
     paramId,
+    refresh,
   };
 };

@@ -23,7 +23,7 @@ const Pagination = ({ data, dataLimit, pageLimit, setPage, page, current }) => {
         <button
           key={index}
           onClick={changePage}
-          className={`paginationItem ${page === item ? "active" : null}`}
+          className={`paginationItem ${currentPage === item ? "active" : null}`}
         >
           <span>{item}</span>
         </button>
@@ -31,7 +31,7 @@ const Pagination = ({ data, dataLimit, pageLimit, setPage, page, current }) => {
       
       <button
         onClick={goToNextPage}
-        className={`next ${page === pageLimit ? "disabled" : ""}`}
+        className={`next ${currentPage === pageLimit ? "disabled" : ""}`}
       >
         next
       </button>

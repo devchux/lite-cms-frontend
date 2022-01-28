@@ -97,6 +97,7 @@ export const getClassesByTitle =
         }
       );
       dispatch(fetchAllClasses(data));
+      return Promise.resolve(null)
     } catch (error) {
       if (error.response) {
         dispatch(failure(error.response.data));
@@ -125,9 +126,16 @@ export const getAllClasses =
         }
       );
       dispatch(fetchAllClasses(data));
+      return Promise.resolve(null)
     } catch (error) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+      }
+      return Promise.reject(null);
     }
   };
 
@@ -158,7 +166,7 @@ export const getSingleClass = (id) => async (dispatch) => {
   }
 };
 
-export const deleteClass = (id) => async (dispatch) => {
+export const deleteClass = (id, { page, size }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -171,7 +179,7 @@ export const deleteClass = (id) => async (dispatch) => {
         },
       }
     );
-    dispatch(deleteSingleClass({ ...data, id }));
+    dispatch(getAllClasses({ page, size }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -184,7 +192,7 @@ export const deleteClass = (id) => async (dispatch) => {
   }
 };
 
-export const deleteClasses = (ids) => async (dispatch) => {
+export const deleteClasses = (ids, { page, size }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -195,7 +203,7 @@ export const deleteClasses = (ids) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(deleteBulkClasses({ ...data, ids }));
+    dispatch(getAllClasses({ page, size }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {

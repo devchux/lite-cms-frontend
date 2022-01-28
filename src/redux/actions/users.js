@@ -98,9 +98,11 @@ export const getAllUsers =
         }
       );
       dispatch(fetchUsers(data));
+      return Promise.resolve(null)
     } catch (error) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
+      return Promise.reject(null)
     }
   };
 
@@ -132,7 +134,7 @@ export const getSingleUser = (id) => async (dispatch) => {
   }
 };
 
-export const deleteUser = (id) => async (dispatch) => {
+export const deleteUser = (id, { page, size }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -145,7 +147,7 @@ export const deleteUser = (id) => async (dispatch) => {
         },
       }
     );
-    dispatch(deleteSingleUser({ ...data, id }));
+    dispatch(getAllUsers({ page, size }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -158,7 +160,7 @@ export const deleteUser = (id) => async (dispatch) => {
   }
 };
 
-export const deleteUsers = (ids) => async (dispatch) => {
+export const deleteUsers = (ids, { page, size }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -169,7 +171,7 @@ export const deleteUsers = (ids) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(deleteBulkUsers({ ...data, ids }));
+    dispatch(getAllUsers({ page, size }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {

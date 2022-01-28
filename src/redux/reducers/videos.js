@@ -5,26 +5,29 @@ const {
   VIDEO_LOADING,
   VIDEO_ADD_SINGLE,
   VIDEO_FETCH_BULK,
-  VIDEO_FETCH_SINGLE,
   VIDEO_DELETE_SINGLE,
-  VIDEO_DELETE_BULK,
-  VIDEO_UPDATE,
+  VIDEO_DELETE_SUBJECT,
+  VIDEO_UPDATE_SUBJECT,
+  VIDEO_FETCH_BULK_SUBJECT,
+  VIDEO_FETCH_SINGLE_SUBJECT,
 } = actionTypes;
 
 const initialState = {
   status: "",
   message: "",
+  subjects: {
+    currentPage: 0,
+    data: [],
+    total: 0,
+    totalPages: 0,
+  },
   videos: {
     currentPage: 0,
     data: [],
     total: 0,
     totalPages: 0,
   },
-  video: {
-    id: "",
-    role: "",
-    Video: {},
-  },
+  subject: {},
   loading: false,
   deleted: false,
 };
@@ -55,6 +58,10 @@ export const videosReducer = (state = initialState, action) => {
           ...state.videos,
           data: [{ ...action.payload.video }, ...state.videos.data],
         },
+        subjects: {
+          ...state.subjects,
+          data: [{ ...action.payload.subject }, ...state.subjects.data],
+        },
       };
     case VIDEO_FETCH_BULK:
       return {
@@ -63,13 +70,21 @@ export const videosReducer = (state = initialState, action) => {
         loading: false,
         deleted: false,
       };
-    case VIDEO_FETCH_SINGLE:
+
+    case VIDEO_FETCH_BULK_SUBJECT:
+      return {
+        ...state,
+        ...action.payload,
+        loading: false,
+        deleted: false,
+      };
+    case VIDEO_FETCH_SINGLE_SUBJECT:
       return {
         ...state,
         status: action.payload.status,
         message: action.payload.message,
         loading: false,
-        video: action.payload.video,
+        subject: action.payload.subject,
         deleted: false,
       };
     case VIDEO_DELETE_SINGLE:
@@ -86,56 +101,35 @@ export const videosReducer = (state = initialState, action) => {
             (video) => action.payload.id !== video.id
           ),
         },
-        video: action.payload.id === state.video.id ? {
-          id: "",
-          role: "",
-          Video: {
-            email: "",
-            name: "",
-            phoneNumber: "",
-          },
-        } : state.video,
       };
-    case VIDEO_DELETE_BULK:
+    case VIDEO_DELETE_SUBJECT:
       return {
         ...state,
         status: action.payload.status,
         message: action.payload.message,
         loading: false,
         deleted: true,
-        videos: {
-          ...state.videos,
-          total: state.videos.total - action.payload.ids.length,
-          data: state.videos.data.filter(
-            ({ id }) => !action.payload.ids.includes(id)
+        subjects: {
+          ...state.subjects,
+          total: state.subjects.total - 1,
+          data: state.subjects.data.filter(
+            (subject) => action.payload.id !== subject.id
           ),
         },
-        video: action.payload.ids.includes(state.video.id)
-          ? {
-              id: "",
-              role: "",
-              Video: {
-                email: "",
-                name: "",
-                phoneNumber: "",
-              },
-            }
-          : state.video,
       };
-    case VIDEO_UPDATE:
-      const data = state.videos.data.map((item) => {
-        if (item.id === action.payload.video.id)
-          return { ...action.payload.video };
+    case VIDEO_UPDATE_SUBJECT:
+      const data = state.subjects.data.map((item) => {
+        if (item.id === action.payload.subject.id)
+          return { ...action.payload.subject };
         return item;
       });
       return {
         ...state,
         loading: false,
-        videos: {
-          ...state.videos,
+        subjects: {
+          ...state.subjects,
           data,
         },
-        video: action.payload.video
       };
     default:
       return initialState;

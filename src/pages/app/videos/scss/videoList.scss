@@ -1,0 +1,18 @@
+@import 'src/assets/scss/colors.scss';
+
+.video-wrapper {
+  background-color: $lightDark;
+  box-shadow: 0 0 2px $lightWhite;
+  border-radius: 5px;
+
+  .content {
+    padding: 0.5em;
+    .show-more {
+      font-weight: 600;
+      color: $lightWhite;
+      font-size: 0.8em;
+      margin: 0.5em 0;
+      cursor: pointer;
+    }
+  }
+}

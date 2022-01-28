@@ -16,8 +16,15 @@ const ListTableView = ({
   page,
   loading,
   noEdit,
+  isSubject,
+  subject,
+  editSubjectInput,
+  setEditSubjectInput,
+  isEditSubject,
+  setIsEditSubject,
+  updateSubject,
 }) => {
-  const { openModal, toggle } = useModal()
+  const { openModal, toggle } = useModal();
   const [selectedRows, setSelectedRows] = useState([]);
   const [deleteId, setDeleteId] = useState("");
   const [isBulk, setIsBulk] = useState(false);
@@ -26,6 +33,12 @@ const ListTableView = ({
     toggle();
   };
   const modalConfirm = () => {
+    if (isEditSubject) {
+      const { id, title } = editSubjectInput;
+      updateSubject(id, title);
+      toggle();
+      return;
+    }
     if (isBulk) {
       modalSubmit(selectedRows, isBulk);
     } else {
@@ -35,15 +48,24 @@ const ListTableView = ({
     toggle();
   };
 
+
   return (
     <div className="list-table-view">
       <div className="list-table-header d-flex gap-2 my-3">
-        <select>
-          <option>Delete</option>
-        </select>
-        <Button color="primary" disabled={selectedRows.length === 0} onClick={bulkApply}>
-          Apply
-        </Button>
+        {!isSubject && (
+          <>
+            <select>
+              <option>Delete</option>
+            </select>
+            <Button
+              color="primary"
+              disabled={selectedRows.length === 0}
+              onClick={bulkApply}
+            >
+              Apply
+            </Button>
+          </>
+        )}
       </div>
       <PageWrapper className="rounded">
         <div className="overflow-auto">
@@ -57,6 +79,10 @@ const ListTableView = ({
             selectedRows={selectedRows}
             setSelectedRows={setSelectedRows}
             setDeleteId={setDeleteId}
+            isSubject={isSubject}
+            subject={subject}
+            setEditInput={setEditSubjectInput}
+            setIsEditSubject={setIsEditSubject}
           />
         </div>
         <Pagination

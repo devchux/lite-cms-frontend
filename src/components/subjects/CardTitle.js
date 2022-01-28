@@ -1,6 +1,11 @@
 const CardTitle = ({ title, onClick, isActive }) => {
   return (
-    <div className={`card-subject ${isActive ? 'active' : ""}`} onClick={onClick}>{title}</div>
+    <div
+      className={`card-subject ${isActive ? "active" : ""}`}
+      onClick={onClick}
+    >
+      {title}
+    </div>
   );
 };
 

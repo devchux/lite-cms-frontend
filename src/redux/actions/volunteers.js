@@ -97,9 +97,11 @@ export const getAllVolunteers =
         }
       );
       dispatch(fetchAllVolunteers(data));
+      return Promise.resolve(null)
     } catch (error) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
+      return Promise.reject(null);
     }
   };
 
@@ -130,7 +132,7 @@ export const getSingleVolunteer = (id) => async (dispatch) => {
   }
 };
 
-export const deleteVolunteer = (id) => async (dispatch) => {
+export const deleteVolunteer = (id, { page, size }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -143,7 +145,7 @@ export const deleteVolunteer = (id) => async (dispatch) => {
         },
       }
     );
-    dispatch(deleteSingleVolunteer({ ...data, id }));
+    dispatch(getAllVolunteers({ page, size }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -156,7 +158,7 @@ export const deleteVolunteer = (id) => async (dispatch) => {
   }
 };
 
-export const deleteVolunteers = (ids) => async (dispatch) => {
+export const deleteVolunteers = (ids, { page, size }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -167,7 +169,7 @@ export const deleteVolunteers = (ids) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(deleteBulkVolunteers({ ...data, ids }));
+    dispatch(getAllVolunteers({ page, size }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {

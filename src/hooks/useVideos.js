@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import slug from "slug";
 import {
-  deleteVideo,
-  deleteVideos,
-  getAllVideos,
-  getSingleVideo,
+  deleteVideoSubject,
+  getAllVideoSubjects,
+  getSingleVideoSubject,
   registerVideo,
-  updateVideo,
+  updateVideoSubject,
+  uploadMoreVideos,
 } from "../redux/actions/videos";
 import { useForm } from "./useForm";
 import { useIndex } from "./useIndex";
@@ -15,24 +16,18 @@ import { useNavigation } from "./useNavigation";
 import { useNotification } from "./useNotification";
 
 export const useVideos = (isEdit, isIndex) => {
+  const { toggle, openModal } = useModal();
   const initialState = {
-    name: "",
-    email: "",
-    phoneNumber: "",
-    message: "",
+    title: "",
+    videoDescription: "",
+    videoTitle: "",
+    videoUrl: "",
+    slug: "",
   };
   const columns = [
     {
-      Header: "Full Name",
-      accessor: "name",
-    },
-    {
-      Header: "Email",
-      accessor: "User.email",
-    },
-    {
-      Header: "Phone Number",
-      accessor: "User.phoneNumber",
+      Header: "Title",
+      accessor: "title",
     },
     {
       Header: "Date Created",
@@ -44,16 +39,19 @@ export const useVideos = (isEdit, isIndex) => {
     },
   ];
   const dispatch = useDispatch();
-  const { videos, deleted, loading } = useSelector((state) => state.videos);
+  const { videos, subjects, deleted, loading } = useSelector(
+    (state) => state.videos
+  );
   const { notify } = useNotification();
-  const { toggle, openModal } = useModal();
   const { paramId } = useNavigation();
+  const [isEditSubject, setIsEditSubject] = useState(false)
+  const [editSubjectInput, setEditSubjectInput] = useState({ id: "", title: "" })
   const { remove, page, setPage, modalBody } = useIndex(
     dispatch,
-    deleteVideo,
-    deleteVideos,
-    getAllVideos,
-    videos,
+    deleteVideoSubject,
+    () => {},
+    getAllVideoSubjects,
+    subjects,
     deleted,
     isIndex,
     loading
@@ -61,27 +59,32 @@ export const useVideos = (isEdit, isIndex) => {
 
   const { inputs, setCredentials, isInvalid, setInputs } = useForm(
     initialState,
-    ["name", "phoneNumber", "message"]
+    ["title", "videoTitle", "videoUrl"]
   );
 
   const submit = () => {
-    if (loading) return
+    if (loading) return;
     if (isInvalid) return notify("error", "Enter all fields");
     if (isEdit) {
-      dispatch(updateVideo(paramId, inputs));
+      dispatch(uploadMoreVideos(paramId, { ...inputs, slug: slug(inputs.title) }));
       return;
     }
-    dispatch(registerVideo(inputs));
+    dispatch(registerVideo({ ...inputs, slug: slug(inputs.title) }));
   };
+
+  const updateSubject = (id, title) => {
+    dispatch(updateVideoSubject(id, { title, slug: slug(title) }))
+  }
 
   useEffect(() => {
     if (isEdit) {
-      dispatch(getSingleVideo(paramId)).then((data) => {
+      dispatch(getSingleVideoSubject(paramId)).then((data) => {
         const format = {
-          name: data.User.name,
-          email: data.User.email,
-          phoneNumber: data.User.phoneNumber,
-          message: data.message
+          title: data.title,
+          videoDescription: "",
+          videoTitle: "",
+          videoUrl: "",
+          slug: "",
         }
         setInputs(format)
       });
@@ -92,7 +95,7 @@ export const useVideos = (isEdit, isIndex) => {
     videos,
     columns,
     modalBody,
-    removeVideo: remove,
+    removeVideoSubject: remove,
     setPage,
     page,
     loading,
@@ -101,5 +104,11 @@ export const useVideos = (isEdit, isIndex) => {
     submit,
     toggle,
     openModal,
+    subjects,
+    editSubjectInput,
+    setEditSubjectInput,
+    isEditSubject,
+    setIsEditSubject,
+    updateSubject,
   };
 };

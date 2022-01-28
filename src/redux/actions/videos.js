@@ -7,10 +7,11 @@ const {
   VIDEO_ERROR,
   VIDEO_LOADING,
   VIDEO_FETCH_BULK,
-  VIDEO_FETCH_SINGLE,
+  VIDEO_FETCH_SINGLE_SUBJECT,
+  VIDEO_FETCH_BULK_SUBJECT,
+  VIDEO_DELETE_SUBJECT,
   VIDEO_DELETE_SINGLE,
-  VIDEO_DELETE_BULK,
-  VIDEO_UPDATE,
+  VIDEO_UPDATE_SUBJECT,
 } = actionTypes;
 
 export const fetchAllVideos = (payload) => ({
@@ -18,8 +19,13 @@ export const fetchAllVideos = (payload) => ({
   payload
 })
 
-export const fetchSingleVideo = (payload) => ({
-  type: VIDEO_FETCH_SINGLE,
+export const fetchAllVideoSubjects = (payload) => ({
+  type: VIDEO_FETCH_BULK_SUBJECT,
+  payload
+})
+
+export const fetchSingleVideoSubject = (payload) => ({
+  type: VIDEO_FETCH_SINGLE_SUBJECT,
   payload
 })
 
@@ -42,15 +48,15 @@ export const deleteSingleVideo = (payload) => ({
   payload,
 });
 
-export const deleteBulkVideos = (payload) => ({
-  type: VIDEO_DELETE_BULK,
+export const deleteSingleVideoSubject = (payload) => ({
+  type: VIDEO_DELETE_SUBJECT,
   payload,
 });
 
-export const updateSingleVideo = (payload) => ({
-  type: VIDEO_UPDATE,
+export const updateSingleVideoSubject = (payload) => ({
+  type: VIDEO_UPDATE_SUBJECT,
   payload,
-});
+})
 
 export const registerVideo = (inputs) => async (dispatch) => {
   const { notify } = useNotification();
@@ -81,15 +87,37 @@ export const registerVideo = (inputs) => async (dispatch) => {
   }
 };
 
+export const getAllVideoSubjects = ({ page, size }) => async (dispatch) => {
+  const { notify } = useNotification();
+  const token = localStorage.getItem("auth_token");
+  try {
+    dispatch(loading());
+    const { data } = await axios.get(
+      `http://localhost:8000/api/videos/subjects?page=${page}&size=${size}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    dispatch(fetchAllVideoSubjects(data));
+    return Promise.resolve(null)
+  } catch (error) {
+    dispatch(failure(error.response.data));
+    notify("error", error.response.data.message);
+    return Promise.reject(null)
+  }
+}
+
 export const getAllVideos =
-  ({ page, size }) =>
+  ({ page, size }, slug) =>
   async (dispatch) => {
     const { notify } = useNotification();
     const token = localStorage.getItem("auth_token");
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/videos?page=${page}&size=${size}`,
+        `http://localhost:8000/api/videos/list/${slug}?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -97,27 +125,29 @@ export const getAllVideos =
         }
       );
       dispatch(fetchAllVideos(data));
+      return Promise.resolve(null)
     } catch (error) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
+      return Promise.reject(null)
     }
   };
 
-export const getSingleVideo = (id) => async (dispatch) => {
+export const getSingleVideoSubject = (id) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
     const { data } = await axios.get(
-      `http://localhost:8000/api/videos/${id}`,
+      `http://localhost:8000/api/videos/subjects/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    dispatch(fetchSingleVideo(data));
-    return Promise.resolve(data.video);
+    dispatch(fetchSingleVideoSubject(data));
+    return Promise.resolve(data.subject);
   } catch (error) {
     if (error.response) {
       dispatch(failure(error.response.data));
@@ -130,7 +160,7 @@ export const getSingleVideo = (id) => async (dispatch) => {
   }
 };
 
-export const deleteVideo = (id) => async (dispatch) => {
+export const deleteVideo = (id, { page, size, slug }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
@@ -143,7 +173,7 @@ export const deleteVideo = (id) => async (dispatch) => {
         },
       }
     );
-    dispatch(deleteSingleVideo({ ...data, id }));
+    dispatch(getAllVideos({ page, size }, slug));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -156,18 +186,20 @@ export const deleteVideo = (id) => async (dispatch) => {
   }
 };
 
-export const deleteVideos = (ids) => async (dispatch) => {
+export const deleteVideoSubject = (id, { page, size }) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
-    const { data } = await axios.delete("http://localhost:8000/api/videos", {
-      data: { ids },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(deleteBulkVideos({ ...data, ids }));
+    const { data } = await axios.delete(
+      `http://localhost:8000/api/videos/subjects/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    dispatch(getAllVideoSubjects({ page, size }));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -180,13 +212,13 @@ export const deleteVideos = (ids) => async (dispatch) => {
   }
 };
 
-export const updateVideo = (id, inputs) => async (dispatch) => {
+export const updateVideoSubject = (id, inputs) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/videos/${id}`,
+      `http://localhost:8000/api/videos/subjects/${id}`,
       { ...inputs },
       {
         headers: {
@@ -194,7 +226,7 @@ export const updateVideo = (id, inputs) => async (dispatch) => {
         },
       }
     );
-    dispatch(updateSingleVideo(data));
+    dispatch(updateSingleVideoSubject(data));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -206,3 +238,32 @@ export const updateVideo = (id, inputs) => async (dispatch) => {
     }
   }
 };
+
+export const uploadMoreVideos = (subjectId, inputs) => async (dispatch) => {
+  const { notify } = useNotification();
+  const token = localStorage.getItem("auth_token");
+  try {
+    dispatch(loading());
+    const { data } = await axios.post(
+      `http://localhost:8000/api/videos/${subjectId}`,
+      {
+        ...inputs,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    dispatch(addVideo(data));
+    notify("success", data.message);
+  } catch (error) {
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      console.error(error)
+      notify("error", error.message);
+    }
+  }
+}

@@ -16,6 +16,9 @@ import Contacts from "../pages/app/contacts";
 import AddContact from "../pages/app/contacts/AddContact";
 import Classes from "../pages/app/classes";
 import AddClass from "../pages/app/classes/AddClass";
+import Video from "../pages/app/videos";
+import AddVideo from "../pages/app/videos/AddVideo";
+import VideoList from "../pages/app/videos/VideoList";
 
 export const routes = [
   {
@@ -159,6 +162,30 @@ export const appRoutes = [
     path: "/classes/add/:id",
     component: AddClass,
     isEdit: true,
+    isIndex: false,
+  },
+  {
+    path: "/videos",
+    component: Video,
+    isEdit: false,
+    isIndex: true,
+  },
+  {
+    path: "/videos/add",
+    component: AddVideo,
+    isEdit: false,
+    isIndex: false,
+  },
+  {
+    path: "/videos/add/:id",
+    component: AddVideo,
+    isEdit: true,
+    isIndex: false,
+  },
+  {
+    path: "/videos/:id",
+    component: VideoList,
+    isEdit: false,
     isIndex: false,
   },
 ];
