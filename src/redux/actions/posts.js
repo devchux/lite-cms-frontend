@@ -76,8 +76,9 @@ export const registerPost = (inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };
@@ -99,8 +100,14 @@ export const getAllPosts =
       );
       dispatch(fetchPosts(data));
     } catch (error) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
     }
   };
 
@@ -121,64 +128,71 @@ export const getSinglePost = (id) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
-    return Promise.reject(null)
+    return Promise.reject(null);
   }
 };
 
-export const deletePost = (id, {page, size}) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/posts/${id}`,
-      {
+export const deletePost =
+  (id, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete(
+        `http://localhost:8000/api/posts/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(getAllPosts({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
+    }
+  };
+
+export const deletePosts =
+  (ids, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete("http://localhost:8000/api/posts", {
+        data: { ids },
         headers: {
           Authorization: `Bearer ${token}`,
         },
+      });
+      dispatch(getAllPosts({ page, size }));
+      notify("success", data.message);
+      return Promise.resolve(null);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
       }
-    );
-    dispatch(getAllPosts({page, size}));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error)
-      notify("error", error.message);
+      return Promise.reject(null);
     }
-  }
-};
-
-export const deletePosts = (ids, {page, size}) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete("http://localhost:8000/api/posts", {
-      data: { ids },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(getAllPosts({page, size}));
-    notify("success", data.message);
-    return Promise.resolve(null)
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error)
-      notify("error", error.message);
-    }
-    return Promise.reject(null)
-  }
-};
+  };
 
 export const updatePost = (id, inputs) => async (dispatch) => {
   const { notify } = useNotification();
@@ -201,8 +215,9 @@ export const updatePost = (id, inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };

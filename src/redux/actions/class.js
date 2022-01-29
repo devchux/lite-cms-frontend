@@ -77,6 +77,7 @@ export const registerClass = (inputs) => async (dispatch) => {
     } else {
       console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };
@@ -97,7 +98,7 @@ export const getClassesByTitle =
         }
       );
       dispatch(fetchAllClasses(data));
-      return Promise.resolve(null)
+      return Promise.resolve(null);
     } catch (error) {
       if (error.response) {
         dispatch(failure(error.response.data));
@@ -105,6 +106,7 @@ export const getClassesByTitle =
       } else {
         console.error(error);
         notify("error", error.message);
+        dispatch(failure(error.message));
       }
       return Promise.reject(null);
     }
@@ -126,7 +128,7 @@ export const getAllClasses =
         }
       );
       dispatch(fetchAllClasses(data));
-      return Promise.resolve(null)
+      return Promise.resolve(null);
     } catch (error) {
       if (error.response) {
         dispatch(failure(error.response.data));
@@ -134,6 +136,7 @@ export const getAllClasses =
       } else {
         console.error(error);
         notify("error", error.message);
+        dispatch(failure(error.message));
       }
       return Promise.reject(null);
     }
@@ -161,60 +164,67 @@ export const getSingleClass = (id) => async (dispatch) => {
     } else {
       console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
     return Promise.reject(null);
   }
 };
 
-export const deleteClass = (id, { page, size }) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/classes/${id}`,
-      {
+export const deleteClass =
+  (id, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete(
+        `http://localhost:8000/api/classes/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(getAllClasses({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
+    }
+  };
+
+export const deleteClasses =
+  (ids, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete("http://localhost:8000/api/classes", {
+        data: { ids },
         headers: {
           Authorization: `Bearer ${token}`,
         },
+      });
+      dispatch(getAllClasses({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
       }
-    );
-    dispatch(getAllClasses({ page, size }));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error);
-      notify("error", error.message);
     }
-  }
-};
-
-export const deleteClasses = (ids, { page, size }) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete("http://localhost:8000/api/classes", {
-      data: { ids },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(getAllClasses({ page, size }));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error);
-      notify("error", error.message);
-    }
-  }
-};
+  };
 
 export const updateClass = (id, inputs) => async (dispatch) => {
   const { notify } = useNotification();
@@ -239,6 +249,7 @@ export const updateClass = (id, inputs) => async (dispatch) => {
     } else {
       console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };

@@ -15,13 +15,13 @@ const {
 
 export const fetchAllVolunteers = (payload) => ({
   type: VOLUNTEER_FETCH_BULK,
-  payload
-})
+  payload,
+});
 
 export const fetchSingleVolunteer = (payload) => ({
   type: VOLUNTEER_FETCH_SINGLE,
-  payload
-})
+  payload,
+});
 
 export const addVolunteer = (payload) => ({
   type: VOLUNTEER_ADD_SINGLE,
@@ -75,8 +75,9 @@ export const registerVolunteer = (inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };
@@ -97,10 +98,16 @@ export const getAllVolunteers =
         }
       );
       dispatch(fetchAllVolunteers(data));
-      return Promise.resolve(null)
+      return Promise.resolve(null);
     } catch (error) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
       return Promise.reject(null);
     }
   };
@@ -125,62 +132,72 @@ export const getSingleVolunteer = (id) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
-    return Promise.reject(null)
+    return Promise.reject(null);
   }
 };
 
-export const deleteVolunteer = (id, { page, size }) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/volunteers/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+export const deleteVolunteer =
+  (id, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete(
+        `http://localhost:8000/api/volunteers/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(getAllVolunteers({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
       }
-    );
-    dispatch(getAllVolunteers({ page, size }));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error)
-      notify("error", error.message);
     }
-  }
-};
+  };
 
-export const deleteVolunteers = (ids, { page, size }) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete("http://localhost:8000/api/volunteers", {
-      data: { ids },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(getAllVolunteers({ page, size }));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error)
-      notify("error", error.message);
+export const deleteVolunteers =
+  (ids, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete(
+        "http://localhost:8000/api/volunteers",
+        {
+          data: { ids },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(getAllVolunteers({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
     }
-  }
-};
+  };
 
 export const updateVolunteer = (id, inputs) => async (dispatch) => {
   const { notify } = useNotification();
@@ -203,8 +220,9 @@ export const updateVolunteer = (id, inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };

@@ -19,6 +19,9 @@ import AddClass from "../pages/app/classes/AddClass";
 import Video from "../pages/app/videos";
 import AddVideo from "../pages/app/videos/AddVideo";
 import VideoList from "../pages/app/videos/VideoList";
+import Audios from "../pages/app/audios";
+import AddAudio from "../pages/app/audios/AddAudio";
+import AudioList from "../pages/app/audios/AudioList";
 
 export const routes = [
   {
@@ -185,6 +188,30 @@ export const appRoutes = [
   {
     path: "/videos/:id",
     component: VideoList,
+    isEdit: false,
+    isIndex: false,
+  },
+  {
+    path: "/audios",
+    component: Audios,
+    isEdit: false,
+    isIndex: true,
+  },
+  {
+    path: "/audios/add",
+    component: AddAudio,
+    isEdit: false,
+    isIndex: false,
+  },
+  {
+    path: "/audios/add/:id",
+    component: AddAudio,
+    isEdit: true,
+    isIndex: false,
+  },
+  {
+    path: "/audios/:id",
+    component: AudioList,
     isEdit: false,
     isIndex: false,
   },

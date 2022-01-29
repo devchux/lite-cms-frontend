@@ -77,6 +77,7 @@ export const registerBook = (inputs) => async (dispatch) => {
     } else {
       console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };
@@ -105,6 +106,7 @@ export const getAllBooks =
       } else {
         console.error(error);
         notify("error", error.message);
+        dispatch(failure(error.message));
       }
       return Promise.reject(null);
     }
@@ -129,6 +131,7 @@ export const getSingleBook = (id) => async (dispatch) => {
     } else {
       console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
     return Promise.reject(null);
   }
@@ -158,6 +161,7 @@ export const deleteBook =
       } else {
         console.error(error);
         notify("error", error.message);
+        dispatch(failure(error.message));
       }
     }
   };
@@ -184,6 +188,7 @@ export const deleteBooks =
       } else {
         console.error(error);
         notify("error", error.message);
+        dispatch(failure(error.message));
       }
     }
   };
@@ -211,6 +216,7 @@ export const updateBook = (id, inputs) => async (dispatch) => {
     } else {
       console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };

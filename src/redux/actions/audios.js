@@ -3,72 +3,77 @@ import { useNotification } from "../../hooks/useNotification";
 import actionTypes from "./types";
 
 const {
-  CONTACT_ADD_SINGLE,
-  CONTACT_ERROR,
-  CONTACT_LOADING,
-  CONTACT_FETCH_BULK,
-  CONTACT_FETCH_SINGLE,
-  CONTACT_DELETE_SINGLE,
-  CONTACT_DELETE_BULK,
-  CONTACT_UPDATE,
+  AUDIO_ADD_SINGLE,
+  AUDIO_ERROR,
+  AUDIO_LOADING,
+  AUDIO_FETCH_BULK,
+  AUDIO_FETCH_SINGLE_SUBJECT,
+  AUDIO_FETCH_BULK_SUBJECT,
+  AUDIO_DELETE_SUBJECT,
+  AUDIO_DELETE_SINGLE,
+  AUDIO_UPDATE_SUBJECT,
 } = actionTypes;
 
-export const fetchAllContacts = (payload) => ({
-  type: CONTACT_FETCH_BULK,
+export const fetchAllAudios = (payload) => ({
+  type: AUDIO_FETCH_BULK,
   payload,
 });
 
-export const fetchSingleContact = (payload) => ({
-  type: CONTACT_FETCH_SINGLE,
+export const fetchAllAudioSubjects = (payload) => ({
+  type: AUDIO_FETCH_BULK_SUBJECT,
   payload,
 });
 
-export const addContact = (payload) => ({
-  type: CONTACT_ADD_SINGLE,
+export const fetchSingleAudioSubject = (payload) => ({
+  type: AUDIO_FETCH_SINGLE_SUBJECT,
+  payload,
+});
+
+export const addAudio = (payload) => ({
+  type: AUDIO_ADD_SINGLE,
   payload,
 });
 
 export const failure = (payload) => ({
-  type: CONTACT_ERROR,
+  type: AUDIO_ERROR,
   payload,
 });
 
 export const loading = () => ({
-  type: CONTACT_LOADING,
+  type: AUDIO_LOADING,
 });
 
-export const deleteSingleContact = (payload) => ({
-  type: CONTACT_DELETE_SINGLE,
+export const deleteSingleAudio = (payload) => ({
+  type: AUDIO_DELETE_SINGLE,
   payload,
 });
 
-export const deleteBulkContacts = (payload) => ({
-  type: CONTACT_DELETE_BULK,
+export const deleteSingleAudioSubject = (payload) => ({
+  type: AUDIO_DELETE_SUBJECT,
   payload,
 });
 
-export const updateSingleContact = (payload) => ({
-  type: CONTACT_UPDATE,
+export const updateSingleAudioSubject = (payload) => ({
+  type: AUDIO_UPDATE_SUBJECT,
   payload,
 });
 
-export const registerContact = (inputs) => async (dispatch) => {
+export const registerAudio = (inputs) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "http://localhost:8000/api/contacts",
-      {
-        ...inputs,
-      },
+      "http://localhost:8000/api/audios",
+      inputs,
       {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       }
     );
-    dispatch(addContact(data));
+    dispatch(addAudio(data));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {
@@ -82,7 +87,7 @@ export const registerContact = (inputs) => async (dispatch) => {
   }
 };
 
-export const getAllContacts =
+export const getAllAudioSubjects =
   ({ page, size }) =>
   async (dispatch) => {
     const { notify } = useNotification();
@@ -90,14 +95,15 @@ export const getAllContacts =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/contacts?page=${page}&size=${size}`,
+        `http://localhost:8000/api/audios/subjects?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      dispatch(fetchAllContacts(data));
+      console.log(data)
+      dispatch(fetchAllAudioSubjects(data));
       return Promise.resolve(null);
     } catch (error) {
       if (error.response) {
@@ -112,21 +118,51 @@ export const getAllContacts =
     }
   };
 
-export const getSingleContact = (id) => async (dispatch) => {
+export const getAllAudios =
+  ({ page, size }, slug) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.get(
+        `http://localhost:8000/api/audios/list/${slug}?page=${page}&size=${size}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(fetchAllAudios(data));
+      return Promise.resolve(null);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
+      return Promise.reject(null);
+    }
+  };
+
+export const getSingleAudioSubject = (id) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
     const { data } = await axios.get(
-      `http://localhost:8000/api/contacts/${id}`,
+      `http://localhost:8000/api/audios/subjects/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    dispatch(fetchSingleContact(data));
-    return Promise.resolve(data.contact);
+    dispatch(fetchSingleAudioSubject(data));
+    return Promise.resolve(data.subject);
   } catch (error) {
     if (error.response) {
       dispatch(failure(error.response.data));
@@ -140,7 +176,36 @@ export const getSingleContact = (id) => async (dispatch) => {
   }
 };
 
-export const deleteContact =
+export const deleteAudio =
+  (id, { page, size, slug }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete(
+        `http://localhost:8000/api/audios/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(getAllAudios({ page, size }, slug));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
+    }
+  };
+
+export const deleteAudioSubject =
   (id, { page, size }) =>
   async (dispatch) => {
     const { notify } = useNotification();
@@ -148,14 +213,14 @@ export const deleteContact =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `http://localhost:8000/api/contacts/${id}`,
+        `http://localhost:8000/api/audios/subjects/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      dispatch(getAllContacts({ page, size }));
+      dispatch(getAllAudioSubjects({ page, size }));
       notify("success", data.message);
     } catch (error) {
       if (error.response) {
@@ -169,43 +234,13 @@ export const deleteContact =
     }
   };
 
-export const deleteContacts =
-  (ids, { page, size }) =>
-  async (dispatch) => {
-    const { notify } = useNotification();
-    const token = localStorage.getItem("auth_token");
-    try {
-      dispatch(loading());
-      const { data } = await axios.delete(
-        "http://localhost:8000/api/contacts",
-        {
-          data: { ids },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      dispatch(getAllContacts({ page, size }));
-      notify("success", data.message);
-    } catch (error) {
-      if (error.response) {
-        dispatch(failure(error.response.data));
-        notify("error", error.response.data.message);
-      } else {
-        console.error(error);
-        notify("error", error.message);
-        dispatch(failure(error.message));
-      }
-    }
-  };
-
-export const updateContact = (id, inputs) => async (dispatch) => {
+export const updateAudioSubject = (id, inputs) => async (dispatch) => {
   const { notify } = useNotification();
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/contacts/${id}`,
+      `http://localhost:8000/api/audios/subjects/${id}`,
       { ...inputs },
       {
         headers: {
@@ -213,7 +248,36 @@ export const updateContact = (id, inputs) => async (dispatch) => {
         },
       }
     );
-    dispatch(updateSingleContact(data));
+    dispatch(updateSingleAudioSubject(data));
+    notify("success", data.message);
+  } catch (error) {
+    if (error.response) {
+      dispatch(failure(error.response.data));
+      notify("error", error.response.data.message);
+    } else {
+      console.error(error);
+      notify("error", error.message);
+      dispatch(failure(error.message));
+    }
+  }
+};
+
+export const uploadMoreAudios = (subjectId, inputs) => async (dispatch) => {
+  const { notify } = useNotification();
+  const token = localStorage.getItem("auth_token");
+  try {
+    dispatch(loading());
+    const { data } = await axios.post(
+      `http://localhost:8000/api/audios/${subjectId}`,
+      inputs,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        },
+      }
+    );
+    dispatch(addAudio(data));
     notify("success", data.message);
   } catch (error) {
     if (error.response) {

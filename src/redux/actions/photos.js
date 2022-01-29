@@ -64,6 +64,7 @@ export const uploadPhoto = (inputs) => async (dispatch) => {
     } else {
       console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
     return Promise.reject(null);
   }
@@ -85,36 +86,45 @@ export const getAllPhotos =
         }
       );
       dispatch(fetchAllPhotos(data));
-      return Promise.resolve(null)
+      return Promise.resolve(null);
     } catch (error) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-      return Promise.reject(null)
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
+      return Promise.reject(null);
     }
   };
 
-export const deletePhoto = (id, { page, size }) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/photos/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+export const deletePhoto =
+  (id, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete(
+        `http://localhost:8000/api/photos/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(getAllPhotos({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
       }
-    );
-    dispatch(getAllPhotos({ page, size }));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error);
-      notify("error", error.message);
     }
-  }
-};
+  };

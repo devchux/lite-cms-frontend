@@ -15,13 +15,13 @@ const {
 
 export const fetchAllEvents = (payload) => ({
   type: EVENT_FETCH_BULK,
-  payload
-})
+  payload,
+});
 
 export const fetchSingleEvent = (payload) => ({
   type: EVENT_FETCH_SINGLE,
-  payload
-})
+  payload,
+});
 
 export const addEvent = (payload) => ({
   type: EVENT_ADD_SINGLE,
@@ -75,8 +75,9 @@ export const registerEvent = (inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };
@@ -97,11 +98,17 @@ export const getAllEvents =
         }
       );
       dispatch(fetchAllEvents(data));
-      return Promise.resolve(null)
+      return Promise.resolve(null);
     } catch (error) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-      return Promise.reject(null)
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
+      return Promise.reject(null);
     }
   };
 
@@ -110,14 +117,11 @@ export const getSingleEvent = (id) => async (dispatch) => {
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
-    const { data } = await axios.get(
-      `http://localhost:8000/api/events/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const { data } = await axios.get(`http://localhost:8000/api/events/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch(fetchSingleEvent(data));
     return Promise.resolve(data.event);
   } catch (error) {
@@ -125,62 +129,69 @@ export const getSingleEvent = (id) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
-    return Promise.reject(null)
+    return Promise.reject(null);
   }
 };
 
-export const deleteEvent = (id, { page, size }) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/events/${id}`,
-      {
+export const deleteEvent =
+  (id, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete(
+        `http://localhost:8000/api/events/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(getAllEvents({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
+    }
+  };
+
+export const deleteEvents =
+  (ids, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete("http://localhost:8000/api/events", {
+        data: { ids },
         headers: {
           Authorization: `Bearer ${token}`,
         },
+      });
+      dispatch(getAllEvents({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
       }
-    );
-    dispatch(getAllEvents({ page, size }));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error)
-      notify("error", error.message);
     }
-  }
-};
-
-export const deleteEvents = (ids, { page, size }) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete("http://localhost:8000/api/events", {
-      data: { ids },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(getAllEvents({ page, size }));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error)
-      notify("error", error.message);
-    }
-  }
-};
+  };
 
 export const updateEvent = (id, inputs) => async (dispatch) => {
   const { notify } = useNotification();
@@ -203,8 +214,9 @@ export const updateEvent = (id, inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };

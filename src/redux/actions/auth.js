@@ -28,15 +28,16 @@ export const loginUser = (inputs) => async (dispatch) => {
     );
     dispatch(uploadUserCredentials(data));
     localStorage.setItem("auth_token", data.member.token);
-    return Promise.resolve(null)
+    return Promise.resolve(null);
   } catch (error) {
     if (error.response) {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
-    return Promise.reject(null)
+    return Promise.reject(null);
   }
 };

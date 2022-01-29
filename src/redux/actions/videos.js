@@ -16,18 +16,18 @@ const {
 
 export const fetchAllVideos = (payload) => ({
   type: VIDEO_FETCH_BULK,
-  payload
-})
+  payload,
+});
 
 export const fetchAllVideoSubjects = (payload) => ({
   type: VIDEO_FETCH_BULK_SUBJECT,
-  payload
-})
+  payload,
+});
 
 export const fetchSingleVideoSubject = (payload) => ({
   type: VIDEO_FETCH_SINGLE_SUBJECT,
-  payload
-})
+  payload,
+});
 
 export const addVideo = (payload) => ({
   type: VIDEO_ADD_SINGLE,
@@ -56,7 +56,7 @@ export const deleteSingleVideoSubject = (payload) => ({
 export const updateSingleVideoSubject = (payload) => ({
   type: VIDEO_UPDATE_SUBJECT,
   payload,
-})
+});
 
 export const registerVideo = (inputs) => async (dispatch) => {
   const { notify } = useNotification();
@@ -81,33 +81,42 @@ export const registerVideo = (inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };
 
-export const getAllVideoSubjects = ({ page, size }) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.get(
-      `http://localhost:8000/api/videos/subjects?page=${page}&size=${size}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+export const getAllVideoSubjects =
+  ({ page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.get(
+        `http://localhost:8000/api/videos/subjects?page=${page}&size=${size}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(fetchAllVideoSubjects(data));
+      return Promise.resolve(null);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
       }
-    );
-    dispatch(fetchAllVideoSubjects(data));
-    return Promise.resolve(null)
-  } catch (error) {
-    dispatch(failure(error.response.data));
-    notify("error", error.response.data.message);
-    return Promise.reject(null)
-  }
-}
+      return Promise.reject(null);
+    }
+  };
 
 export const getAllVideos =
   ({ page, size }, slug) =>
@@ -125,11 +134,17 @@ export const getAllVideos =
         }
       );
       dispatch(fetchAllVideos(data));
-      return Promise.resolve(null)
+      return Promise.resolve(null);
     } catch (error) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-      return Promise.reject(null)
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
+      }
+      return Promise.reject(null);
     }
   };
 
@@ -153,64 +168,71 @@ export const getSingleVideoSubject = (id) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
-    return Promise.reject(null)
+    return Promise.reject(null);
   }
 };
 
-export const deleteVideo = (id, { page, size, slug }) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/videos/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+export const deleteVideo =
+  (id, { page, size, slug }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete(
+        `http://localhost:8000/api/videos/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(getAllVideos({ page, size }, slug));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
       }
-    );
-    dispatch(getAllVideos({ page, size }, slug));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error)
-      notify("error", error.message);
     }
-  }
-};
+  };
 
-export const deleteVideoSubject = (id, { page, size }) => async (dispatch) => {
-  const { notify } = useNotification();
-  const token = localStorage.getItem("auth_token");
-  try {
-    dispatch(loading());
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/videos/subjects/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+export const deleteVideoSubject =
+  (id, { page, size }) =>
+  async (dispatch) => {
+    const { notify } = useNotification();
+    const token = localStorage.getItem("auth_token");
+    try {
+      dispatch(loading());
+      const { data } = await axios.delete(
+        `http://localhost:8000/api/videos/subjects/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(getAllVideoSubjects({ page, size }));
+      notify("success", data.message);
+    } catch (error) {
+      if (error.response) {
+        dispatch(failure(error.response.data));
+        notify("error", error.response.data.message);
+      } else {
+        console.error(error);
+        notify("error", error.message);
+        dispatch(failure(error.message));
       }
-    );
-    dispatch(getAllVideoSubjects({ page, size }));
-    notify("success", data.message);
-  } catch (error) {
-    if (error.response) {
-      dispatch(failure(error.response.data));
-      notify("error", error.response.data.message);
-    } else {
-      console.error(error)
-      notify("error", error.message);
     }
-  }
-};
+  };
 
 export const updateVideoSubject = (id, inputs) => async (dispatch) => {
   const { notify } = useNotification();
@@ -233,8 +255,9 @@ export const updateVideoSubject = (id, inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
 };
@@ -262,8 +285,9 @@ export const uploadMoreVideos = (subjectId, inputs) => async (dispatch) => {
       dispatch(failure(error.response.data));
       notify("error", error.response.data.message);
     } else {
-      console.error(error)
+      console.error(error);
       notify("error", error.message);
+      dispatch(failure(error.message));
     }
   }
-}
+};

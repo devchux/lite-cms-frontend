@@ -1,6 +1,6 @@
 @import 'src/assets/scss/colors.scss';
 
-.video-wrapper {
+.video-wrapper, .audio-wrapper {
   background-color: $lightDark;
   box-shadow: 0 0 2px $lightWhite;
   border-radius: 5px;
@@ -11,7 +11,7 @@
       font-weight: 600;
       color: $lightWhite;
       font-size: 0.8em;
-      margin: 0.5em 0;
+      margin: 0.5em 0 1em 0;
       cursor: pointer;
     }
   }

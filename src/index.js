@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "react-notifications/lib/notifications.css";
+import 'react-h5-audio-player/lib/styles.css';
 import "./assets/scss/index.scss";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./redux";
