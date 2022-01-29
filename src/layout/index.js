@@ -1,4 +1,3 @@
-import { Redirect } from "react-router-dom";
 import SideNav from "../components/navbar/SideNav";
 import TopNav from "../components/navbar/TopNav";
 import Title from "../components/titles/Title";
@@ -10,8 +9,6 @@ const Layout = ({ children }) => {
   let urlToArray = currentUrl.split("/");
   const hasAdd = urlToArray.includes("add");
   const noAddButton = ['/dashboard/contacts']
-
-  if (urlToArray.length <= 2) return <Redirect to="/dashboard/posts" />
 
   return (
     <div className="layout">
