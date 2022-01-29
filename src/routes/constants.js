@@ -186,7 +186,7 @@ export const appRoutes = [
     isIndex: false,
   },
   {
-    path: "/videos/:id",
+    path: "/videos/list/:id",
     component: VideoList,
     isEdit: false,
     isIndex: false,
@@ -210,7 +210,7 @@ export const appRoutes = [
     isIndex: false,
   },
   {
-    path: "/audios/:id",
+    path: "/audios/list/:id",
     component: AudioList,
     isEdit: false,
     isIndex: false,

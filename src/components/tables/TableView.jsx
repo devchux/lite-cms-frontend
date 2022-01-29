@@ -154,7 +154,7 @@ const TableView = ({
                   </td>
                   <td>
                     <Link
-                      to={`/dashboard/${subject}/${slug(row.original.title)}`}
+                      to={`/dashboard/${subject}/list/${slug(row.original.title)}`}
                       className="text-decoration-none"
                     >
                       {subject}

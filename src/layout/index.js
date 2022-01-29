@@ -6,10 +6,10 @@ import { useNavigation } from "../hooks/useNavigation";
 import "./scss/layout.scss";
 
 const Layout = ({ children }) => {
-  const { goTo, currentUrl, paramId } = useNavigation();
+  const { goTo, currentUrl } = useNavigation();
   let urlToArray = currentUrl.split("/");
   const hasAdd = urlToArray.includes("add");
-  const noAddButton = ['/dashboard/contacts', `/dashboard/videos/${paramId}`, `/dashboard/audios/${paramId}`]
+  const noAddButton = ['/dashboard/contacts']
 
   if (urlToArray.length <= 2) return <Redirect to="/dashboard/posts" />
 
@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
           <Title
             title={urlToArray[2].toLocaleUpperCase()}
             isAdd={hasAdd}
-            noAddButton={noAddButton.includes(currentUrl)}
+            noAddButton={noAddButton.includes(currentUrl) || urlToArray.includes('list')}
             buttonClick={() => {
               if (hasAdd) {
                 urlToArray.pop();
