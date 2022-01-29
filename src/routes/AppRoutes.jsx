@@ -9,6 +9,11 @@ const AppRoutes = ({ match: { url } }) => {
   if (!token) return <Redirect to="/signin" />;
   return (
     <Switch>
+      <Route
+        path="/dashboard"
+        exact
+        render={() => <Redirect to="/dashboard/posts" />}
+      />
       {appRoutes.map(({ path, isEdit, isIndex, component: Component }) => (
         <Route key={path} exact path={`${url}${path}`}>
           <Layout>
