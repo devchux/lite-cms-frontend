@@ -116,6 +116,11 @@ select {
   }
 }
 
+.editorClassName {
+  border: 1px solid #f1f1f1 !important;
+  height: 80% !important;
+}
+
 a.rdw-dropdown-selectedtext {
   text-decoration: none;
 }
@@ -143,6 +148,11 @@ input.form-control,
 input.form-control:focus,
 textarea.form-control,
 textarea.form-control:focus {
+  background: $lightDark;
+  color: $white;
+}
+
+.form-control:disabled, .form-control[readonly] {
   background: $lightDark;
   color: $white;
 }

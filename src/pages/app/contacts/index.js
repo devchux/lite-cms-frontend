@@ -16,7 +16,7 @@ const Contacts = ({ isEdit, isIndex }) => {
           data={contacts}
           columns={columns}
           modalBody="Are you sure you want to delete contact(s)?"
-          activeHeader="Full Name"
+          activeHeader="Subject"
           modalSubmit={removeContact}
           setPage={setPage}
           page={page}
