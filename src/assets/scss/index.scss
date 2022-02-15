@@ -156,3 +156,8 @@ textarea.form-control:focus {
   background: $lightDark;
   color: $white;
 }
+
+.required-label {
+  color: $red;
+  font-weight: bold;
+}

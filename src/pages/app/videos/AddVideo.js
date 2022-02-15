@@ -12,17 +12,18 @@ const AddVideo = ({ isEdit, isIndex }) => {
   return (
     <CenteredWrapper>
       <FormGroup>
-        <Label htmlFor="title">Subject Title</Label>
+        <Label htmlFor="title">Subject Title<span className="required-label">*</span></Label>
         <Input
           type="text"
           name="title"
           placeholder="Enter Subject Title"
           value={inputs.title}
+          disabled={isEdit}
           onChange={({ target: { value } }) => setCredentials("title", value)}
         />
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="videoTitle">Video Title</Label>
+        <Label htmlFor="videoTitle">Video Title<span className="required-label">*</span></Label>
         <Input
           type="text"
           name="videoTitle"
@@ -34,7 +35,7 @@ const AddVideo = ({ isEdit, isIndex }) => {
         />
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="videoUrl">Video Url</Label>
+        <Label htmlFor="videoUrl">Video Url<span className="required-label">*</span></Label>
         <Input
           type="text"
           name="videoUrl"
@@ -58,8 +59,8 @@ const AddVideo = ({ isEdit, isIndex }) => {
           </FormGroup>
       <hr />
       <FormGroup className="d-flex justify-content-end">
-        <Button color="primary" loading={loading} onClick={submit}>
-          {loading ? <BeatLoader color="#fff" loading={loading} /> : "Save"}
+        <Button color="primary" disabled={loading} onClick={submit}>
+          {loading ? <BeatLoader color="#fff" /> : "Save"}
         </Button>
       </FormGroup>
     </CenteredWrapper>

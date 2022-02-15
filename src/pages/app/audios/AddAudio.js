@@ -13,7 +13,7 @@ const AddAudio = ({ isEdit, isIndex }) => {
       <Col className="my-3" sm={6}>
         <CenteredWrapper>
           <FormGroup>
-            <Label htmlFor="audio">Upload Audio</Label>
+            <Label htmlFor="audio">Upload Audio<span className="required-label">*</span></Label>
             <Input
               type="file"
               accept="audio/mp3, audio/mpeg"
@@ -32,11 +32,12 @@ const AddAudio = ({ isEdit, isIndex }) => {
       <Col className="my-3" sm={6}>
         <CenteredWrapper>
           <FormGroup>
-            <Label htmlFor="title">Subject Title</Label>
+            <Label htmlFor="title">Subject Title<span className="required-label">*</span></Label>
             <Input
               type="text"
               name="title"
               placeholder="Enter Subject Title"
+              disabled={isEdit}
               value={inputs.title}
               onChange={({ target: { value } }) =>
                 setCredentials("title", value)
@@ -44,7 +45,7 @@ const AddAudio = ({ isEdit, isIndex }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="audioTitle">Audio Title</Label>
+            <Label htmlFor="audioTitle">Audio Title<span className="required-label">*</span></Label>
             <Input
               type="text"
               name="audioTitle"
@@ -68,7 +69,7 @@ const AddAudio = ({ isEdit, isIndex }) => {
           </FormGroup>
           <hr />
           <FormGroup className="d-flex justify-content-end">
-            <Button color="primary" loading={loading} onClick={submit}>
+            <Button color="primary" disabled={loading} onClick={submit}>
               {loading ? <BeatLoader color="#fff" /> : "Save"}
             </Button>
           </FormGroup>

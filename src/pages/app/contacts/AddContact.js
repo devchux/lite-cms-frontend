@@ -55,12 +55,6 @@ const AddContact = ({ isEdit, isIndex }) => {
           onChange={({ target: { value } }) => setCredentials("message", value)}
         ></textarea>
       </FormGroup>
-      <hr />
-      {/* <FormGroup className="d-flex justify-content-end">
-        <Button color="primary" loading={loading} onClick={submit}>
-          {loading ? <BeatLoader color="#fff" loading={loading} /> : "Save"}
-        </Button>
-      </FormGroup> */}
     </CenteredWrapper>
   );
 };

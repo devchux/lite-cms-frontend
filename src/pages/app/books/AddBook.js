@@ -30,7 +30,7 @@ const AddBook = ({ isEdit, isIndex }) => {
       <Col>
         <PageWrapper className="rounded p-3">
           <FormGroup>
-            <Label htmlFor="title">Book title</Label>
+            <Label htmlFor="title">Book title<span className="required-label">*</span></Label>
             <Input
               type="text"
               value={inputs.title}
@@ -42,7 +42,7 @@ const AddBook = ({ isEdit, isIndex }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="author">Author</Label>
+            <Label htmlFor="author">Author<span className="required-label">*</span></Label>
             <Input
               type="text"
               value={inputs.author}
@@ -54,7 +54,7 @@ const AddBook = ({ isEdit, isIndex }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="price">Price: (&#8358;)</Label>
+            <Label htmlFor="price">Price<span className="required-label">*</span>: (&#8358;)</Label>
             <Input
               type="number"
               value={inputs.price}
@@ -78,8 +78,8 @@ const AddBook = ({ isEdit, isIndex }) => {
           </FormGroup>
           <hr />
           <FormGroup className="d-flex justify-content-end">
-            <Button color="primary" loading={loading} onClick={submit}>
-              {loading ? <BeatLoader color="#fff" loading={loading} /> : "Save"}
+            <Button color="primary" disabled={loading} onClick={submit}>
+              {loading ? <BeatLoader color="#fff" /> : "Save"}
             </Button>
           </FormGroup>
         </PageWrapper>

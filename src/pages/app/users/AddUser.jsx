@@ -27,7 +27,7 @@ const AddUser = ({ isEdit }) => {
         </FormGroup>
       )}
       <FormGroup>
-        <Label htmlFor="email">Email Address</Label>
+        <Label htmlFor="email">Email Address<span className="required-label">*</span></Label>
         <Input
           type="email"
           placeholder="Enter Email Address"
@@ -52,7 +52,7 @@ const AddUser = ({ isEdit }) => {
         </FormGroup>
       )}
       <FormGroup>
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">Password<span className="required-label">*</span></Label>
         <Input
           type={showPassword ? "text" : "password"}
           name="password"
@@ -73,7 +73,7 @@ const AddUser = ({ isEdit }) => {
         <Label htmlFor="showPassword">Show Password</Label>
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="confirmPassword">Confirm Password</Label>
+        <Label htmlFor="confirmPassword">Confirm Password<span className="required-label">*</span></Label>
         <Input
           type="password"
           name="confirmPassword"
@@ -86,8 +86,8 @@ const AddUser = ({ isEdit }) => {
       </FormGroup>
       <hr />
       <FormGroup className="d-flex justify-content-end">
-        <Button color="primary" loading={loading} onClick={submit}>
-          {loading ? <BeatLoader color="#fff" loading={loading} /> : "Save"}
+        <Button color="primary" disabled={loading} onClick={submit}>
+          {loading ? <BeatLoader color="#fff" /> : "Save"}
         </Button>
       </FormGroup>
     </CenteredWrapper>

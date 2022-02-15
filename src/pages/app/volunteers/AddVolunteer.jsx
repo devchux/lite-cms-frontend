@@ -12,7 +12,7 @@ const AddVolunteer = ({ isEdit, isIndex }) => {
   return (
     <CenteredWrapper>
       <FormGroup>
-        <Label htmlFor="name">Full Name</Label>
+        <Label htmlFor="name">Full Name<span className="required-label">*</span></Label>
         <Input
           type="text"
           name="name"
@@ -22,7 +22,7 @@ const AddVolunteer = ({ isEdit, isIndex }) => {
         />
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="phoneNumber">Phone Number</Label>
+        <Label htmlFor="phoneNumber">Phone Number<span className="required-label">*</span></Label>
         <Input
           type="text"
           name="phoneNumber"
@@ -58,8 +58,8 @@ const AddVolunteer = ({ isEdit, isIndex }) => {
       </FormGroup>
       <hr />
       <FormGroup className="d-flex justify-content-end">
-        <Button color="primary" loading={loading} onClick={submit}>
-          {loading ? <BeatLoader color="#fff" loading={loading} /> : "Save"}
+        <Button color="primary" disabled={loading} onClick={submit}>
+          {loading ? <BeatLoader color="#fff" /> : "Save"}
         </Button>
       </FormGroup>
     </CenteredWrapper>

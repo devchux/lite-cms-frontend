@@ -43,7 +43,7 @@ export const useVideos = (isEdit, isIndex) => {
     (state) => state.videos
   );
   const { notify } = useNotification();
-  const { paramId } = useNavigation();
+  const { paramId, goTo } = useNavigation();
   const [isEditSubject, setIsEditSubject] = useState(false)
   const [editSubjectInput, setEditSubjectInput] = useState({ id: "", title: "" })
   const { remove, page, setPage, modalBody } = useIndex(
@@ -67,9 +67,11 @@ export const useVideos = (isEdit, isIndex) => {
     if (isInvalid) return notify("error", "Enter all fields");
     if (isEdit) {
       dispatch(uploadMoreVideos(paramId, { ...inputs, slug: slug(inputs.title) }));
+      goTo('/dashboard/videos')
       return;
     }
     dispatch(registerVideo({ ...inputs, slug: slug(inputs.title) }));
+    goTo('/dashboard/videos')
   };
 
   const updateSubject = (id, title) => {

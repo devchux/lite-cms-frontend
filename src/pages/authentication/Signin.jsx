@@ -49,7 +49,7 @@ const Signin = () => {
       </FormGroup>
       <FormGroup>
         <Button color="primary" block onClick={submit} disabled={loading}>
-        {loading ? <BeatLoader color="#fff" loading={loading} /> : "Sign in"}
+        {loading ? <BeatLoader color="#fff" /> : "Sign in"}
         </Button>
       </FormGroup>
     </PageWrapper>

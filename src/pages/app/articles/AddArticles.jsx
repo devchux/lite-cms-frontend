@@ -31,7 +31,7 @@ const AddArticles = ({ isEdit }) => {
       <Col xs="12" md="5">
         <PageWrapper className="rounded p-1 px-2">
           <FormGroup>
-            <Label htmlFor="title">Post title</Label>
+            <Label htmlFor="title">Post title<span className="required-label">*</span></Label>
             <Input
               type="text"
               value={inputs.title}
@@ -43,7 +43,7 @@ const AddArticles = ({ isEdit }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="slug">Post slug</Label>
+            <Label htmlFor="slug">Post slug<span className="required-label">*</span></Label>
             <Input
               type="text"
               value={inputs.slug}
@@ -80,7 +80,7 @@ const AddArticles = ({ isEdit }) => {
               color="primary"
               onClick={() => createPost(true)}
             >
-              {loading ? <BeatLoader color="#fff" loading={loading} /> : "Publish"}
+              {loading ? <BeatLoader color="#fff" /> : "Publish"}
             </Button>
           </FormGroup>
           <PromptModal

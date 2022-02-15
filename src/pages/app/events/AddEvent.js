@@ -30,7 +30,7 @@ const AddEvent = ({ isEdit, isIndex }) => {
       <Col>
         <PageWrapper className="rounded p-3">
           <FormGroup>
-            <Label htmlFor="title">Event title</Label>
+            <Label htmlFor="title">Event title<span className="required-label">*</span></Label>
             <Input
               type="text"
               value={inputs.title}
@@ -42,7 +42,7 @@ const AddEvent = ({ isEdit, isIndex }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="venue">Venue</Label>
+            <Label htmlFor="venue">Venue<span className="required-label">*</span></Label>
             <Input
               type="text"
               value={inputs.venue}
@@ -56,7 +56,7 @@ const AddEvent = ({ isEdit, isIndex }) => {
           <Row>
             <Col>
               <FormGroup>
-                <Label htmlFor="date">Event Date</Label>
+                <Label htmlFor="date">Event Date<span className="required-label">*</span></Label>
                 <Input
                   type="date"
                   value={inputs.date}
@@ -70,7 +70,7 @@ const AddEvent = ({ isEdit, isIndex }) => {
             </Col>
             <Col>
               <FormGroup>
-                <Label htmlFor="time">Event Time</Label>
+                <Label htmlFor="time">Event Time<span className="required-label">*</span></Label>
                 <Input
                   type="time"
                   value={inputs.time}
@@ -96,8 +96,8 @@ const AddEvent = ({ isEdit, isIndex }) => {
           </FormGroup>
           <hr />
           <FormGroup className="d-flex justify-content-end">
-            <Button color="primary" loading={loading} onClick={submit}>
-              {loading ? <BeatLoader color="#fff" loading={loading} /> : "Save"}
+            <Button color="primary" disabled={loading} onClick={submit}>
+              {loading ? <BeatLoader color="#fff" /> : "Save"}
             </Button>
           </FormGroup>
         </PageWrapper>
