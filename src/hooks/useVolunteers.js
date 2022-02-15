@@ -78,7 +78,7 @@ export const useVolunteers = (isEdit, isIndex) => {
     if (isEdit) {
       dispatch(getSingleVolunteer(paramId)).then((data) => {
         const format = {
-          name: data.User.name,
+          name: data.name,
           email: data.User.email,
           phoneNumber: data.User.phoneNumber,
           message: data.message
