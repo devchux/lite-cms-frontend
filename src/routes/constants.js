@@ -27,10 +27,17 @@ export const routes = [
   {
     path: "/dashboard",
     component: AppRoutes,
+    isLogin: false
   },
   {
     path: "/signin",
     component: Auth,
+    isLogin: true
+  },
+  {
+    path: "/register",
+    component: Auth,
+    isLogin: false
   },
 ];
 

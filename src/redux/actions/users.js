@@ -58,7 +58,7 @@ export const registerUser = (inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "http://localhost:8000/api/members",
+      "https://lite-cms.herokuapp.com/api/members",
       {
         ...inputs,
         role: "member",
@@ -91,7 +91,7 @@ export const getAllUsers =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/members?page=${page}&size=${size}`,
+        `https://lite-cms.herokuapp.com/api/members?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -119,7 +119,7 @@ export const getSingleUser = (id) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.get(
-      `http://localhost:8000/api/members/${id}`,
+      `https://lite-cms.herokuapp.com/api/members/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -149,7 +149,7 @@ export const deleteUser =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `http://localhost:8000/api/members/${id}`,
+        `https://lite-cms.herokuapp.com/api/members/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -177,7 +177,7 @@ export const deleteUsers =
     const token = localStorage.getItem("auth_token");
     try {
       dispatch(loading());
-      const { data } = await axios.delete("http://localhost:8000/api/members", {
+      const { data } = await axios.delete("https://lite-cms.herokuapp.com/api/members", {
         data: { ids },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -203,7 +203,7 @@ export const updateUser = (id, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/members/${id}`,
+      `https://lite-cms.herokuapp.com/api/members/${id}`,
       { ...inputs },
       {
         headers: {

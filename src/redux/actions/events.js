@@ -58,7 +58,7 @@ export const registerEvent = (inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "http://localhost:8000/api/events",
+      "https://lite-cms.herokuapp.com/api/events",
       {
         ...inputs,
       },
@@ -90,7 +90,7 @@ export const getAllEvents =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/events?page=${page}&size=${size}`,
+        `https://lite-cms.herokuapp.com/api/events?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -117,7 +117,7 @@ export const getSingleEvent = (id) => async (dispatch) => {
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
-    const { data } = await axios.get(`http://localhost:8000/api/events/${id}`, {
+    const { data } = await axios.get(`https://lite-cms.herokuapp.com/api/events/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -145,7 +145,7 @@ export const deleteEvent =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `http://localhost:8000/api/events/${id}`,
+        `https://lite-cms.herokuapp.com/api/events/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -173,7 +173,7 @@ export const deleteEvents =
     const token = localStorage.getItem("auth_token");
     try {
       dispatch(loading());
-      const { data } = await axios.delete("http://localhost:8000/api/events", {
+      const { data } = await axios.delete("https://lite-cms.herokuapp.com/api/events", {
         data: { ids },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -199,7 +199,7 @@ export const updateEvent = (id, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/events/${id}`,
+      `https://lite-cms.herokuapp.com/api/events/${id}`,
       { ...inputs },
       {
         headers: {

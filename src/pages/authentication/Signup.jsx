@@ -1,20 +1,19 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import PageWrapper from "../../components/wrappers/PageWrapper";
 import { useAuth } from "../../hooks/useAuth";
-import { BeatLoader } from "react-spinners";
-import { Link } from "react-router-dom";
 
-const Signin = () => {
+const Signup = () => {
   const {
-    email,
-    password,
+    inputs: { email, password, confirmPassword },
     setCredentials,
-    submit,
     showPassword,
     toggleShowPassword,
+    submit,
     loading,
-  } = useAuth(true);
-
+  } = useAuth(false, false);
   return (
     <PageWrapper className="p-4 m-auto">
       <Form
@@ -57,18 +56,31 @@ const Signin = () => {
           <Label htmlFor="showPassword">Show Password</Label>
         </FormGroup>
         <FormGroup>
-          <Button color="primary" block type="submit" disabled={loading}>
-            {loading ? <BeatLoader color="#fff" /> : "Sign in"}
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Input
+            required
+            type="password"
+            name="confirmPassword"
+            value={confirmPassword}
+            placeholder="Confirm Password"
+            onChange={({ target: { value } }) =>
+              setCredentials("confirmPassword", value)
+            }
+          />
+        </FormGroup>
+        <FormGroup>
+          <Button type="submit" color="primary" block disabled={loading}>
+            {loading ? <BeatLoader color="#fff" /> : "Register"}
           </Button>
         </FormGroup>
       </Form>
       <div className="my-3">
         <p>
-          New to Lite CMS? <Link to="/register">Register</Link>
+          Already have an account? <Link to="/signin">Sign In</Link>
         </p>
       </div>
     </PageWrapper>
   );
 };
 
-export default Signin;
+export default Signup;

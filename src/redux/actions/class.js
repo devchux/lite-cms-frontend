@@ -58,7 +58,7 @@ export const registerClass = (inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "http://localhost:8000/api/classes",
+      "https://lite-cms.herokuapp.com/api/classes",
       {
         ...inputs,
       },
@@ -90,7 +90,7 @@ export const getClassesByTitle =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/classes/title/${title}?page=${page}&size=${size}`,
+        `https://lite-cms.herokuapp.com/api/classes/title/${title}?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -120,7 +120,7 @@ export const getAllClasses =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/classes?page=${page}&size=${size}`,
+        `https://lite-cms.herokuapp.com/api/classes?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -148,7 +148,7 @@ export const getSingleClass = (id) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.get(
-      `http://localhost:8000/api/classes/${id}`,
+      `https://lite-cms.herokuapp.com/api/classes/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -178,7 +178,7 @@ export const deleteClass =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `http://localhost:8000/api/classes/${id}`,
+        `https://lite-cms.herokuapp.com/api/classes/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -206,7 +206,7 @@ export const deleteClasses =
     const token = localStorage.getItem("auth_token");
     try {
       dispatch(loading());
-      const { data } = await axios.delete("http://localhost:8000/api/classes", {
+      const { data } = await axios.delete("https://lite-cms.herokuapp.com/api/classes", {
         data: { ids },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -232,7 +232,7 @@ export const updateClass = (id, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/classes/${id}`,
+      `https://lite-cms.herokuapp.com/api/classes/${id}`,
       { ...inputs },
       {
         headers: {

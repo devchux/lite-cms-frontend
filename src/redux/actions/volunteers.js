@@ -58,7 +58,7 @@ export const registerVolunteer = (inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "http://localhost:8000/api/volunteers",
+      "https://lite-cms.herokuapp.com/api/volunteers",
       {
         ...inputs,
       },
@@ -90,7 +90,7 @@ export const getAllVolunteers =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/volunteers?page=${page}&size=${size}`,
+        `https://lite-cms.herokuapp.com/api/volunteers?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -118,7 +118,7 @@ export const getSingleVolunteer = (id) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.get(
-      `http://localhost:8000/api/volunteers/${id}`,
+      `https://lite-cms.herokuapp.com/api/volunteers/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -148,7 +148,7 @@ export const deleteVolunteer =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `http://localhost:8000/api/volunteers/${id}`,
+        `https://lite-cms.herokuapp.com/api/volunteers/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -177,7 +177,7 @@ export const deleteVolunteers =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        "http://localhost:8000/api/volunteers",
+        "https://lite-cms.herokuapp.com/api/volunteers",
         {
           data: { ids },
           headers: {
@@ -205,7 +205,7 @@ export const updateVolunteer = (id, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/volunteers/${id}`,
+      `https://lite-cms.herokuapp.com/api/volunteers/${id}`,
       { ...inputs },
       {
         headers: {

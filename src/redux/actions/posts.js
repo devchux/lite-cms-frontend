@@ -58,7 +58,7 @@ export const registerPost = (inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "http://localhost:8000/api/posts",
+      "https://lite-cms.herokuapp.com/api/posts",
       {
         ...inputs,
       },
@@ -91,7 +91,7 @@ export const getAllPosts =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/posts?page=${page}&size=${size}`,
+        `https://lite-cms.herokuapp.com/api/posts?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -116,7 +116,7 @@ export const getSinglePost = (id) => async (dispatch) => {
   const token = localStorage.getItem("auth_token");
   try {
     dispatch(loading());
-    const { data } = await axios.get(`http://localhost:8000/api/posts/${id}`, {
+    const { data } = await axios.get(`https://lite-cms.herokuapp.com/api/posts/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -144,7 +144,7 @@ export const deletePost =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `http://localhost:8000/api/posts/${id}`,
+        `https://lite-cms.herokuapp.com/api/posts/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -172,7 +172,7 @@ export const deletePosts =
     const token = localStorage.getItem("auth_token");
     try {
       dispatch(loading());
-      const { data } = await axios.delete("http://localhost:8000/api/posts", {
+      const { data } = await axios.delete("https://lite-cms.herokuapp.com/api/posts", {
         data: { ids },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -200,7 +200,7 @@ export const updatePost = (id, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/posts/${id}`,
+      `https://lite-cms.herokuapp.com/api/posts/${id}`,
       { ...inputs },
       {
         headers: {

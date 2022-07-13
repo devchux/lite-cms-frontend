@@ -64,7 +64,7 @@ export const registerAudio = (inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "http://localhost:8000/api/audios",
+      "https://lite-cms.herokuapp.com/api/audios",
       inputs,
       {
         headers: {
@@ -95,7 +95,7 @@ export const getAllAudioSubjects =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/audios/subjects?page=${page}&size=${size}`,
+        `https://lite-cms.herokuapp.com/api/audios/subjects?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -126,7 +126,7 @@ export const getAllAudios =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/audios/list/${slug}?page=${page}&size=${size}`,
+        `https://lite-cms.herokuapp.com/api/audios/list/${slug}?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -154,7 +154,7 @@ export const getSingleAudioSubject = (id) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.get(
-      `http://localhost:8000/api/audios/subjects/${id}`,
+      `https://lite-cms.herokuapp.com/api/audios/subjects/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -184,7 +184,7 @@ export const deleteAudio =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `http://localhost:8000/api/audios/${id}`,
+        `https://lite-cms.herokuapp.com/api/audios/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -213,7 +213,7 @@ export const deleteAudioSubject =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `http://localhost:8000/api/audios/subjects/${id}`,
+        `https://lite-cms.herokuapp.com/api/audios/subjects/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -240,7 +240,7 @@ export const updateAudioSubject = (id, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/audios/subjects/${id}`,
+      `https://lite-cms.herokuapp.com/api/audios/subjects/${id}`,
       { ...inputs },
       {
         headers: {
@@ -268,7 +268,7 @@ export const uploadMoreAudios = (subjectId, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      `http://localhost:8000/api/audios/${subjectId}`,
+      `https://lite-cms.herokuapp.com/api/audios/${subjectId}`,
       inputs,
       {
         headers: {

@@ -58,7 +58,7 @@ export const registerContact = (inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "http://localhost:8000/api/contacts",
+      "https://lite-cms.herokuapp.com/api/contacts",
       {
         ...inputs,
       },
@@ -90,7 +90,7 @@ export const getAllContacts =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `http://localhost:8000/api/contacts?page=${page}&size=${size}`,
+        `https://lite-cms.herokuapp.com/api/contacts?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -118,7 +118,7 @@ export const getSingleContact = (id) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.get(
-      `http://localhost:8000/api/contacts/${id}`,
+      `https://lite-cms.herokuapp.com/api/contacts/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -148,7 +148,7 @@ export const deleteContact =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `http://localhost:8000/api/contacts/${id}`,
+        `https://lite-cms.herokuapp.com/api/contacts/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -177,7 +177,7 @@ export const deleteContacts =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        "http://localhost:8000/api/contacts",
+        "https://lite-cms.herokuapp.com/api/contacts",
         {
           data: { ids },
           headers: {
@@ -205,7 +205,7 @@ export const updateContact = (id, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `http://localhost:8000/api/contacts/${id}`,
+      `https://lite-cms.herokuapp.com/api/contacts/${id}`,
       { ...inputs },
       {
         headers: {

@@ -9,11 +9,11 @@ const Routes = () => {
     <BrowserRouter>
       <Switch>
         <Route path="/" exact render={() => <Redirect to="/dashboard" />} />
-        {routes.map(({ path, component: Component }) => (
+        {routes.map(({ path, component: Component, isLogin }) => (
           <Route
             key={path}
             path={path}
-            render={(props) => <Component {...props} />}
+            render={(props) => <Component {...props} isLogin={isLogin} />}
           />
         ))}
         <Route>
