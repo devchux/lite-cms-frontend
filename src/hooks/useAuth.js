@@ -44,7 +44,7 @@ export const useAuth = (isLogin, isEdit = false) => {
       dispatch(getSingleUser(paramId)).then((data) => {
         const state = {
           email: data.User.email,
-          name: data.User.name,
+          name: data.name,
           phoneNumber: data.User.phoneNumber,
           password: "",
           confirmPassword: "",
