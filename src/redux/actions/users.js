@@ -61,7 +61,6 @@ export const registerUser = (inputs) => async (dispatch) => {
       "https://lite-cms.herokuapp.com/api/members",
       {
         ...inputs,
-        role: "member",
       },
       {
         headers: {
@@ -71,6 +70,7 @@ export const registerUser = (inputs) => async (dispatch) => {
     );
     dispatch(addUser(data));
     notify("success", data.message);
+    return Promise.resolve(null);
   } catch (error) {
     if (error.response) {
       dispatch(failure(error.response.data));

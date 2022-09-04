@@ -1,0 +1,21 @@
+@import 'src/assets/scss/colors.scss';
+
+.auth-tab {
+  max-width: fit-content;
+  background-color: $lightDark;
+  box-shadow: 0 0 2px $lightWhite;
+  margin: auto;
+
+  button {
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    width: 100px;
+    height: 50px;
+
+    &.selected {
+        background-color: $white;
+        color: $lightBlue;
+    }
+  }
+}

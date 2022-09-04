@@ -18,11 +18,12 @@ export const useAuth = (isLogin, isEdit = false) => {
   const member = useSelector((state) => state.member);
   const { loading } = useSelector((state) => state.users);
   const initialState = {
-    email: "",
+    email: isLogin ? "member-test@email.com" : "",
     name: "",
     phoneNumber: "",
-    password: "",
+    password: isLogin ? "1234567" : "",
     confirmPassword: "",
+    role: "member",
   };
 
   const requiredFields = isLogin
@@ -37,7 +38,7 @@ export const useAuth = (isLogin, isEdit = false) => {
     setInputs,
     isInvalid: inValidLoginCred,
   } = useAuthForm(initialState, requiredFields);
-  const { email, password, confirmPassword } = inputs;
+  const { email, role, password, confirmPassword } = inputs;
 
   useEffect(() => {
     if (isEdit) {
@@ -55,10 +56,10 @@ export const useAuth = (isLogin, isEdit = false) => {
   }, [dispatch, isEdit, paramId, setInputs]);
 
   const submit = () => {
-    if (loading || member.loading) return
+    if (loading || member.loading) return;
     if (inValidLoginCred) return notify("error", "Invalid Credentials");
     if (isLogin) {
-      if (loading || member.loading) return
+      if (loading || member.loading) return;
       return dispatch(loginUser({ email, password })).then(() =>
         goTo("/dashboard/posts")
       );
@@ -66,11 +67,12 @@ export const useAuth = (isLogin, isEdit = false) => {
     if (password !== confirmPassword)
       return notify("error", "Passwords do not match");
     if (isEdit) return dispatch(updateUser(paramId, inputs));
-    return dispatch(registerUser(inputs));
+    return dispatch(registerUser(inputs)).then(() => goTo("/signin"));
   };
 
   return {
     email,
+    role,
     password,
     setCredentials,
     submit,
@@ -82,5 +84,6 @@ export const useAuth = (isLogin, isEdit = false) => {
     isLoggedIn: member.isLoggedIn,
     member,
     inputs,
+    setInputs,
   };
 };
