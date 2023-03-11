@@ -41,7 +41,7 @@ export const uploadPhoto = (inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "https://lite-cms.herokuapp.com/api/photos",
+      "https://lite-cms-pyfo.onrender.com/api/photos",
       inputs,
       {
         headers: {
@@ -78,7 +78,7 @@ export const getAllPhotos =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `https://lite-cms.herokuapp.com/api/photos?page=${page}&size=${size}`,
+        `https://lite-cms-pyfo.onrender.com/api/photos?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -108,7 +108,7 @@ export const deletePhoto =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `https://lite-cms.herokuapp.com/api/photos/${id}`,
+        `https://lite-cms-pyfo.onrender.com/api/photos/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

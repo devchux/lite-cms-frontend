@@ -64,7 +64,7 @@ export const registerVideo = (inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      "https://lite-cms.herokuapp.com/api/videos",
+      "https://lite-cms-pyfo.onrender.com/api/videos",
       {
         ...inputs,
       },
@@ -96,7 +96,7 @@ export const getAllVideoSubjects =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `https://lite-cms.herokuapp.com/api/videos/subjects?page=${page}&size=${size}`,
+        `https://lite-cms-pyfo.onrender.com/api/videos/subjects?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -126,7 +126,7 @@ export const getAllVideos =
     try {
       dispatch(loading());
       const { data } = await axios.get(
-        `https://lite-cms.herokuapp.com/api/videos/list/${slug}?page=${page}&size=${size}`,
+        `https://lite-cms-pyfo.onrender.com/api/videos/list/${slug}?page=${page}&size=${size}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -154,7 +154,7 @@ export const getSingleVideoSubject = (id) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.get(
-      `https://lite-cms.herokuapp.com/api/videos/subjects/${id}`,
+      `https://lite-cms-pyfo.onrender.com/api/videos/subjects/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -184,7 +184,7 @@ export const deleteVideo =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `https://lite-cms.herokuapp.com/api/videos/${id}`,
+        `https://lite-cms-pyfo.onrender.com/api/videos/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -213,7 +213,7 @@ export const deleteVideoSubject =
     try {
       dispatch(loading());
       const { data } = await axios.delete(
-        `https://lite-cms.herokuapp.com/api/videos/subjects/${id}`,
+        `https://lite-cms-pyfo.onrender.com/api/videos/subjects/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -240,7 +240,7 @@ export const updateVideoSubject = (id, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.put(
-      `https://lite-cms.herokuapp.com/api/videos/subjects/${id}`,
+      `https://lite-cms-pyfo.onrender.com/api/videos/subjects/${id}`,
       { ...inputs },
       {
         headers: {
@@ -268,7 +268,7 @@ export const uploadMoreVideos = (subjectId, inputs) => async (dispatch) => {
   try {
     dispatch(loading());
     const { data } = await axios.post(
-      `https://lite-cms.herokuapp.com/api/videos/${subjectId}`,
+      `https://lite-cms-pyfo.onrender.com/api/videos/${subjectId}`,
       {
         ...inputs,
       },

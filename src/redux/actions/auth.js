@@ -23,7 +23,7 @@ export const loginUser = (inputs) => async (dispatch) => {
   try {
     dispatch(loginLoading());
     const { data } = await axios.post(
-      "https://lite-cms.herokuapp.com/api/members/login",
+      "https://lite-cms-pyfo.onrender.com/api/members/login",
       { ...inputs }
     );
     dispatch(uploadUserCredentials(data));
